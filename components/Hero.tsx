@@ -43,9 +43,6 @@ export const Hero: React.FC = () => {
             >
               Book Your 30min Audit <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </a>
-            <a href="#consultant" className="px-8 py-5 bg-dark-800 hover:bg-dark-700 border border-dark-700 text-gray-300 font-bold rounded-xl transition-all hover:text-white">
-              See How It Works
-            </a>
           </div>
 
           <div className="mt-12 flex flex-col md:flex-row items-center gap-8 justify-center text-sm text-gray-500">
