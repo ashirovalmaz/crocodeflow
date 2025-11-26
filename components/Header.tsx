@@ -1,8 +1,14 @@
+
 import React, { useState, useEffect } from 'react';
 import { NAV_ITEMS, CAL_LINK } from '../constants';
 import { Waypoints, Menu, X } from 'lucide-react';
 
-export const Header: React.FC = () => {
+interface HeaderProps {
+    onNavigate?: (href: string) => void;
+    isDetailView?: boolean;
+}
+
+export const Header: React.FC<HeaderProps> = ({ onNavigate, isDetailView }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -14,17 +20,34 @@ export const Header: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleNavClick = (e: React.MouseEvent, href: string) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
+    
+    if (onNavigate) {
+      onNavigate(href);
+    } else {
+        // Fallback default behavior
+        const element = document.querySelector(href);
+        element?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled || mobileMenuOpen
+        isScrolled || mobileMenuOpen || isDetailView
           ? 'bg-dark-900/95 backdrop-blur-md border-b border-dark-700'
           : 'bg-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
-        <a href="#" className="flex items-center gap-2 group">
+        <a 
+            href="#" 
+            onClick={(e) => handleNavClick(e, '#home')}
+            className="flex items-center gap-2 group"
+        >
           <div className="relative">
             <Waypoints className="w-8 h-8 text-brand-500 transition-transform group-hover:rotate-90 duration-500 fill-brand-500/20" />
             <div className="absolute inset-0 bg-brand-500/20 blur-lg rounded-full animate-pulse-slow"></div>
@@ -40,6 +63,7 @@ export const Header: React.FC = () => {
             <a
               key={item.label}
               href={item.href}
+              onClick={(e) => handleNavClick(e, item.href)}
               className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
             >
               {item.label}
@@ -71,8 +95,8 @@ export const Header: React.FC = () => {
             <a
               key={item.label}
               href={item.href}
+              onClick={(e) => handleNavClick(e, item.href)}
               className="text-base font-medium text-gray-300 py-2 border-b border-dark-800"
-              onClick={() => setMobileMenuOpen(false)}
             >
               {item.label}
             </a>
