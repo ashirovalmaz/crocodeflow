@@ -35,10 +35,10 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, isDetailView }) => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 border-b transition-all duration-300 ${
         isScrolled || mobileMenuOpen || isDetailView
-          ? 'bg-white/95 dark:bg-dark-900/95 backdrop-blur-md border-b border-gray-200 dark:border-dark-700 shadow-sm'
-          : 'bg-transparent'
+          ? 'bg-white/95 dark:bg-dark-900/95 backdrop-blur-md border-gray-200 dark:border-dark-700 shadow-sm'
+          : 'bg-transparent border-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">

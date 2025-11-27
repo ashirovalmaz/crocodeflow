@@ -1,164 +1,191 @@
 import React, { useState, useEffect } from 'react';
-import { Star, CheckCircle2 } from 'lucide-react';
+import { Quote, ArrowUpRight } from 'lucide-react';
 
 interface Testimonial {
   text: string;
   author: string;
   role: string;
   result: string;
+  company: string;
 }
 
-const TESTIMONIALS_ROW_1: Testimonial[] = [
+const TESTIMONIALS: Testimonial[] = [
   {
-    text: "I was skeptical. But after 2 weeks, the AI outreach bot booked 45 qualified demos. We actually had to pause it to catch up.",
+    text: "We were burning $15k/mo on lead gen agencies. CrocodeFlow replaced them with one bot.",
     author: "Alex V.",
-    role: "Agency Owner",
-    result: "+$45k MRR Added",
+    role: "Founder",
+    company: "TechScale",
+    result: "+$45k MRR",
   },
   {
-    text: "CrocodeFlow automated our entire onboarding. What used to take 3 people 4 hours a day now happens instantly.",
+    text: "I didn't believe the '24/7' claim until I woke up to 12 booked meetings on a Sunday.",
     author: "Sarah J.",
-    role: "SaaS Founder",
-    result: "Saved 60hrs/mo",
+    role: "VP Sales",
+    company: "CloudForce",
+    result: "60hrs Saved/mo",
   },
   {
-    text: "Our customer support response time went from 4 hours to 4 seconds. The AI handles 90% of tickets perfectly.",
+    text: "Our support costs dropped 70% in week one. The AI answers better than our junior staff.",
     author: "Mike T.",
-    role: "E-commerce Director",
-    result: "Support Costs -70%",
+    role: "Director",
+    company: "Shopify Plus Brand",
+    result: "-70% OpEx",
   },
   {
-    text: "They didn't just build a bot, they rebuilt our sales process. The revenue numbers don't lie.",
+    text: "They don't just write code. They understand P&L. Best investment we made this year.",
     author: "David K.",
-    role: "Real Estate Broker",
-    result: "2x Conversion Rate",
+    role: "Owner",
+    company: "Luxury Estates",
+    result: "2x Conversion",
   },
-];
-
-const TESTIMONIALS_ROW_2: Testimonial[] = [
   {
-    text: "Finally an agency that cares about ROI. We made our investment back in the first month.",
+    text: "ROI was positive by day 14. We are now scaling to new markets without hiring.",
     author: "Jessica L.",
-    role: "Marketing Head",
+    role: "CMO",
+    company: "FinTech Corp",
     result: "10x ROI",
   },
   {
-    text: "The lead enrichment automation is insane. Our sales team only talks to people who are ready to buy.",
+    text: "The lead enrichment is scary good. Our closers only talk to qualified buyers now.",
     author: "Tom H.",
-    role: "VP of Sales",
-    result: "Zero Wasted Calls",
+    role: "Head of Growth",
+    company: "SaaS Unicorn",
+    result: "100% Quality Leads",
   },
   {
-    text: "We scaled from 10 to 50 clients without hiring a single new account manager. The AI does the heavy lifting.",
+    text: "Scaled from 10 to 50 clients. Zero new hires. Pure profit margin expansion.",
     author: "Rachel P.",
-    role: "Operations Manager",
-    result: "Scaled 5x w/ 0 Hires",
+    role: "COO",
+    company: "Agency X",
+    result: "5x Growth",
   },
   {
-    text: "Implementation was scary fast. We were live and printing money in 8 days.",
+    text: "Fastest implementation I've seen. We were live and printing money in 8 days.",
     author: "Chris M.",
-    role: "Startup CEO",
-    result: "Live in 8 Days",
+    role: "CEO",
+    company: "StartUp Inc",
+    result: "8 Day Launch",
+  },
+  {
+    text: "It's not just automation; it's a competitive advantage. We are crushing our rivals.",
+    author: "Daniel R.",
+    role: "Founder",
+    company: "Logistics Co",
+    result: "+22% Margin",
   },
 ];
 
 const TestimonialCard: React.FC<{ t: Testimonial }> = ({ t }) => (
-  <div className="flex-shrink-0 w-[400px] p-6 mx-4 bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 rounded-xl hover:border-brand-500/50 transition-colors group relative overflow-hidden shadow-sm dark:shadow-none">
-    <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
-        <CheckCircle2 className="w-24 h-24 text-brand-500 -mr-8 -mt-8" />
-    </div>
-    <div className="flex items-center gap-1 mb-4 text-brand-500">
-      {[...Array(5)].map((_, i) => (
-        <Star key={i} className="w-4 h-4 fill-brand-500" />
-      ))}
-    </div>
-    <p className="text-gray-700 dark:text-gray-300 mb-6 text-sm leading-relaxed relative z-10">"{t.text}"</p>
-    <div className="flex items-center justify-between mt-auto border-t border-gray-100 dark:border-dark-700 pt-4">
-        <div>
-            <p className="font-bold text-gray-900 dark:text-white text-sm">{t.author}</p>
-            <p className="text-xs text-gray-500 dark:text-dark-400">{t.role}</p>
+  <div className="mb-6 p-6 rounded-2xl bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 backdrop-blur-sm hover:border-brand-500/50 transition-all duration-300 group shadow-lg dark:shadow-none flex flex-col gap-4">
+    {/* Header with Result Badge */}
+    <div className="flex justify-between items-start">
+        <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-200 to-gray-300 dark:from-dark-700 dark:to-dark-600 flex items-center justify-center text-gray-600 dark:text-gray-300 font-bold text-sm">
+                {t.author.charAt(0)}
+            </div>
+            <div>
+                <p className="text-sm font-bold text-gray-900 dark:text-white leading-tight">{t.author}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">{t.role}, {t.company}</p>
+            </div>
         </div>
-        <div className="px-3 py-1 bg-brand-50 dark:bg-brand-900/30 border border-brand-200 dark:border-brand-500/30 rounded text-brand-600 dark:text-brand-400 text-xs font-bold font-mono">
-            {t.result}
+        <div className="bg-brand-50 dark:bg-brand-500/10 border border-brand-100 dark:border-brand-500/20 px-2 py-1 rounded text-xs font-bold text-brand-700 dark:text-brand-400 flex items-center gap-1">
+            {t.result} <ArrowUpRight className="w-3 h-3" />
         </div>
+    </div>
+
+    {/* Quote */}
+    <div className="relative">
+        <Quote className="absolute -top-1 -left-1 w-4 h-4 text-gray-300 dark:text-dark-700 transform -scale-x-100 opacity-50" />
+        <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed pl-4">
+            {t.text}
+        </p>
     </div>
   </div>
 );
 
 const TestimonialSkeleton: React.FC = () => (
-  <div className="flex-shrink-0 w-[400px] p-6 mx-4 bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 rounded-xl shadow-sm dark:shadow-none">
-    <div className="flex gap-1 mb-4">
-      {[...Array(5)].map((_, i) => (
-        <div key={i} className="w-4 h-4 bg-gray-200 dark:bg-dark-700 rounded animate-pulse" />
-      ))}
+    <div className="mb-6 p-6 rounded-2xl bg-white dark:bg-dark-800/50 border border-gray-100 dark:border-dark-700 h-[200px] flex flex-col gap-4 animate-pulse">
+        <div className="flex justify-between">
+            <div className="flex gap-3">
+                <div className="w-10 h-10 rounded-full bg-gray-200 dark:bg-dark-700"></div>
+                <div className="space-y-2">
+                    <div className="w-20 h-3 bg-gray-200 dark:bg-dark-700 rounded"></div>
+                    <div className="w-16 h-2 bg-gray-200 dark:bg-dark-700 rounded"></div>
+                </div>
+            </div>
+            <div className="w-16 h-6 bg-gray-200 dark:bg-dark-700 rounded"></div>
+        </div>
+        <div className="flex-1 space-y-2 mt-2">
+             <div className="w-full h-3 bg-gray-200 dark:bg-dark-700 rounded"></div>
+             <div className="w-5/6 h-3 bg-gray-200 dark:bg-dark-700 rounded"></div>
+             <div className="w-4/6 h-3 bg-gray-200 dark:bg-dark-700 rounded"></div>
+        </div>
     </div>
-    <div className="space-y-2 mb-6">
-      <div className="h-4 w-full bg-gray-200 dark:bg-dark-700 rounded animate-pulse" />
-      <div className="h-4 w-3/4 bg-gray-200 dark:bg-dark-700 rounded animate-pulse" />
-      <div className="h-4 w-5/6 bg-gray-200 dark:bg-dark-700 rounded animate-pulse" />
-    </div>
-    <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-dark-700">
-      <div className="space-y-2">
-        <div className="h-4 w-24 bg-gray-200 dark:bg-dark-700 rounded animate-pulse" />
-        <div className="h-3 w-16 bg-gray-200 dark:bg-dark-700 rounded animate-pulse" />
-      </div>
-      <div className="h-6 w-20 bg-brand-500/10 rounded animate-pulse" />
-    </div>
-  </div>
 );
 
 export const Testimonials: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate loading delay for effect
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    const timer = setTimeout(() => setLoading(false), 2000);
     return () => clearTimeout(timer);
   }, []);
 
+  // Split testimonials into 3 columns
+  const col1 = [...TESTIMONIALS.slice(0, 3), ...TESTIMONIALS.slice(0, 3)];
+  const col2 = [...TESTIMONIALS.slice(3, 6), ...TESTIMONIALS.slice(3, 6)];
+  const col3 = [...TESTIMONIALS.slice(6, 9), ...TESTIMONIALS.slice(6, 9)];
+
   return (
-    <div className="py-24 bg-gray-50 dark:bg-dark-900 relative overflow-hidden border-y border-gray-200 dark:border-dark-800 transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-6 mb-12 text-center">
-        <h2 className="text-3xl md:text-5xl font-display font-bold mb-6 text-gray-900 dark:text-white">
-          Results. <span className="text-brand-500">Or We Don't Eat.</span>
-        </h2>
-        <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          We track every dollar. Here is what happens when you replace manual labor with intelligent code.
-        </p>
+    <div className="py-24 bg-gray-50 dark:bg-dark-900 border-y border-gray-200 dark:border-dark-800 transition-colors duration-300 overflow-hidden relative">
+      <div className="max-w-7xl mx-auto px-6 mb-12 flex flex-col md:flex-row items-end justify-between gap-6 relative z-10">
+        <div className="max-w-2xl">
+           <h2 className="text-4xl md:text-5xl font-display font-bold mb-6 text-gray-900 dark:text-white">
+            Wall of <span className="text-brand-500">Wins</span>
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 text-lg">
+            We don't collect "nice feedback". We collect ROI metrics.
+          </p>
+        </div>
+        <div className="hidden md:block">
+             <div className="px-4 py-2 rounded-full border border-gray-200 dark:border-dark-700 bg-white dark:bg-dark-800 text-xs font-mono text-gray-500">
+                Verified Client Results
+             </div>
+        </div>
       </div>
 
-      <div className="relative w-full overflow-hidden">
+      {/* Grid Container */}
+      <div className="relative h-[600px] max-w-7xl mx-auto overflow-hidden px-6">
+        
+        {/* Gradients to mask top/bottom */}
+        <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-gray-50 dark:from-dark-900 to-transparent z-10 pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-gray-50 dark:from-dark-900 to-transparent z-10 pointer-events-none"></div>
+
         {loading ? (
-          <div className="flex w-full justify-center overflow-hidden">
-             <div className="flex">
-                <TestimonialSkeleton />
-                <TestimonialSkeleton />
-                <TestimonialSkeleton />
-             </div>
-          </div>
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="hidden md:block space-y-6"><TestimonialSkeleton /><TestimonialSkeleton /></div>
+                <div className="space-y-6"><TestimonialSkeleton /><TestimonialSkeleton /></div>
+                <div className="hidden md:block space-y-6"><TestimonialSkeleton /><TestimonialSkeleton /></div>
+           </div>
         ) : (
-          <>
-            {/* Row 1 - Scroll Left */}
-            <div className="flex w-max animate-scroll hover:[animation-play-state:paused] mb-8">
-              {[...TESTIMONIALS_ROW_1, ...TESTIMONIALS_ROW_1, ...TESTIMONIALS_ROW_1].map((t, i) => (
-                <TestimonialCard key={`r1-${i}`} t={t} />
-              ))}
-            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {/* Column 1 - Slow */}
+                <div className="hidden md:block space-y-6 animate-scroll-up [animation-duration:45s] hover:[animation-play-state:paused]">
+                    {col1.map((t, i) => <TestimonialCard key={`c1-${i}`} t={t} />)}
+                </div>
 
-            {/* Row 2 - Scroll Right */}
-            <div className="flex w-max animate-scroll-reverse hover:[animation-play-state:paused]">
-              {[...TESTIMONIALS_ROW_2, ...TESTIMONIALS_ROW_2, ...TESTIMONIALS_ROW_2].map((t, i) => (
-                <TestimonialCard key={`r2-${i}`} t={t} />
-              ))}
+                {/* Column 2 - Faster (Main Mobile Column) */}
+                <div className="space-y-6 animate-scroll-up [animation-duration:35s] hover:[animation-play-state:paused]">
+                    {col2.map((t, i) => <TestimonialCard key={`c2-${i}`} t={t} />)}
+                    {/* Duplicate col2 for mobile infinite feel if needed, though scroll-up handles it */}
+                </div>
+
+                {/* Column 3 - Medium */}
+                <div className="hidden md:block space-y-6 animate-scroll-up [animation-duration:50s] hover:[animation-play-state:paused]">
+                    {col3.map((t, i) => <TestimonialCard key={`c3-${i}`} t={t} />)}
+                </div>
             </div>
-          </>
         )}
-
-        {/* Gradient Fade Edges */}
-        <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-gray-50 dark:from-dark-900 to-transparent z-10 pointer-events-none"></div>
-        <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-gray-50 dark:from-dark-900 to-transparent z-10 pointer-events-none"></div>
       </div>
     </div>
   );
