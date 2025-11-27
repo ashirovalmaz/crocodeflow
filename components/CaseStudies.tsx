@@ -1,8 +1,9 @@
 
 import React from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Trophy } from 'lucide-react';
 import { CASES } from '../data/cases';
 import { CaseStudy } from '../types';
+import { CAL_LINK } from '../constants';
 
 interface CaseStudiesProps {
   onCaseClick: (caseStudy: CaseStudy) => void;
@@ -23,6 +24,7 @@ export const CaseStudies: React.FC<CaseStudiesProps> = ({ onCaseClick }) => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Render Existing Cases */}
         {CASES.map((study) => (
           <div 
             key={study.id} 
@@ -66,6 +68,27 @@ export const CaseStudies: React.FC<CaseStudiesProps> = ({ onCaseClick }) => {
             </div>
           </div>
         ))}
+
+        {/* 'Become Our Next Case' CTA Card */}
+        <a 
+            href={CAL_LINK}
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="group flex flex-col items-center justify-center p-8 rounded-xl bg-dark-900/50 border-2 border-dashed border-dark-600 hover:border-brand-500 hover:bg-dark-800/50 transition-all duration-300 h-full min-h-[400px]"
+        >
+            <div className="w-20 h-20 rounded-full bg-dark-800 border border-dark-600 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:border-brand-500 transition-all">
+                <Trophy className="w-10 h-10 text-gray-600 group-hover:text-brand-500 transition-colors" />
+            </div>
+            <h3 className="text-2xl font-bold text-white font-display mb-2 text-center">
+                Become Our <br /><span className="text-brand-500">Next Case Study</span>
+            </h3>
+            <p className="text-gray-500 text-center text-sm mb-8 max-w-xs">
+                We are looking for ambitious companies that want to dominate their market.
+            </p>
+            <div className="px-6 py-3 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-lg transition-colors shadow-lg group-hover:shadow-brand-500/25 flex items-center gap-2">
+                Apply Now <ArrowRight className="w-4 h-4" />
+            </div>
+        </a>
       </div>
     </div>
   );

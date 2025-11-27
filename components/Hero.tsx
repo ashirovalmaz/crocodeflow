@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { ArrowRight, DollarSign, ShieldAlert } from 'lucide-react';
 import { CAL_LINK } from '../constants';
@@ -24,28 +25,28 @@ export const Hero: React.FC = () => {
             Stop Burning Cash
           </div>
           
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold leading-[0.9] mb-8 tracking-tighter">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-display font-bold leading-[1.1] md:leading-[0.9] mb-8 tracking-tighter">
             We Automate Revenue. <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-brand-600 animate-pulse-slow">Not Paperwork.</span>
           </h1>
           
-          <p className="text-xl md:text-2xl text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed font-light">
+          <p className="text-lg md:text-2xl text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed font-light">
             If it doesn't add a zero to your bank account or cut your work week in half, <span className="text-white font-semibold">we don't build it.</span> 
             We build aggressive AI systems for businesses that want to dominate.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row items-center gap-4 justify-center w-full sm:w-auto">
             <a 
               href={CAL_LINK} 
               target="_blank" 
               rel="noopener noreferrer"
-              className="group px-8 py-5 bg-brand-600 hover:bg-brand-500 text-white text-lg font-bold rounded-xl flex items-center gap-2 transition-all shadow-[0_0_40px_rgba(34,197,94,0.3)] hover:scale-105 hover:shadow-[0_0_60px_rgba(34,197,94,0.5)] border border-transparent hover:border-brand-300"
+              className="w-full sm:w-auto px-8 py-5 bg-brand-600 hover:bg-brand-500 text-white text-lg font-bold rounded-xl flex items-center justify-center gap-2 transition-all shadow-[0_0_40px_rgba(34,197,94,0.3)] hover:scale-105 hover:shadow-[0_0_60px_rgba(34,197,94,0.5)] border border-transparent hover:border-brand-300"
             >
               Book Your 30min Audit <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </a>
           </div>
 
-          <div className="mt-12 flex flex-col md:flex-row items-center gap-8 justify-center text-sm text-gray-500">
+          <div className="mt-12 flex flex-col md:flex-row items-center gap-4 md:gap-8 justify-center text-sm text-gray-500">
             <div className="flex items-center gap-2 bg-dark-800/50 px-4 py-2 rounded-full border border-dark-700/50">
               <DollarSign className="w-5 h-5 text-brand-500" />
               <span>Paid for itself in 30 days (Avg)</span>

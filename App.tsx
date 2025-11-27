@@ -10,6 +10,7 @@ import { ROICalculator } from './components/ROICalculator';
 import { Testimonials } from './components/Testimonials';
 import { Team } from './components/Team';
 import { Footer } from './components/Footer';
+import { ProcessRoast } from './components/ProcessRoast';
 import { CaseStudy } from './types';
 
 const App: React.FC = () => {
@@ -48,6 +49,10 @@ const App: React.FC = () => {
 
           <section id="services" className="py-24 bg-dark-900">
             <Services />
+          </section>
+
+          <section id="roast">
+            <ProcessRoast />
           </section>
 
           <section id="cases" className="py-24 bg-dark-900 relative">
