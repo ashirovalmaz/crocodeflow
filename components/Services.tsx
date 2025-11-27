@@ -40,11 +40,11 @@ export const Services: React.FC = () => {
     <div className="max-w-7xl mx-auto px-6">
       <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
         <div className="max-w-2xl">
-          <h2 className="text-4xl md:text-5xl font-display font-bold mb-6">
+          <h2 className="text-4xl md:text-5xl font-display font-bold mb-6 text-gray-900 dark:text-white">
             We Don't Build "Tools". <br />
             <span className="text-brand-500">We Build Revenue Engines.</span>
           </h2>
-          <p className="text-gray-400 text-lg">
+          <p className="text-gray-600 dark:text-gray-400 text-lg">
             Most agencies give you a shiny toy. We give you infrastructure that replaces entire departments and prints cash.
           </p>
         </div>
@@ -81,12 +81,12 @@ export const Services: React.FC = () => {
           }
 
           return (
-            <div key={index} className="group p-8 rounded-xl bg-dark-800 border border-dark-700 hover:border-brand-500 hover:bg-dark-800/80 transition-all duration-300">
-              <div className="w-12 h-12 rounded-lg bg-dark-700 flex items-center justify-center mb-6 group-hover:bg-brand-600 transition-colors group-hover:scale-110 duration-300">
+            <div key={index} className="group p-8 rounded-xl bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 hover:border-brand-500 dark:hover:border-brand-500 hover:bg-gray-50 dark:hover:bg-dark-800/80 transition-all duration-300 shadow-sm dark:shadow-none">
+              <div className="w-12 h-12 rounded-lg bg-gray-100 dark:bg-dark-700 flex items-center justify-center mb-6 group-hover:bg-brand-600 transition-colors group-hover:scale-110 duration-300">
                 <service.icon className="w-6 h-6 text-brand-500 group-hover:text-white transition-colors" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-white font-display">{service.title}</h3>
-              <p className="text-gray-400 leading-relaxed text-sm group-hover:text-gray-300">
+              <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white font-display">{service.title}</h3>
+              <p className="text-gray-600 dark:text-gray-400 leading-relaxed text-sm group-hover:text-gray-700 dark:group-hover:text-gray-300">
                 {service.description}
               </p>
             </div>

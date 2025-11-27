@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
@@ -34,7 +33,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-dark-900 text-white selection:bg-brand-500 selection:text-white">
+    <div className="min-h-screen bg-gray-50 dark:bg-dark-900 text-gray-900 dark:text-white selection:bg-brand-500 selection:text-white transition-colors duration-300">
       <Header onNavigate={handleNavigate} isDetailView={!!selectedCase} />
       
       {selectedCase ? (
@@ -47,7 +46,7 @@ const App: React.FC = () => {
 
           <LiveTicker />
 
-          <section id="services" className="py-24 bg-dark-900">
+          <section id="services" className="py-24 bg-gray-50 dark:bg-dark-900 transition-colors duration-300">
             <Services />
           </section>
 
@@ -55,7 +54,7 @@ const App: React.FC = () => {
             <ProcessRoast />
           </section>
 
-          <section id="cases" className="py-24 bg-dark-900 relative">
+          <section id="cases" className="py-24 bg-gray-50 dark:bg-dark-900 relative transition-colors duration-300">
              <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-brand-500/20 to-transparent"></div>
              <CaseStudies onCaseClick={setSelectedCase} />
           </section>
@@ -64,11 +63,11 @@ const App: React.FC = () => {
               <Testimonials />
           </section>
 
-          <section id="roi" className="py-24 bg-dark-900">
+          <section id="roi" className="py-24 bg-gray-50 dark:bg-dark-900 transition-colors duration-300">
             <ROICalculator />
           </section>
 
-          <section id="team" className="py-24 bg-dark-800/50 border-t border-dark-800">
+          <section id="team" className="py-24 bg-gray-100 dark:bg-dark-800/50 border-t border-gray-200 dark:border-dark-800 transition-colors duration-300">
             <Team />
           </section>
         </main>

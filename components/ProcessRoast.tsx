@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Terminal, Send, AlertTriangle, Copy, Check, Bot } from 'lucide-react';
 import { CAL_LINK } from '../constants';
@@ -30,27 +29,27 @@ export const ProcessRoast: React.FC = () => {
   };
 
   return (
-    <div className="py-24 bg-dark-900 relative overflow-hidden">
+    <div className="py-24 bg-gray-50 dark:bg-dark-900 relative overflow-hidden transition-colors duration-300">
        {/* Background noise texture */}
        <div className="absolute inset-0 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
 
       <div className="max-w-4xl mx-auto px-6 relative z-10">
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-500 text-xs font-bold uppercase tracking-widest mb-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-500 text-xs font-bold uppercase tracking-widest mb-4">
             <AlertTriangle className="w-3 h-3" /> Warning: Savage Mode On
           </div>
-          <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">
+          <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 text-gray-900 dark:text-white">
             Process <span className="text-brand-500">Roast Generator</span>
           </h2>
-          <p className="text-gray-400">
+          <p className="text-gray-600 dark:text-gray-400">
             Describe a manual task you hate. Our AI will tell you exactly how ridiculous it is.
           </p>
         </div>
 
-        {/* Terminal Window */}
-        <div className="bg-[#1e1e1e] rounded-xl border border-dark-600 shadow-2xl overflow-hidden font-mono text-sm md:text-base">
+        {/* Terminal Window - Always Dark */}
+        <div className="bg-[#1e1e1e] rounded-xl border border-gray-300 dark:border-dark-600 shadow-2xl overflow-hidden font-mono text-sm md:text-base">
           {/* Terminal Header */}
-          <div className="bg-[#2d2d2d] px-4 py-2 flex items-center gap-2 border-b border-dark-600">
+          <div className="bg-[#2d2d2d] px-4 py-2 flex items-center gap-2 border-b border-gray-700">
             <div className="flex gap-1.5">
               <div className="w-3 h-3 rounded-full bg-red-500/50"></div>
               <div className="w-3 h-3 rounded-full bg-yellow-500/50"></div>
@@ -72,7 +71,7 @@ export const ProcessRoast: React.FC = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="e.g., Every Monday I manually download CSVs from Stripe and paste them into QuickBooks..."
-                className="w-full bg-black/30 border border-dark-600 rounded-lg p-4 text-gray-300 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all min-h-[100px] resize-none"
+                className="w-full bg-black/30 border border-gray-700 rounded-lg p-4 text-gray-300 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all min-h-[100px] resize-none"
               />
             </div>
 
@@ -83,7 +82,7 @@ export const ProcessRoast: React.FC = () => {
                 disabled={!input.trim() || isRoasting}
                 className={`flex items-center gap-2 px-6 py-3 rounded-lg font-bold transition-all ${
                   !input.trim() 
-                    ? 'bg-dark-700 text-gray-500 cursor-not-allowed'
+                    ? 'bg-gray-800 text-gray-500 cursor-not-allowed'
                     : isRoasting
                       ? 'bg-brand-900/50 text-brand-500 cursor-wait'
                       : 'bg-brand-600 hover:bg-brand-500 text-white shadow-[0_0_20px_rgba(34,197,94,0.2)] hover:shadow-[0_0_30px_rgba(34,197,94,0.4)]'
@@ -101,7 +100,7 @@ export const ProcessRoast: React.FC = () => {
 
             {/* Result Area */}
             {roastResult && (
-              <div className="animate-slide-up border-t border-dark-700 pt-6 mt-6">
+              <div className="animate-slide-up border-t border-gray-700 pt-6 mt-6">
                 <div className="text-red-500 font-bold mb-2 flex items-center gap-2">
                   <span className="bg-red-500/20 px-2 py-0.5 rounded text-xs uppercase tracking-wider">Analysis Complete</span>
                 </div>
@@ -121,7 +120,7 @@ export const ProcessRoast: React.FC = () => {
                   
                   <button
                     onClick={copyRoast}
-                    className="flex items-center justify-center gap-2 px-6 py-3 border border-dark-600 hover:border-brand-500 text-gray-300 hover:text-white rounded-lg transition-colors"
+                    className="flex items-center justify-center gap-2 px-6 py-3 border border-gray-700 hover:border-brand-500 text-gray-300 hover:text-white rounded-lg transition-colors"
                   >
                     {copied ? <Check className="w-4 h-4 text-brand-500" /> : <Copy className="w-4 h-4" />}
                     {copied ? 'Copied!' : 'Share Roast'}
@@ -130,7 +129,7 @@ export const ProcessRoast: React.FC = () => {
                 
                 <button 
                   onClick={() => setRoastResult(null)}
-                  className="mt-6 text-xs text-dark-400 hover:text-gray-300 underline"
+                  className="mt-6 text-xs text-gray-500 hover:text-gray-300 underline"
                 >
                   Roast another process
                 </button>
