@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { Header } from './Header';
 import { Footer } from './Footer';
@@ -9,7 +10,7 @@ export const LoomPage: React.FC = () => {
       let p = function (a: any, ar: any) { a.q.push(ar); };
       let d = C.document;
       C.Cal = C.Cal || function () {
-        let cal = C.Cal;
+        let cal = C.Cal as any; // Explicit cast to any to fix TS7022
         let ar = arguments;
         if (!cal.loaded) {
           cal.ns = {};
