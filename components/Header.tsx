@@ -15,6 +15,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, isDetailView }) => {
   
   const navigate = useNavigate();
   const location = useLocation();
+  const isLoomPage = location.pathname.startsWith('/looms');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,7 +29,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, isDetailView }) => {
     e.preventDefault();
     setMobileMenuOpen(false);
 
-    // Case 1: External Link (Starts with http or https) - handled by <a> tag usually, but if caught here:
+    // Case 1: External Link (Starts with http or https)
     if (href.startsWith('http')) {
         window.open(href, '_blank');
         return;
@@ -42,19 +43,15 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, isDetailView }) => {
 
     // Case 3: Section Link (Starts with #)
     if (href.startsWith('#')) {
-        // If we are on the home page
         if (location.pathname === '/') {
             if (onNavigate) {
-                // If LandingPage provided a handler (e.g. to close modals), use it
                 onNavigate(href);
             } else {
-                // Fallback scroll
                 const id = href.replace('#', '');
                 const element = document.getElementById(id);
                 element?.scrollIntoView({ behavior: 'smooth' });
             }
         } else {
-            // If we are on a sub-page (e.g. /looms/...), navigate home with hash
             navigate('/' + href);
         }
     }
@@ -86,7 +83,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, isDetailView }) => {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-6">
-          {NAV_ITEMS.map((item) => (
+          {!isLoomPage && NAV_ITEMS.map((item) => (
             <a
               key={item.label}
               href={item.href}
@@ -124,7 +121,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, isDetailView }) => {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="md:hidden absolute top-full left-0 w-full bg-white dark:bg-dark-900 border-b border-gray-200 dark:border-dark-700 py-4 px-6 flex flex-col gap-4 shadow-2xl">
-          {NAV_ITEMS.map((item) => (
+          {!isLoomPage && NAV_ITEMS.map((item) => (
             <a
               key={item.label}
               href={item.href}
