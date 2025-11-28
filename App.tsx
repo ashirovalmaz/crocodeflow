@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { LiveTicker } from './components/LiveTicker';
@@ -10,11 +10,28 @@ import { Testimonials } from './components/Testimonials';
 import { Team } from './components/Team';
 import { Footer } from './components/Footer';
 import { ProcessRoast } from './components/ProcessRoast';
+import { LoomPage } from './components/LoomPage';
 import { CaseStudy } from './types';
 
 const App: React.FC = () => {
   // State to manage the view: 'landing' or a specific CaseStudy object
   const [selectedCase, setSelectedCase] = useState<CaseStudy | null>(null);
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
+
+  useEffect(() => {
+    // Simple URL listener to handle popstate (back button) if we were doing real routing,
+    // but primarily just to grab the initial path.
+    const handleLocationChange = () => {
+      setCurrentPath(window.location.pathname);
+    };
+    window.addEventListener('popstate', handleLocationChange);
+    return () => window.removeEventListener('popstate', handleLocationChange);
+  }, []);
+
+  // Simple Router Logic
+  if (currentPath === '/looms/justinhowells') {
+    return <LoomPage />;
+  }
 
   const handleNavigate = (href: string) => {
     // If navigating to home or a section while in Detail View, reset to landing first

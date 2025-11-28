@@ -21,6 +21,12 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, isDetailView }) => {
   }, []);
 
   const handleNavClick = (e: React.MouseEvent, href: string) => {
+    // If it's a route path (starts with /), let default browser navigation handle it
+    if (href.startsWith('/')) {
+      setMobileMenuOpen(false);
+      return;
+    }
+
     e.preventDefault();
     setMobileMenuOpen(false);
     
@@ -29,7 +35,12 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, isDetailView }) => {
     } else {
         // Fallback default behavior
         const element = document.querySelector(href);
-        element?.scrollIntoView({ behavior: 'smooth' });
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        } else if (href.startsWith('#')) {
+             // If element not found (e.g., on a sub-page), redirect to home with hash
+             window.location.href = '/' + href;
+        }
     }
   };
 
@@ -44,7 +55,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, isDetailView }) => {
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
         <a 
-            href="#" 
+            href="/" 
             onClick={(e) => handleNavClick(e, '#home')}
             className="flex items-center gap-2 group"
         >
