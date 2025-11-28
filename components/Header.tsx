@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { NAV_ITEMS, CAL_LINK } from '../constants';
 import { Waypoints, Menu, X } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
@@ -11,6 +12,9 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ onNavigate, isDetailView }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,25 +25,37 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, isDetailView }) => {
   }, []);
 
   const handleNavClick = (e: React.MouseEvent, href: string) => {
-    // If it's a route path (starts with /), let default browser navigation handle it
-    if (href.startsWith('/')) {
-      setMobileMenuOpen(false);
-      return;
-    }
-
     e.preventDefault();
     setMobileMenuOpen(false);
-    
-    if (onNavigate) {
-      onNavigate(href);
-    } else {
-        // Fallback default behavior
-        const element = document.querySelector(href);
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-        } else if (href.startsWith('#')) {
-             // If element not found (e.g., on a sub-page), redirect to home with hash
-             window.location.href = '/' + href;
+
+    // Case 1: External Link (Starts with http or https) - handled by <a> tag usually, but if caught here:
+    if (href.startsWith('http')) {
+        window.open(href, '_blank');
+        return;
+    }
+
+    // Case 2: Internal Route (Starts with /)
+    if (href.startsWith('/') && !href.startsWith('/#')) {
+        navigate(href);
+        return;
+    }
+
+    // Case 3: Section Link (Starts with #)
+    if (href.startsWith('#')) {
+        // If we are on the home page
+        if (location.pathname === '/') {
+            if (onNavigate) {
+                // If LandingPage provided a handler (e.g. to close modals), use it
+                onNavigate(href);
+            } else {
+                // Fallback scroll
+                const id = href.replace('#', '');
+                const element = document.getElementById(id);
+                element?.scrollIntoView({ behavior: 'smooth' });
+            }
+        } else {
+            // If we are on a sub-page (e.g. /looms/...), navigate home with hash
+            navigate('/' + href);
         }
     }
   };
