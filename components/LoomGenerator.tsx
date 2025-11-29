@@ -1,22 +1,32 @@
 import React, { useState } from 'react';
 import { Header } from './Header';
-import { Footer } from './Footer';
-import { Link, Copy, Check, Video, User, ArrowRight, AlertCircle, Palette, Calendar, Eye } from 'lucide-react';
+import { Link, Copy, Check, Video, User, ArrowRight, AlertCircle, Palette, Calendar, Eye, Settings, Moon, Sun, ChevronDown } from 'lucide-react';
 import { LoomPage } from './LoomPage';
 import { CAL_LINK } from '../constants';
+
+const DEFAULT_HIGHLIGHTS = "Current bottlenecks analysis\nProposed AI architecture\nROI projection & timeline";
 
 export const LoomGenerator: React.FC = () => {
   const [clientName, setClientName] = useState('');
   const [loomUrl, setLoomUrl] = useState('');
   const [themeColor, setThemeColor] = useState('#22c55e'); // Default Brand Green
   const [bookingLink, setBookingLink] = useState('');
+  
+  // Advanced Customization State
+  const [headline, setHeadline] = useState("Prepared for {name}");
+  const [description, setDescription] = useState("We analyzed your current workflow. Here is the blueprint to automate it and scale.");
+  const [highlights, setHighlights] = useState(DEFAULT_HIGHLIGHTS);
+  const [ctaTitle, setCtaTitle] = useState("Ready to execute?");
+  const [ctaDesc, setCtaDesc] = useState("Let's discuss the implementation plan and get your automation systems running next week.");
+  const [ctaBtn, setCtaBtn] = useState("Book Strategy Call");
+  
   const [generatedLink, setGeneratedLink] = useState('');
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
+  const [previewTheme, setPreviewTheme] = useState<'dark' | 'light'>('dark');
 
   const extractLoomId = (url: string) => {
     if (!url) return '';
-    // Basic regex to find the 32-character hex ID in a Loom URL
     const match = url.match(/[a-f0-9]{32}/);
     return match ? match[0] : '';
   };
@@ -44,13 +54,18 @@ export const LoomGenerator: React.FC = () => {
       color: themeColor,
     });
 
-    if (bookingLink.trim()) {
-      params.append('booking', bookingLink.trim());
-    }
+    if (bookingLink.trim()) params.append('booking', bookingLink.trim());
+    
+    // Only append text params if they differ from defaults to keep URL clean
+    if (headline !== "Prepared for {name}") params.append('h1', headline);
+    if (description !== "We analyzed your current workflow. Here is the blueprint to automate it and scale.") params.append('desc', description);
+    if (highlights !== DEFAULT_HIGHLIGHTS) params.append('list', highlights.split('\n').join('|'));
+    if (ctaTitle !== "Ready to execute?") params.append('cta_t', ctaTitle);
+    if (ctaDesc !== "Let's discuss the implementation plan and get your automation systems running next week.") params.append('cta_d', ctaDesc);
+    if (ctaBtn !== "Book Strategy Call") params.append('cta_b', ctaBtn);
 
     setGeneratedLink(`${baseUrl}/looms/share?${params.toString()}`);
     
-    // Scroll to result on mobile
     if (window.innerWidth < 1024) {
         setTimeout(() => {
             const el = document.getElementById('generated-result');
@@ -70,7 +85,15 @@ export const LoomGenerator: React.FC = () => {
       name: clientName || "Client Name",
       videoId: extractLoomId(loomUrl),
       color: themeColor,
-      bookingLink: bookingLink || CAL_LINK
+      bookingLink: bookingLink || CAL_LINK,
+      text: {
+          headline,
+          description,
+          highlights: highlights.split('\n'),
+          ctaTitle,
+          ctaDescription: ctaDesc,
+          ctaButton: ctaBtn
+      }
   };
 
   return (
@@ -78,102 +101,132 @@ export const LoomGenerator: React.FC = () => {
       <Header />
       
       <main className="flex-grow pt-24 px-4 lg:px-6">
-        <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 h-full min-h-[800px]">
+        <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 h-full items-start">
           
           {/* Left Column: Form */}
-          <div className="lg:col-span-4 flex flex-col justify-center py-10">
-            <div className="text-left mb-10">
+          <div className="lg:col-span-5 flex flex-col py-6 lg:py-10">
+            <div className="text-left mb-8">
                 <h1 className="text-3xl md:text-4xl font-display font-bold mb-4">
                 New <span className="text-brand-500">Video Brief</span>
                 </h1>
                 <p className="text-gray-600 dark:text-gray-400">
-                Generate a personalized landing page for a prospect. See the real-time preview on the right.
+                Generate a personalized landing page for a prospect.
                 </p>
             </div>
 
             <div className="bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 rounded-2xl p-6 shadow-xl">
                 
                 <div className="space-y-5">
-                {/* Client Name Input */}
-                <div>
-                    <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-2">
-                    <User className="w-4 h-4 text-brand-500" /> Client Name
-                    </label>
-                    <input
-                    type="text"
-                    value={clientName}
-                    onChange={(e) => setClientName(e.target.value)}
-                    placeholder="e.g. Elon Musk"
-                    className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-dark-600 rounded-lg p-3 focus:ring-2 focus:ring-brand-500 outline-none transition-all"
-                    />
-                </div>
+                    {/* Basic Info */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
+                             Client Name
+                            </label>
+                            <input
+                            type="text"
+                            value={clientName}
+                            onChange={(e) => setClientName(e.target.value)}
+                            placeholder="e.g. Elon Musk"
+                            className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-dark-600 rounded-lg p-3 text-sm focus:ring-2 focus:ring-brand-500 outline-none"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
+                             Brand Color
+                            </label>
+                            <div className="flex items-center gap-2">
+                                <div className="relative overflow-hidden w-full h-[46px] rounded-lg border border-gray-300 dark:border-dark-600 shadow-sm bg-gray-50 dark:bg-dark-900">
+                                    <input
+                                    type="color"
+                                    value={themeColor}
+                                    onChange={(e) => setThemeColor(e.target.value)}
+                                    className="absolute -top-1/2 -left-1/2 w-[200%] h-[200%] cursor-pointer p-0 border-0"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                {/* Loom URL Input */}
-                <div>
-                    <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-2">
-                    <Video className="w-4 h-4 text-brand-500" /> Loom Video Link
-                    </label>
-                    <input
-                    type="text"
-                    value={loomUrl}
-                    onChange={(e) => setLoomUrl(e.target.value)}
-                    placeholder="Paste the full Loom URL..."
-                    className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-dark-600 rounded-lg p-3 focus:ring-2 focus:ring-brand-500 outline-none transition-all"
-                    />
-                </div>
-
-                {/* Booking Link Input */}
-                <div>
-                    <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-2">
-                    <Calendar className="w-4 h-4 text-brand-500" /> Booking Link (Optional)
-                    </label>
-                    <input
-                    type="text"
-                    value={bookingLink}
-                    onChange={(e) => setBookingLink(e.target.value)}
-                    placeholder="e.g. https://cal.com/your-name/30min"
-                    className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-dark-600 rounded-lg p-3 focus:ring-2 focus:ring-brand-500 outline-none transition-all"
-                    />
-                </div>
-
-                {/* Color Picker */}
-                <div>
-                    <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-2">
-                    <Palette className="w-4 h-4 text-brand-500" /> Brand Color
-                    </label>
-                    <div className="flex items-center gap-4">
-                    <div className="relative overflow-hidden w-12 h-12 rounded-lg border border-gray-300 dark:border-dark-600 shadow-inner">
+                    <div>
+                        <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
+                          Loom Video Link
+                        </label>
                         <input
-                        type="color"
-                        value={themeColor}
-                        onChange={(e) => setThemeColor(e.target.value)}
-                        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] p-0 m-0 border-none cursor-pointer"
+                        type="text"
+                        value={loomUrl}
+                        onChange={(e) => setLoomUrl(e.target.value)}
+                        placeholder="Paste full Loom URL..."
+                        className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-dark-600 rounded-lg p-3 text-sm focus:ring-2 focus:ring-brand-500 outline-none"
                         />
                     </div>
-                    <div className="flex-1">
-                        <p className="font-mono text-xs text-gray-500 bg-gray-100 dark:bg-dark-900 px-2 py-1 rounded w-fit">{themeColor}</p>
-                    </div>
-                    </div>
-                </div>
 
-                {error && (
-                    <div className="flex items-center gap-2 text-red-500 text-sm font-bold bg-red-500/10 p-3 rounded-lg border border-red-500/20">
-                    <AlertCircle className="w-4 h-4" /> {error}
+                    <div>
+                        <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
+                          Booking Link (Optional)
+                        </label>
+                        <input
+                        type="text"
+                        value={bookingLink}
+                        onChange={(e) => setBookingLink(e.target.value)}
+                        placeholder="e.g. https://cal.com/..."
+                        className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-dark-600 rounded-lg p-3 text-sm focus:ring-2 focus:ring-brand-500 outline-none"
+                        />
                     </div>
-                )}
+                    
+                    {/* Advanced Customization Toggle */}
+                    <details className="group border-t border-gray-200 dark:border-dark-700 pt-4">
+                        <summary className="flex items-center justify-between cursor-pointer text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-brand-500">
+                            <span className="flex items-center gap-2"><Settings className="w-4 h-4" /> Advanced Customization</span>
+                            <ChevronDown className="w-4 h-4 group-open:rotate-180 transition-transform" />
+                        </summary>
+                        
+                        <div className="mt-4 space-y-4 pl-1">
+                            <div>
+                                <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Headline</label>
+                                <input type="text" value={headline} onChange={e => setHeadline(e.target.value)} className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-dark-600 rounded-lg p-2 text-sm" />
+                                <p className="text-[10px] text-gray-400 mt-1">Use {'{name}'} to insert client name dynamically.</p>
+                            </div>
+                            <div>
+                                <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Description</label>
+                                <textarea rows={2} value={description} onChange={e => setDescription(e.target.value)} className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-dark-600 rounded-lg p-2 text-sm resize-none" />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Highlights (One per line)</label>
+                                <textarea rows={3} value={highlights} onChange={e => setHighlights(e.target.value)} className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-dark-600 rounded-lg p-2 text-sm resize-none" />
+                            </div>
+                            <div className="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">CTA Title</label>
+                                    <input type="text" value={ctaTitle} onChange={e => setCtaTitle(e.target.value)} className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-dark-600 rounded-lg p-2 text-sm" />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Button Text</label>
+                                    <input type="text" value={ctaBtn} onChange={e => setCtaBtn(e.target.value)} className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-dark-600 rounded-lg p-2 text-sm" />
+                                </div>
+                            </div>
+                        </div>
+                    </details>
 
-                <button
-                    onClick={handleGenerate}
-                    className="w-full py-4 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-brand-500/25 flex items-center justify-center gap-2 mt-4"
-                >
-                    Generate Page <ArrowRight className="w-4 h-4" />
-                </button>
+
+                    {error && (
+                        <div className="flex items-center gap-2 text-red-500 text-sm font-bold bg-red-500/10 p-3 rounded-lg border border-red-500/20">
+                        <AlertCircle className="w-4 h-4" /> {error}
+                        </div>
+                    )}
+
+                    <button
+                        onClick={handleGenerate}
+                        className="w-full py-3.5 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-brand-500/25 flex items-center justify-center gap-2 mt-2"
+                    >
+                        Generate Page <ArrowRight className="w-4 h-4" />
+                    </button>
                 </div>
 
                 {/* Result Section */}
                 {generatedLink && (
                 <div id="generated-result" className="mt-8 pt-6 border-t border-gray-200 dark:border-dark-700 animate-slide-up">
-                    <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-2">
+                    <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-2">
                     <Link className="w-4 h-4 text-brand-500" /> Your Custom Link
                     </label>
                     
@@ -205,21 +258,28 @@ export const LoomGenerator: React.FC = () => {
           </div>
 
           {/* Right Column: Live Preview */}
-          <div className="lg:col-span-8 bg-gray-200 dark:bg-dark-950 rounded-3xl p-2 lg:p-4 my-4 lg:my-10 border-4 border-gray-300 dark:border-dark-700 relative shadow-2xl overflow-hidden flex flex-col">
-             <div className="absolute top-0 left-0 right-0 h-8 bg-gray-300 dark:bg-dark-800 flex items-center px-4 gap-2 z-20">
+          <div className="lg:col-span-7 sticky top-24 bg-gray-200 dark:bg-dark-950 rounded-2xl border-4 border-gray-300 dark:border-dark-700 shadow-2xl overflow-hidden flex flex-col h-[85vh]">
+             <div className="bg-gray-300 dark:bg-dark-800 flex items-center justify-between px-4 py-2 z-20 shrink-0">
                  <div className="flex gap-1.5">
-                    <div className="w-3 h-3 rounded-full bg-red-400"></div>
-                    <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
-                    <div className="w-3 h-3 rounded-full bg-green-400"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-red-400"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-green-400"></div>
                  </div>
-                 <div className="bg-gray-100 dark:bg-dark-900 rounded px-3 py-0.5 text-[10px] text-gray-500 flex items-center gap-1 mx-auto w-1/2 justify-center opacity-70">
+                 <div className="bg-gray-100 dark:bg-dark-900 rounded px-3 py-0.5 text-[10px] text-gray-500 flex items-center gap-1 opacity-70">
                     <Eye className="w-3 h-3" /> Live Preview
                  </div>
+                 <button 
+                    onClick={() => setPreviewTheme(prev => prev === 'dark' ? 'light' : 'dark')}
+                    className="p-1 rounded hover:bg-black/10 dark:hover:bg-white/10 transition-colors"
+                    title="Toggle Preview Theme"
+                 >
+                     {previewTheme === 'dark' ? <Sun className="w-3.5 h-3.5 text-gray-400" /> : <Moon className="w-3.5 h-3.5 text-gray-600" />}
+                 </button>
              </div>
              
-             {/* Preview Container - Scaled if needed, or scrollable */}
-             <div className="w-full h-full bg-white dark:bg-dark-900 rounded-b-2xl overflow-y-auto mt-4 custom-scrollbar relative">
-                 <LoomPage previewData={previewData} />
+             {/* Preview Container */}
+             <div className="w-full h-full bg-white dark:bg-dark-900 overflow-y-auto custom-scrollbar relative">
+                 <LoomPage previewData={previewData} themeMode={previewTheme} />
              </div>
           </div>
 

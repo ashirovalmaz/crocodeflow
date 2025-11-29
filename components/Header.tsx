@@ -9,13 +9,15 @@ interface HeaderProps {
     isDetailView?: boolean;
     customBookingLink?: string;
     isSharedPage?: boolean;
+    position?: 'fixed' | 'absolute';
 }
 
 export const Header: React.FC<HeaderProps> = ({ 
     onNavigate, 
     isDetailView, 
     customBookingLink,
-    isSharedPage = false 
+    isSharedPage = false,
+    position = 'fixed'
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -28,12 +30,23 @@ export const Header: React.FC<HeaderProps> = ({
   const activeBookingLink = customBookingLink || CAL_LINK;
 
   useEffect(() => {
+    // Only add scroll listener if we are in fixed mode (main app), 
+    // inside preview (absolute), we might just default to 'scrolled' look or handle it differently.
+    // For simplicity, if absolute, we rely on the container's scroll, but window scroll event 
+    // won't trigger if the container scrolls.
+    // However, sticking to the standard look is fine.
+    
+    if (position === 'absolute') {
+        setIsScrolled(true); // Always show border in preview for clarity
+        return;
+    }
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [position]);
 
   const handleNavClick = (e: React.MouseEvent, href: string) => {
     e.preventDefault();
@@ -69,7 +82,7 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 border-b transition-all duration-300 ${
+      className={`${position} top-0 left-0 right-0 z-50 border-b transition-all duration-300 ${
         isScrolled || mobileMenuOpen || isDetailView
           ? 'bg-white/95 dark:bg-dark-900/95 backdrop-blur-md border-gray-200 dark:border-dark-700 shadow-sm'
           : 'bg-transparent border-transparent'
