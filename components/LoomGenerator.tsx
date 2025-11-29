@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Header } from './Header';
-import { Link, Copy, Check, Video, User, ArrowRight, AlertCircle, Palette, Calendar, Eye, Settings, ChevronDown } from 'lucide-react';
+import { Link, Copy, Check, ArrowRight, AlertCircle, Settings, ChevronDown, Eye } from 'lucide-react';
 import { LoomPage } from './LoomPage';
 import { CAL_LINK } from '../constants';
 
@@ -24,10 +24,24 @@ export const LoomGenerator: React.FC = () => {
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
   
-  // Preview is always dark mode by default for consistency with "Dark Mode" aesthetic, 
-  // or we can allow toggling, but user asked to remove it from header.
-  // We'll keep the state but remove the button. Defaults to dark.
   const [previewTheme, setPreviewTheme] = useState<'dark' | 'light'>('dark');
+
+  // Sync Preview Theme with Global App Theme
+  useEffect(() => {
+    const syncTheme = () => {
+        const isDark = document.documentElement.classList.contains('dark');
+        setPreviewTheme(isDark ? 'dark' : 'light');
+    };
+
+    // Initial sync
+    syncTheme();
+
+    // Observer for changes
+    const observer = new MutationObserver(syncTheme);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+    return () => observer.disconnect();
+  }, []);
 
   const extractLoomId = (url: string) => {
     if (!url) return '';
@@ -262,7 +276,7 @@ export const LoomGenerator: React.FC = () => {
           </div>
 
           {/* Right Column: Live Preview */}
-          <div className="lg:col-span-7 sticky top-24 bg-gray-200 dark:bg-dark-950 rounded-2xl border-4 border-gray-300 dark:border-dark-700 shadow-2xl overflow-hidden flex flex-col h-[calc(100vh-6rem)]">
+          <div className="lg:col-span-7 sticky top-24 bg-gray-200 dark:bg-dark-950 rounded-2xl border-4 border-gray-300 dark:border-dark-700 shadow-2xl overflow-hidden flex flex-col h-[calc(100vh-10rem)]">
              <div className="bg-gray-300 dark:bg-dark-800 flex items-center justify-between px-4 py-2 z-20 shrink-0">
                  <div className="flex gap-1.5">
                     <div className="w-2.5 h-2.5 rounded-full bg-red-400"></div>
@@ -272,12 +286,11 @@ export const LoomGenerator: React.FC = () => {
                  <div className="bg-gray-100 dark:bg-dark-900 rounded px-3 py-0.5 text-[10px] text-gray-500 flex items-center gap-1 opacity-70">
                     <Eye className="w-3 h-3" /> Live Preview
                  </div>
-                 {/* Theme Toggle Removed as requested */}
                  <div className="w-6"></div>
              </div>
              
              {/* Preview Container */}
-             <div className="w-full h-full bg-white dark:bg-dark-900 overflow-y-auto custom-scrollbar relative">
+             <div className="w-full h-full bg-white dark:bg-dark-900 overflow-y-auto custom-scrollbar relative pb-20">
                  <LoomPage previewData={previewData} themeMode={previewTheme} />
              </div>
           </div>
