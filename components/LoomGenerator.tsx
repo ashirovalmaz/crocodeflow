@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Header } from './Header';
 import { Footer } from './Footer';
-import { Link, Copy, Check, Video, User, ArrowRight, AlertCircle } from 'lucide-react';
+import { Link, Copy, Check, Video, User, ArrowRight, AlertCircle, Palette } from 'lucide-react';
 
 export const LoomGenerator: React.FC = () => {
   const [clientName, setClientName] = useState('');
   const [loomUrl, setLoomUrl] = useState('');
+  const [themeColor, setThemeColor] = useState('#22c55e'); // Default Brand Green
   const [generatedLink, setGeneratedLink] = useState('');
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
@@ -32,11 +33,11 @@ export const LoomGenerator: React.FC = () => {
     }
 
     // Construct the dynamic URL
-    // We use window.location.origin to get the current domain (localhost or production)
     const baseUrl = window.location.origin;
     const params = new URLSearchParams({
       name: clientName,
-      id: videoId
+      id: videoId,
+      color: themeColor
     });
 
     setGeneratedLink(`${baseUrl}/looms/share?${params.toString()}`);
@@ -96,6 +97,27 @@ export const LoomGenerator: React.FC = () => {
                 <p className="text-xs text-gray-500 mt-2">
                   We'll extract the ID automatically.
                 </p>
+              </div>
+
+              {/* Color Picker */}
+              <div>
+                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-2">
+                  <Palette className="w-4 h-4 text-brand-500" /> Brand Color
+                </label>
+                <div className="flex items-center gap-4">
+                  <div className="relative overflow-hidden w-16 h-16 rounded-xl border border-gray-300 dark:border-dark-600 shadow-inner">
+                    <input
+                      type="color"
+                      value={themeColor}
+                      onChange={(e) => setThemeColor(e.target.value)}
+                      className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] p-0 m-0 border-none cursor-pointer"
+                    />
+                  </div>
+                  <div className="flex-1">
+                     <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Select the primary accent color for this specific page.</p>
+                     <p className="font-mono text-xs text-gray-500">{themeColor}</p>
+                  </div>
+                </div>
               </div>
 
               {error && (

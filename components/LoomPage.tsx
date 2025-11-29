@@ -5,6 +5,23 @@ import { Footer } from './Footer';
 import { CAL_LINK } from '../constants';
 import { CheckCircle2, ArrowRight, PlayCircle } from 'lucide-react';
 
+// Helper to lighten/darken hex color slightly for hover states
+const adjustBrightness = (hex: string, percent: number) => {
+    // Strip hash
+    hex = hex.replace(/^\s*#|\s*$/g, '');
+    if (hex.length === 3) {
+        hex = hex.replace(/(.)/g, '$1$1');
+    }
+    const r = parseInt(hex.substr(0, 2), 16);
+    const g = parseInt(hex.substr(2, 2), 16);
+    const b = parseInt(hex.substr(4, 2), 16);
+
+    return '#' +
+       ((0|(1<<8) + r + (256 - r) * percent / 100).toString(16)).substr(1) +
+       ((0|(1<<8) + g + (256 - g) * percent / 100).toString(16)).substr(1) +
+       ((0|(1<<8) + b + (256 - b) * percent / 100).toString(16)).substr(1);
+}
+
 export const LoomPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const location = useLocation();
@@ -21,7 +38,8 @@ export const LoomPage: React.FC = () => {
     // Default Data (Justin)
     const defaults = {
       name: "Justin Howells",
-      videoId: "d803199dda4449eeaae27cc46d019fae"
+      videoId: "d803199dda4449eeaae27cc46d019fae",
+      color: null
     };
 
     if (isJustinDemo) {
@@ -31,15 +49,56 @@ export const LoomPage: React.FC = () => {
     // Dynamic Data from URL Query Params
     return {
       name: searchParams.get('name') || "Valued Partner",
-      videoId: searchParams.get('id') || defaults.videoId, // Fallback to demo video if ID missing
+      videoId: searchParams.get('id') || defaults.videoId, 
+      color: searchParams.get('color')
     };
   }, [location, searchParams]);
+
+  // Inject Dynamic Color Styles if provided
+  useEffect(() => {
+    if (!pageData.color) return;
+
+    const color = pageData.color;
+    const darker = adjustBrightness(color, -20); // for hover states or 600
+    const lighter = adjustBrightness(color, 20); // for gradients or 400
+
+    const styleId = 'dynamic-theme-styles';
+    // Remove existing if any (cleanup)
+    const existingStyle = document.getElementById(styleId);
+    if (existingStyle) existingStyle.remove();
+
+    const style = document.createElement('style');
+    style.id = styleId;
+    style.innerHTML = `
+      .text-brand-500 { color: ${color} !important; }
+      .text-brand-600 { color: ${darker} !important; }
+      .bg-brand-500 { background-color: ${color} !important; }
+      .bg-brand-600 { background-color: ${darker} !important; }
+      .bg-brand-500\\/10 { background-color: ${color}1a !important; } 
+      .bg-brand-500\\/20 { background-color: ${color}33 !important; }
+      .bg-brand-900\\/10 { background-color: ${darker}1a !important; }
+      .border-brand-500 { border-color: ${color} !important; }
+      .border-brand-500\\/20 { border-color: ${color}33 !important; }
+      .from-brand-500 { --tw-gradient-from: ${color} !important; var(--tw-gradient-stops, var(--tw-gradient-from), var(--tw-gradient-to)) !important; }
+      .to-brand-400 { --tw-gradient-to: ${lighter} !important; var(--tw-gradient-stops, var(--tw-gradient-from), var(--tw-gradient-to)) !important; }
+      .hover\\:bg-brand-500:hover { background-color: ${color} !important; }
+      .group:hover .group-hover\\:bg-brand-500\\/20 { background-color: ${color}33 !important; }
+    `;
+    
+    document.head.appendChild(style);
+
+    return () => {
+      // Cleanup on unmount
+      const s = document.getElementById(styleId);
+      if (s) s.remove();
+    };
+  }, [pageData.color]);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-dark-900 text-gray-900 dark:text-white transition-colors duration-300 flex flex-col relative overflow-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-         <div className="absolute inset-0 bg-[linear-gradient(rgba(22,163,74,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(22,163,74,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
+         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-50"></div>
          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-brand-500/10 rounded-full blur-[120px] opacity-50"></div>
       </div>
 
