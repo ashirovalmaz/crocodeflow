@@ -104,7 +104,10 @@ export const LoomPage: React.FC = () => {
          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-brand-500/10 rounded-full blur-[120px] opacity-50"></div>
       </div>
 
-      <Header />
+      <Header 
+        customBookingLink={pageData.bookingLink} 
+        isSharedPage={true}
+      />
       
       <main className="flex-grow pt-32 pb-24 px-6 relative z-10 flex flex-col items-center">
         <div className="max-w-5xl w-full mx-auto">

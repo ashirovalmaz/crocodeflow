@@ -7,15 +7,25 @@ import { ThemeToggle } from './ThemeToggle';
 interface HeaderProps {
     onNavigate?: (href: string) => void;
     isDetailView?: boolean;
+    customBookingLink?: string;
+    isSharedPage?: boolean;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onNavigate, isDetailView }) => {
+export const Header: React.FC<HeaderProps> = ({ 
+    onNavigate, 
+    isDetailView, 
+    customBookingLink,
+    isSharedPage = false 
+}) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   const navigate = useNavigate();
   const location = useLocation();
   const isLoomPage = location.pathname.startsWith('/looms');
+  
+  // Use custom link if provided, otherwise default constant
+  const activeBookingLink = customBookingLink || CAL_LINK;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -76,9 +86,16 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, isDetailView }) => {
             <Waypoints className="w-8 h-8 text-brand-500 transition-transform group-hover:rotate-90 duration-500 fill-brand-500/20" />
             <div className="absolute inset-0 bg-brand-500/20 blur-lg rounded-full animate-pulse-slow"></div>
           </div>
-          <span className="text-2xl font-display font-bold tracking-tight text-gray-900 dark:text-white transition-colors">
-            Crocode<span className="text-brand-500">Flow</span>
-          </span>
+          <div className="flex flex-col md:flex-row md:items-baseline gap-0 md:gap-1">
+            {isSharedPage && (
+                <span className="text-[10px] uppercase font-bold tracking-wider text-gray-500 dark:text-gray-400">
+                    Made with
+                </span>
+            )}
+            <span className="text-2xl font-display font-bold tracking-tight text-gray-900 dark:text-white transition-colors leading-none">
+                Crocode<span className="text-brand-500">Flow</span>
+            </span>
+          </div>
         </a>
 
         {/* Desktop Nav */}
@@ -97,7 +114,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, isDetailView }) => {
           <ThemeToggle />
 
           <a
-            href={CAL_LINK}
+            href={activeBookingLink}
             target="_blank" 
             rel="noopener noreferrer"
             className="px-5 py-2.5 bg-brand-600 hover:bg-brand-500 text-white text-sm font-bold rounded-lg transition-all shadow-[0_0_20px_rgba(34,197,94,0.3)] hover:shadow-[0_0_30px_rgba(34,197,94,0.5)] border border-brand-500/50"
@@ -132,7 +149,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, isDetailView }) => {
             </a>
           ))}
           <a
-            href={CAL_LINK}
+            href={activeBookingLink}
             target="_blank" 
             rel="noopener noreferrer"
             className="mt-2 w-full py-3 bg-brand-600 text-center text-white font-bold rounded-lg uppercase tracking-wide"
