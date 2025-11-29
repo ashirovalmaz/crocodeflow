@@ -122,38 +122,56 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
     const color = pageData.color;
     const darker = adjustBrightness(color, -20); // for hover states or 600
     const lighter = adjustBrightness(color, 20); // for gradients or 400
-
+    
+    // Convert hex to RGB for opacity utilities if needed, but direct substitution is easier for generated styles
+    
     const styleId = previewData ? 'preview-dynamic-theme-styles' : 'dynamic-theme-styles';
     // Remove existing if any (cleanup)
     const existingStyle = document.getElementById(styleId);
     if (existingStyle) existingStyle.remove();
-
-    // Use a specific scope if in preview mode to avoid bleeding? 
-    // Actually, CSS variables or specific class overrides are better, but <style> is robust for this simple case.
-    // If in preview, we might want to qualify these with the preview container, but 
-    // since we can't easily target the specific iframe-less window, we rely on the fact 
-    // that the main app won't use these classes if we reset them.
-    // However, for simplicity here, we inject global overrides. In a split view, this might color the form buttons too.
-    // To fix that, we prefix with .custom-theme-scope if previewData exists.
     
     const scope = previewData ? '.custom-theme-scope ' : '';
 
     const style = document.createElement('style');
     style.id = styleId;
     style.innerHTML = `
+      /* Text Colors */
       ${scope}.text-brand-500 { color: ${color} !important; }
       ${scope}.text-brand-600 { color: ${darker} !important; }
+      ${scope}.text-brand-400 { color: ${lighter} !important; }
+      ${scope}.dark .text-brand-400 { color: ${lighter} !important; }
+      ${scope}.dark .text-brand-500 { color: ${color} !important; }
+      
+      /* Backgrounds */
       ${scope}.bg-brand-500 { background-color: ${color} !important; }
       ${scope}.bg-brand-600 { background-color: ${darker} !important; }
       ${scope}.bg-brand-500\\/10 { background-color: ${color}1a !important; } 
       ${scope}.bg-brand-500\\/20 { background-color: ${color}33 !important; }
       ${scope}.bg-brand-900\\/10 { background-color: ${darker}1a !important; }
+      ${scope}.bg-brand-50 { background-color: ${color}0d !important; }
+      
+      /* Borders */
       ${scope}.border-brand-500 { border-color: ${color} !important; }
       ${scope}.border-brand-500\\/20 { border-color: ${color}33 !important; }
+      ${scope}.border-brand-500\\/50 { border-color: ${color}80 !important; }
+      ${scope}.hover\\:border-brand-500:hover { border-color: ${color} !important; }
+      
+      /* Gradients */
       ${scope}.from-brand-500 { --tw-gradient-from: ${color} !important; var(--tw-gradient-stops, var(--tw-gradient-from), var(--tw-gradient-to)) !important; }
       ${scope}.to-brand-400 { --tw-gradient-to: ${lighter} !important; var(--tw-gradient-stops, var(--tw-gradient-from), var(--tw-gradient-to)) !important; }
+      ${scope}.to-brand-600 { --tw-gradient-to: ${darker} !important; var(--tw-gradient-stops, var(--tw-gradient-from), var(--tw-gradient-to)) !important; }
+      
+      /* Shadows & Effects */
+      ${scope}.shadow-brand-500\\/25 { --tw-shadow-color: ${color}40 !important; }
+      ${scope}.shadow-brand-500\\/50 { --tw-shadow-color: ${color}80 !important; }
+      
+      /* Hover States */
       ${scope}.hover\\:bg-brand-500:hover { background-color: ${color} !important; }
+      ${scope}.hover\\:text-brand-600:hover { color: ${darker} !important; }
       ${scope}.group:hover .group-hover\\:bg-brand-500\\/20 { background-color: ${color}33 !important; }
+      
+      /* SVG Fills */
+      ${scope}.fill-brand-500\\/20 { fill: ${color}33 !important; }
     `;
     
     document.head.appendChild(style);
@@ -180,6 +198,7 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
             customBookingLink={pageData.bookingLink} 
             isSharedPage={true}
             position={previewData ? 'absolute' : 'fixed'}
+            hideThemeToggle={true}
         />
         
         <main className={`flex-grow px-6 relative z-10 flex flex-col items-center ${previewData ? 'pt-24 pb-12' : 'pt-32 pb-24'}`}>

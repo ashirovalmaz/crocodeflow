@@ -10,6 +10,7 @@ interface HeaderProps {
     customBookingLink?: string;
     isSharedPage?: boolean;
     position?: 'fixed' | 'absolute';
+    hideThemeToggle?: boolean;
 }
 
 export const Header: React.FC<HeaderProps> = ({ 
@@ -17,7 +18,8 @@ export const Header: React.FC<HeaderProps> = ({
     isDetailView, 
     customBookingLink,
     isSharedPage = false,
-    position = 'fixed'
+    position = 'fixed',
+    hideThemeToggle = false
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -30,14 +32,8 @@ export const Header: React.FC<HeaderProps> = ({
   const activeBookingLink = customBookingLink || CAL_LINK;
 
   useEffect(() => {
-    // Only add scroll listener if we are in fixed mode (main app), 
-    // inside preview (absolute), we might just default to 'scrolled' look or handle it differently.
-    // For simplicity, if absolute, we rely on the container's scroll, but window scroll event 
-    // won't trigger if the container scrolls.
-    // However, sticking to the standard look is fine.
-    
     if (position === 'absolute') {
-        setIsScrolled(true); // Always show border in preview for clarity
+        setIsScrolled(true); 
         return;
     }
 
@@ -52,19 +48,16 @@ export const Header: React.FC<HeaderProps> = ({
     e.preventDefault();
     setMobileMenuOpen(false);
 
-    // Case 1: External Link (Starts with http or https)
     if (href.startsWith('http')) {
         window.open(href, '_blank');
         return;
     }
 
-    // Case 2: Internal Route (Starts with /)
     if (href.startsWith('/') && !href.startsWith('/#')) {
         navigate(href);
         return;
     }
 
-    // Case 3: Section Link (Starts with #)
     if (href.startsWith('#')) {
         if (location.pathname === '/') {
             if (onNavigate) {
@@ -124,7 +117,7 @@ export const Header: React.FC<HeaderProps> = ({
             </a>
           ))}
           
-          <ThemeToggle />
+          {!hideThemeToggle && <ThemeToggle />}
 
           <a
             href={activeBookingLink}
@@ -138,7 +131,7 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Mobile Toggle */}
         <div className="md:hidden flex items-center gap-4">
-          <ThemeToggle />
+          {!hideThemeToggle && <ThemeToggle />}
           <button
             className="text-gray-900 dark:text-gray-300"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
