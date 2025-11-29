@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Header } from './Header';
 import { Footer } from './Footer';
-import { Link, Copy, Check, Video, User, ArrowRight, AlertCircle, Palette } from 'lucide-react';
+import { Link, Copy, Check, Video, User, ArrowRight, AlertCircle, Palette, Calendar } from 'lucide-react';
 
 export const LoomGenerator: React.FC = () => {
   const [clientName, setClientName] = useState('');
   const [loomUrl, setLoomUrl] = useState('');
   const [themeColor, setThemeColor] = useState('#22c55e'); // Default Brand Green
+  const [bookingLink, setBookingLink] = useState('');
   const [generatedLink, setGeneratedLink] = useState('');
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
@@ -22,7 +23,7 @@ export const LoomGenerator: React.FC = () => {
     setGeneratedLink('');
 
     if (!clientName.trim() || !loomUrl.trim()) {
-      setError('Please fill in both fields.');
+      setError('Please fill in Name and Loom URL.');
       return;
     }
 
@@ -37,8 +38,12 @@ export const LoomGenerator: React.FC = () => {
     const params = new URLSearchParams({
       name: clientName,
       id: videoId,
-      color: themeColor
+      color: themeColor,
     });
+
+    if (bookingLink.trim()) {
+      params.append('booking', bookingLink.trim());
+    }
 
     setGeneratedLink(`${baseUrl}/looms/share?${params.toString()}`);
   };
@@ -96,6 +101,23 @@ export const LoomGenerator: React.FC = () => {
                 />
                 <p className="text-xs text-gray-500 mt-2">
                   We'll extract the ID automatically.
+                </p>
+              </div>
+
+              {/* Booking Link Input */}
+              <div>
+                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-2">
+                  <Calendar className="w-4 h-4 text-brand-500" /> Booking Link (Optional)
+                </label>
+                <input
+                  type="text"
+                  value={bookingLink}
+                  onChange={(e) => setBookingLink(e.target.value)}
+                  placeholder="e.g. https://cal.com/your-name/30min"
+                  className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-dark-600 rounded-lg p-4 focus:ring-2 focus:ring-brand-500 outline-none transition-all"
+                />
+                <p className="text-xs text-gray-500 mt-2">
+                  Defaults to the main company calendar if left empty.
                 </p>
               </div>
 

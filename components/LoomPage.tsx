@@ -39,7 +39,8 @@ export const LoomPage: React.FC = () => {
     const defaults = {
       name: "Justin Howells",
       videoId: "d803199dda4449eeaae27cc46d019fae",
-      color: null
+      color: null,
+      bookingLink: CAL_LINK
     };
 
     if (isJustinDemo) {
@@ -50,7 +51,8 @@ export const LoomPage: React.FC = () => {
     return {
       name: searchParams.get('name') || "Valued Partner",
       videoId: searchParams.get('id') || defaults.videoId, 
-      color: searchParams.get('color')
+      color: searchParams.get('color'),
+      bookingLink: searchParams.get('booking') || CAL_LINK
     };
   }, [location, searchParams]);
 
@@ -168,7 +170,7 @@ export const LoomPage: React.FC = () => {
                         Let's discuss the implementation plan and get your automation systems running next week.
                     </p>
                     <a 
-                        href={CAL_LINK}
+                        href={pageData.bookingLink}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="relative z-10 w-full py-4 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-brand-500/25 flex items-center justify-center gap-2 group/btn"
