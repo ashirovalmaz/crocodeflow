@@ -1,14 +1,39 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { Header } from './Header';
 import { Footer } from './Footer';
 import { CAL_LINK } from '../constants';
 import { CheckCircle2, ArrowRight, PlayCircle } from 'lucide-react';
 
 export const LoomPage: React.FC = () => {
+  const [searchParams] = useSearchParams();
+  const location = useLocation();
+
   useEffect(() => {
     // Scroll to top on load
     window.scrollTo(0, 0);
   }, []);
+
+  // Determine Data Source
+  const pageData = useMemo(() => {
+    const isJustinDemo = location.pathname.includes('justinhowells');
+    
+    // Default Data (Justin)
+    const defaults = {
+      name: "Justin Howells",
+      videoId: "d803199dda4449eeaae27cc46d019fae"
+    };
+
+    if (isJustinDemo) {
+      return defaults;
+    }
+
+    // Dynamic Data from URL Query Params
+    return {
+      name: searchParams.get('name') || "Valued Partner",
+      videoId: searchParams.get('id') || defaults.videoId, // Fallback to demo video if ID missing
+    };
+  }, [location, searchParams]);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-dark-900 text-gray-900 dark:text-white transition-colors duration-300 flex flex-col relative overflow-hidden">
@@ -30,7 +55,7 @@ export const LoomPage: React.FC = () => {
               Private Video Brief
             </div>
             <h1 className="text-4xl md:text-6xl font-display font-bold text-gray-900 dark:text-white mb-6 tracking-tight">
-              Prepared for <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-brand-400">Justin Howells</span>
+              Prepared for <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-brand-400">{pageData.name}</span>
             </h1>
             <p className="text-gray-600 dark:text-gray-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
               We analyzed your current workflow. Here is the blueprint to automate it and scale.
@@ -46,7 +71,7 @@ export const LoomPage: React.FC = () => {
               {/* 16:9 Aspect Ratio Container */}
               <div className="relative bg-black rounded-2xl overflow-hidden" style={{ position: 'relative', paddingBottom: '56.25%', height: 0 }}>
                 <iframe 
-                  src="https://www.loom.com/embed/d803199dda4449eeaae27cc46d019fae?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=true" 
+                  src={`https://www.loom.com/embed/${pageData.videoId}?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=true`} 
                   frameBorder="0" 
                   allowFullScreen 
                   style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
