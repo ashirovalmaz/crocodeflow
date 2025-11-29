@@ -22,17 +22,34 @@ const adjustBrightness = (hex: string, percent: number) => {
        ((0|(1<<8) + b + (256 - b) * percent / 100).toString(16)).substr(1);
 }
 
-export const LoomPage: React.FC = () => {
+interface LoomPageProps {
+  previewData?: {
+    name: string;
+    videoId: string;
+    color: string;
+    bookingLink: string;
+  }
+}
+
+export const LoomPage: React.FC<LoomPageProps> = ({ previewData }) => {
   const [searchParams] = useSearchParams();
   const location = useLocation();
 
   useEffect(() => {
-    // Scroll to top on load
-    window.scrollTo(0, 0);
-  }, []);
+    // Scroll to top on load only if not in preview mode
+    if (!previewData) {
+      window.scrollTo(0, 0);
+    }
+  }, [previewData]);
 
   // Determine Data Source
   const pageData = useMemo(() => {
+    // 1. Priority: Preview Data (Real-time generation)
+    if (previewData) {
+      return previewData;
+    }
+
+    // 2. Secondary: URL Params
     const isJustinDemo = location.pathname.includes('justinhowells');
     
     // Default Data (Justin)
@@ -54,7 +71,7 @@ export const LoomPage: React.FC = () => {
       color: searchParams.get('color'),
       bookingLink: searchParams.get('booking') || CAL_LINK
     };
-  }, [location, searchParams]);
+  }, [location, searchParams, previewData]);
 
   // Inject Dynamic Color Styles if provided
   useEffect(() => {
@@ -64,7 +81,7 @@ export const LoomPage: React.FC = () => {
     const darker = adjustBrightness(color, -20); // for hover states or 600
     const lighter = adjustBrightness(color, 20); // for gradients or 400
 
-    const styleId = 'dynamic-theme-styles';
+    const styleId = previewData ? 'preview-dynamic-theme-styles' : 'dynamic-theme-styles';
     // Remove existing if any (cleanup)
     const existingStyle = document.getElementById(styleId);
     if (existingStyle) existingStyle.remove();
@@ -94,10 +111,13 @@ export const LoomPage: React.FC = () => {
       const s = document.getElementById(styleId);
       if (s) s.remove();
     };
-  }, [pageData.color]);
+  }, [pageData.color, previewData]);
 
+  // If in preview mode, we might want to scale down or adjust container, 
+  // but for now we render full fidelity.
+  
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-dark-900 text-gray-900 dark:text-white transition-colors duration-300 flex flex-col relative overflow-hidden">
+    <div className={`min-h-screen bg-gray-50 dark:bg-dark-900 text-gray-900 dark:text-white transition-colors duration-300 flex flex-col relative overflow-hidden ${previewData ? 'h-full' : ''}`}>
       {/* Background Effects */}
       <div className="absolute inset-0 z-0 pointer-events-none">
          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-50"></div>
@@ -134,12 +154,18 @@ export const LoomPage: React.FC = () => {
               
               {/* 16:9 Aspect Ratio Container */}
               <div className="relative bg-black rounded-2xl overflow-hidden" style={{ position: 'relative', paddingBottom: '56.25%', height: 0 }}>
-                <iframe 
-                  src={`https://www.loom.com/embed/${pageData.videoId}?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=true`} 
-                  frameBorder="0" 
-                  allowFullScreen 
-                  style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-                ></iframe>
+                {pageData.videoId ? (
+                    <iframe 
+                      src={`https://www.loom.com/embed/${pageData.videoId}?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=true`} 
+                      frameBorder="0" 
+                      allowFullScreen 
+                      style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                    ></iframe>
+                ) : (
+                    <div className="absolute inset-0 flex items-center justify-center bg-gray-900 text-gray-500">
+                        <p>Video Preview Will Appear Here</p>
+                    </div>
+                )}
               </div>
             </div>
             
@@ -188,7 +214,7 @@ export const LoomPage: React.FC = () => {
         </div>
       </main>
 
-      <Footer />
+      {!previewData && <Footer />}
     </div>
   );
 };
