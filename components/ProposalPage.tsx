@@ -849,15 +849,8 @@ export const ProposalPage: React.FC = () => {
                             Next <ArrowRight className="w-4 h-4" />
                         </button>
                     ) : (
-                         <a
-                            href={CAL_LINK}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-2 px-8 py-3 rounded-xl font-bold text-sm bg-brand-600 hover:bg-brand-500 text-white shadow-lg hover:shadow-brand-500/25 transition-all"
-                        >
-                            Book Implementation Call <ArrowRight className="w-4 h-4" />
-                        </a>
-                    )}
+    <div className="w-[180px]" /> // просто пустой блок-заглушка
+)}
                 </div>
             </div>
 
