@@ -938,6 +938,11 @@ const PROPOSAL_CONTENT = [
 export const ProposalPage: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
+    // 💡 Всегда выключаем dark-тему на этой странице
+  useEffect(() => {
+    document.documentElement.classList.remove('dark');
+  }, []);
+  
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentSlide]);
