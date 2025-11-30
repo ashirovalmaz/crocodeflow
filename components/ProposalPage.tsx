@@ -744,39 +744,8 @@ const PROPOSAL_CONTENT = [
         </h3>
         <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
           In our experience, the most enjoyable and successful clients tend to share one trait:
-          they make decisions quickly once they have enough signal. They’re not reckless — they’re 
-          decisive. They ask the right questions, weigh the upside, and then commit.
+          they make decisions quickly once they have enough signal.Those are also the clients who get results fastest.
         </p>
-        <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
-          Those are also the clients who get results fastest. Systems ship sooner, feedback loops 
-          tighten, and momentum builds instead of stalling in “maybe later”.
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-          <div className="bg-gray-50 dark:bg-dark-900 rounded-xl p-4 border border-gray-200 dark:border-dark-700">
-            <p className="text-xs font-semibold text-gray-900 dark:text-white mb-1">
-              Momentum over hesitation
-            </p>
-            <p className="text-xs text-gray-600 dark:text-gray-400">
-              Every week you delay is a week where leads leak and systems don’t compound.
-            </p>
-          </div>
-          <div className="bg-gray-50 dark:bg-dark-900 rounded-xl p-4 border border-gray-200 dark:border-dark-700">
-            <p className="text-xs font-semibold text-gray-900 dark:text-white mb-1">
-              Clarity over noise
-            </p>
-            <p className="text-xs text-gray-600 dark:text-gray-400">
-              Decisive founders know what they want and move toward it with focus.
-            </p>
-          </div>
-          <div className="bg-gray-50 dark:bg-dark-900 rounded-xl p-4 border border-gray-200 dark:border-dark-700">
-            <p className="text-xs font-semibold text-gray-900 dark:text-white mb-1">
-              Partnership over “vendor”
-            </p>
-            <p className="text-xs text-gray-600 dark:text-gray-400">
-              When you commit, we can commit fully as a long-term systems partner.
-            </p>
-          </div>
-        </div>
       </div>
 
       {/* Бонусный блок */}
@@ -793,7 +762,7 @@ const PROPOSAL_CONTENT = [
               Fast-Action Bonus for Justin
             </h3>
             <p className="text-sm uppercase tracking-[0.18em] text-brand-600 dark:text-brand-400 font-semibold">
-              One Additional System · 0$ Setup
+              One Additional System · 0$ For 1 Year
             </p>
           </div>
 
