@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Header } from './Header';
-import { ArrowRight, ArrowLeft, CheckCircle2, AlertTriangle, Calculator, Check, Target, Gift, FileSignature, Handshake } from 'lucide-react';
+import { ArrowRight, ArrowLeft, CheckCircle2, AlertTriangle, Calculator, Check, Target, Gift, FileSignature, Handshake, ChevronDown, ChevronUp } from 'lucide-react';
 import { CAL_LINK } from '../constants';
 
 // --- Types & Data ---
@@ -429,18 +429,18 @@ const PROPOSAL_CONTENT = [
     )
   },
   {
-    id: 'solutions-1',
-    title: "Proposed Solutions (1/2)",
-    subtitle: "Phase 1: Conversion & Consistency",
+    id: 'solutions',
+    title: "Proposed Solutions",
+    subtitle: "Phase 1 & 2: Systems Architecture",
     content: (
-      <div className="space-y-8 animate-fade-in">
-        <p className="text-gray-600 dark:text-gray-400">
+      <div className="space-y-6 animate-fade-in">
+        <p className="text-gray-600 dark:text-gray-400 mb-4">
             These phases are prioritized around three things: Increasing booked calls & show-up rates, Improving ROI from leads you already generate, and Freeing your time from the DMs. Each system can be added modularly.
         </p>
         
-        <div className="grid grid-cols-1 gap-6">
-            {/* System 1 */}
-            <div className="bg-white dark:bg-dark-800 rounded-xl border-2 border-brand-500 shadow-lg p-6 relative flex flex-col">
+        <div className="flex flex-col gap-4">
+            {/* System 1 - Always Expanded & Prominent */}
+            <div className="bg-white dark:bg-dark-800 rounded-xl border-2 border-brand-500 shadow-xl p-6 relative flex flex-col">
                 <div className="absolute top-0 right-0 bg-brand-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">Core P1</div>
                 <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-2">System 1: AI-Powered DM Foundation + Custom Presentations</h3>
                 
@@ -467,146 +467,73 @@ const PROPOSAL_CONTENT = [
                 </div>
             </div>
 
-            {/* System 2 */}
-            <div className="bg-white dark:bg-dark-800 rounded-xl border border-gray-200 dark:border-dark-700 p-6 relative flex flex-col">
-                 <div className="absolute top-0 right-0 bg-gray-200 dark:bg-dark-600 text-gray-600 dark:text-gray-300 text-xs font-bold px-3 py-1 rounded-bl-lg">High P2</div>
-                <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-2">System 2: AI Setter Co-Pilot</h3>
-                
-                <div className="flex-grow space-y-4 mb-4">
-                    <div>
-                        <h4 className="text-xs font-bold uppercase text-gray-500 mb-1">What this system does</h4>
-                        <ul className="text-xs text-gray-600 dark:text-gray-300 space-y-1 list-disc pl-4">
-                            <li>Gives setters AI-powered suggested replies</li>
-                            <li>Alerts them to hot signals</li>
-                            <li>Prevents over-following up or missing messages</li>
-                            <li>Ensures consistency across all 3 setters</li>
-                        </ul>
-                    </div>
-                    <div>
-                         <h4 className="text-xs font-bold uppercase text-gray-500 mb-1">Why this matters</h4>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">Setters are your weakest operational link today. This system dramatically reduces human error.</p>
-                    </div>
-                </div>
-
-                <div className="pt-4 border-t border-gray-100 dark:border-dark-700 flex justify-between items-center text-xs">
-                   <span className="text-gray-500">Setup: ~$1.6k</span>
-                   <span className="font-bold text-gray-900 dark:text-white">~$400/mo</span>
-                </div>
-            </div>
-
-            {/* System 3 */}
-            <div className="bg-white dark:bg-dark-800 rounded-xl border border-gray-200 dark:border-dark-700 p-6 relative flex flex-col">
-                 <div className="absolute top-0 right-0 bg-gray-200 dark:bg-dark-600 text-gray-600 dark:text-gray-300 text-xs font-bold px-3 py-1 rounded-bl-lg">High P3</div>
-                <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-2">System 3: Personalized Re-Activation</h3>
-                
-                <div className="flex-grow space-y-4 mb-4">
-                    <div>
-                        <h4 className="text-xs font-bold uppercase text-gray-500 mb-1">What this system does</h4>
-                        <ul className="text-xs text-gray-600 dark:text-gray-300 space-y-1 list-disc pl-4">
-                            <li>Pulls client data from CRM (goals, pain points)</li>
-                            <li>Builds personal strategy for reactivation</li>
-                            <li>Sends "personally written" messages based on context</li>
-                            <li>Recovers lost revenue automatically</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 className="text-xs font-bold uppercase text-gray-500 mb-1">Why this matters</h4>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">Turns "cold storage" leads into high-ROI booked calls without your involvement.</p>
-                    </div>
-                </div>
-
-                 <div className="pt-4 border-t border-gray-100 dark:border-dark-700 flex justify-between items-center text-xs">
-                   <span className="text-gray-500">Setup: ~$1.5k</span>
-                   <span className="font-bold text-gray-900 dark:text-white">~$450/mo</span>
-                </div>
-            </div>
-        </div>
-      </div>
-    )
-  },
-  {
-    id: 'solutions-2',
-    title: "Proposed Solutions (2/2)",
-    subtitle: "Phase 2: Intelligence & Retention",
-    content: (
-      <div className="space-y-8 animate-fade-in">
-        <div className="grid grid-cols-1 gap-6">
-            {/* System 4 */}
-            <div className="bg-white dark:bg-dark-800 rounded-xl border border-gray-200 dark:border-dark-700 p-6 relative flex flex-col">
-                 <div className="absolute top-0 right-0 bg-gray-200 dark:bg-dark-600 text-gray-600 dark:text-gray-300 text-xs font-bold px-3 py-1 rounded-bl-lg">High P3</div>
-                <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-2">System 4: AI Call Analysis & CRM Enrichment</h3>
-                
-                <div className="flex-grow space-y-4 mb-4">
-                    <div>
-                        <h4 className="text-xs font-bold uppercase text-gray-500 mb-1">What this system does</h4>
-                        <ul className="text-xs text-gray-600 dark:text-gray-300 space-y-1 list-disc pl-4">
-                            <li>Ingests and transcribes call recordings</li>
-                            <li>Extracts goals, objections, budget clues</li>
-                            <li>Auto-populates CRM & generates follow-ups</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 className="text-xs font-bold uppercase text-gray-500 mb-1">Why this matters</h4>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">Prevents "lost leads" post-call and strengthens show-up → close rate.</p>
-                    </div>
-                </div>
-
-                <div className="pt-4 border-t border-gray-100 dark:border-dark-700 flex justify-between items-center text-xs">
-                   <span className="text-gray-500">Setup: ~$1.2k</span>
-                   <span className="font-bold text-gray-900 dark:text-white">~$300/mo</span>
-                </div>
-            </div>
-
-            {/* System 5 */}
-            <div className="bg-white dark:bg-dark-800 rounded-xl border border-gray-200 dark:border-dark-700 p-6 relative flex flex-col">
-                 <div className="absolute top-0 right-0 bg-gray-100 dark:bg-dark-700 text-gray-500 text-xs font-bold px-3 py-1 rounded-bl-lg">Med P4</div>
-                <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-2">System 5: Content Intelligence Engine</h3>
-                
-                <div className="flex-grow space-y-4 mb-4">
-                    <div>
-                        <h4 className="text-xs font-bold uppercase text-gray-500 mb-1">What this system does</h4>
-                        <ul className="text-xs text-gray-600 dark:text-gray-300 space-y-1 list-disc pl-4">
-                            <li>Analyzes viral competitor posts & structure</li>
-                            <li>Generates scripts in your voice</li>
-                            <li>Recommends weekly topics & CTAs</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 className="text-xs font-bold uppercase text-gray-500 mb-1">Why this matters</h4>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">Ensures you never run out of proven content ideas and maintains consistency.</p>
-                    </div>
-                </div>
-
-                <div className="pt-4 border-t border-gray-100 dark:border-dark-700 flex justify-between items-center text-xs">
-                   <span className="text-gray-500">Setup: ~$1.2k</span>
-                   <span className="font-bold text-gray-900 dark:text-white">~$400/mo</span>
-                </div>
-            </div>
-
-            {/* System 6 */}
-            <div className="bg-white dark:bg-dark-800 rounded-xl border border-gray-200 dark:border-dark-700 p-6 relative flex flex-col">
-                 <div className="absolute top-0 right-0 bg-gray-100 dark:bg-dark-700 text-gray-500 text-xs font-bold px-3 py-1 rounded-bl-lg">Long-Term P5</div>
-                <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-2">System 6: Client App / LTV Dashboard</h3>
-                
-                <div className="flex-grow space-y-4 mb-4">
-                     <div>
-                        <h4 className="text-xs font-bold uppercase text-gray-500 mb-1">What this system does</h4>
-                        <ul className="text-xs text-gray-600 dark:text-gray-300 space-y-1 list-disc pl-4">
-                            <li>Branded client app with progress tracking</li>
-                            <li>Personalized AI recommendations</li>
-                            <li>Daily check-ins and milestone nudges</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 className="text-xs font-bold uppercase text-gray-500 mb-1">Why this matters</h4>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">Increases stickiness, engagement, and retention — raising LTV.</p>
-                    </div>
-                </div>
-
-                 <div className="pt-4 border-t border-gray-100 dark:border-dark-700 flex justify-between items-center text-xs">
-                   <span className="text-gray-500">Setup: ~$2.5k</span>
-                   <span className="font-bold text-gray-900 dark:text-white">~$550/mo</span>
-                </div>
+            {/* Other Systems - Collapsible Accordions */}
+            <div className="space-y-3">
+                {[
+                    {
+                        sys: SYSTEMS[1],
+                        what: ["Gives setters AI-powered suggested replies", "Alerts them to hot signals", "Prevents over-following up or missing messages", "Ensures consistency across all 3 setters"],
+                        why: "Setters are your weakest operational link today. This system dramatically reduces human error.",
+                    },
+                    {
+                        sys: SYSTEMS[2],
+                        what: ["Pulls client data from CRM (goals, pain points)", "Builds personal strategy for reactivation", "Sends \"personally written\" messages based on context", "Recovers lost revenue automatically"],
+                        why: "Turns \"cold storage\" leads into high-ROI booked calls without your involvement.",
+                    },
+                    {
+                        sys: SYSTEMS[3],
+                        what: ["Ingests and transcribes call recordings", "Extracts goals, objections, budget clues", "Auto-populates CRM & generates follow-ups"],
+                        why: "Prevents \"lost leads\" post-call and strengthens show-up → close rate.",
+                    },
+                    {
+                        sys: SYSTEMS[4],
+                        what: ["Analyzes viral competitor posts & structure", "Generates scripts in your voice", "Recommends weekly topics & CTAs"],
+                        why: "Ensures you never run out of proven content ideas and maintains consistency.",
+                    },
+                    {
+                        sys: SYSTEMS[5],
+                        what: ["Branded client app with progress tracking", "Personalized AI recommendations", "Daily check-ins and milestone nudges"],
+                        why: "Increases stickiness, engagement, and retention — raising LTV.",
+                    },
+                ].map(({ sys, what, why }) => (
+                     <details key={sys.id} className="group bg-white dark:bg-dark-800 rounded-xl border border-gray-200 dark:border-dark-700 overflow-hidden">
+                        <summary className="flex items-center justify-between p-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-dark-700/50 transition-colors">
+                            <div className="flex flex-col">
+                                <div className="flex items-center gap-2">
+                                    <h3 className="font-bold text-sm text-gray-900 dark:text-white">{sys.title}</h3>
+                                    <span className="text-[10px] font-bold px-2 py-0.5 bg-gray-100 dark:bg-dark-700 rounded text-gray-500">{sys.priority}</span>
+                                </div>
+                            </div>
+                             <div className="flex items-center gap-3">
+                                 <div className="text-xs text-right hidden sm:block">
+                                    <div className="text-gray-500">Setup: ${sys.setup.toLocaleString()}</div>
+                                    <div className="font-bold text-gray-900 dark:text-white">${sys.monthly.toLocaleString()}/mo</div>
+                                 </div>
+                                 <ChevronDown className="w-4 h-4 text-gray-400 group-open:rotate-180 transition-transform" />
+                             </div>
+                        </summary>
+                        
+                        <div className="px-4 pb-4 pt-0 border-t border-gray-100 dark:border-dark-700">
+                             <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <h4 className="text-xs font-bold uppercase text-gray-500 mb-1">What this system does</h4>
+                                    <ul className="text-xs text-gray-600 dark:text-gray-300 space-y-1 list-disc pl-4">
+                                        {what.map((item, i) => <li key={i}>{item}</li>)}
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 className="text-xs font-bold uppercase text-gray-500 mb-1">Why this matters</h4>
+                                    <p className="text-xs text-gray-600 dark:text-gray-400">{why}</p>
+                                </div>
+                            </div>
+                            
+                            <div className="mt-4 sm:hidden text-xs flex justify-between pt-2 border-t border-gray-100 dark:border-dark-700">
+                                <span className="text-gray-500">Setup: ${sys.setup.toLocaleString()}</span>
+                                <span className="font-bold text-gray-900 dark:text-white">${sys.monthly.toLocaleString()}/mo</span>
+                            </div>
+                        </div>
+                    </details>
+                ))}
             </div>
         </div>
       </div>
