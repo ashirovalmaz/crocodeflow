@@ -303,7 +303,7 @@ const PROPOSAL_CONTENT = [
         </div>
         
         <p className="text-gray-600 dark:text-gray-400 italic">
-            With that out of the way, let us get a little more specific. We’ll start by outlining what I believe your goals are; then the key problems that are blocking those goals; then solutions to each of those problems; and finally how we believe we could implement them together.
+            With that out of the way, let us get a little more specific. We’ll start by outlining what we believe your goals are; then the key problems that are blocking those goals; then solutions to each of those problems; and finally how we believe we could implement them together.
         </p>
       </div>
     )
@@ -348,7 +348,7 @@ const PROPOSAL_CONTENT = [
       <div className="space-y-12 animate-fade-in">
         <div className="bg-red-50 dark:bg-red-900/10 border-l-4 border-red-500 p-6 rounded-r-xl">
             <p className="text-lg text-red-800 dark:text-red-200 font-medium">
-                 As mentioned, one of your goals is to get to consistent $40–50k/month as a stepping stone to $80–100k+. Right now, the way your funnel is set up is actively preventing that. Let me explain.
+                 As mentioned, one of your goals is to get to consistent $40–50k/month as a stepping stone to $80–100k+. Right now, the way your funnel is set up is actively preventing that. Let us explain.
             </p>
         </div>
 
@@ -819,7 +819,7 @@ const PROPOSAL_CONTENT = [
       <div className="space-y-12 animate-fade-in max-w-4xl mx-auto">
         <div className="prose dark:prose-invert max-w-none text-center">
             <p className="text-xl text-gray-700 dark:text-gray-300 leading-relaxed">
-                As mentioned, I believe strongly that your coaching company can be multiple times larger than it is now — especially with your existing audience size, the quality of your product, and the demand you’ve already proven.
+                As mentioned, we believe strongly that your coaching company can be multiple times larger than it is now — especially with your existing audience size, the quality of your product, and the demand you’ve already proven.
             </p>
         </div>
 
@@ -835,27 +835,18 @@ const PROPOSAL_CONTENT = [
                 <Handshake className="w-10 h-10 text-brand-500 mb-6" />
                 <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">The Commitment</h4>
                 <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                    I am ambitious and deeply committed to the craft of building AI systems that generate revenue autonomously. I wrote this in detail because I see the path clearly.
+                    We are ambitious and deeply committed to the craft of building AI systems that generate revenue autonomously. We wrote this in detail because we see the path clearly.
                 </p>
             </div>
         </div>
 
         <div className="flex flex-col items-center gap-6 pt-8 border-t border-gray-200 dark:border-dark-800">
              <p className="text-gray-600 dark:text-gray-400 text-center max-w-lg">
-                If this resonates and you’d like to move forward, simply pay the associated invoice and we can begin implementation immediately.
+                If this resonates and you’d like to move forward, simply let us know, we'll prepare an invoice for you so we can begin implementation immediately.
             </p>
-            
-            <a 
-                href={CAL_LINK}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-10 py-5 bg-brand-600 hover:bg-brand-500 text-white text-xl font-bold rounded-xl shadow-xl hover:shadow-brand-500/30 transition-all flex items-center gap-3 transform hover:-translate-y-1"
-            >
-                Let's Build It <ArrowRight className="w-6 h-6" />
-            </a>
 
             <p className="text-xs text-gray-400 dark:text-dark-600 text-center">
-                If not, you’re still welcome to use everything I’ve laid out above; <br/>I genuinely want you and your company to succeed.
+                If not, you’re still welcome to use everything we’ve laid out above; <br/>We genuinely want you and your brand to succeed.
             </p>
         </div>
       </div>
