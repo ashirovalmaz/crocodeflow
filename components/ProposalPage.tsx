@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Header } from './Header';
-import { ArrowRight, ArrowLeft, CheckCircle2, AlertTriangle, Calculator, Check, Target, Gift, FileSignature, Handshake } from 'lucide-react';
+import { ArrowRight, ArrowLeft, CheckCircle2, AlertTriangle, Calculator, Check, Target, Gift, FileSignature, Handshake, ChevronDown } from 'lucide-react';
 import { CAL_LINK } from '../constants';
 
 // --- Types & Data ---
@@ -275,18 +275,26 @@ const PROPOSAL_CONTENT = [
 
         <div className="space-y-8">
             <div className="group">
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                     <AlertTriangle className="w-5 h-5 text-red-500" /> 1. DM conversion bottleneck (not a lead gen problem)
                 </h3>
                 <div className="pl-7 border-l-2 border-gray-200 dark:border-dark-700 ml-2">
-                    <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-2">
+                    <div className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4">
                         You already proved that lead volume is not the issue:
-                        <br/>• 80–100 warm leads per week from direct-to-DM ads.
-                        <br/>• 100–150+ warm leads per week when you combine ads and organic CTAs.
-                        <br/>• 7–20k story views and 3–4k new followers in a 1–2 month window.
+                        <ul className="list-disc pl-5 mt-2 space-y-1">
+                            <li>80–100 warm leads per week from direct-to-DM ads for lead magnets.</li>
+                            <li>100–150+ warm leads per week when you combine ads and organic CTAs.</li>
+                            <li>7–20k story views and 3–4k new followers in a 1–2 month window.</li>
+                        </ul>
+                    </div>
+                    <p className="text-gray-900 dark:text-white font-medium text-sm mb-2">
+                        Despite that, almost none of those leads consistently become booked calls unless you personally intervene.
                     </p>
-                    <p className="text-gray-900 dark:text-white font-medium text-sm">
-                        Despite that, almost none of those leads consistently become booked calls unless you personally intervene. This means the real bottleneck is: “Lead → DM conversation → qualified → booked → showed”, not “getting more leads”.
+                     <p className="text-gray-900 dark:text-white font-medium text-sm mb-2">
+                        This means the real bottleneck is: <br/> <span className="font-bold text-brand-600 dark:text-brand-500">“Lead → DM conversation → qualified → booked → showed”</span>, <br/> not “getting more leads”.
+                    </p>
+                    <p className="text-gray-500 dark:text-gray-400 text-xs italic">
+                        Every week this persists, you’re leaving booked calls (and revenue) on the table.
                     </p>
                 </div>
             </div>
@@ -313,12 +321,22 @@ const PROPOSAL_CONTENT = [
                         <AlertTriangle className="w-5 h-5 text-red-500" /> 3. Low show-up rate due to generic pre-call experience
                 </h3>
                 <div className="pl-7 border-l-2 border-gray-200 dark:border-dark-700 ml-2">
-                    <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-2">
-                        You mentioned weeks with 9 calls booked → only 3 show up. Given your close rate (50–60% on show-ups), this is a huge leak.
-                        <br/>Right now, the pre-call experience is: A few questions in the DMs → “book a call” → generic reminders.
+                    <div className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4">
+                        You mentioned weeks with:
+                        <ul className="list-disc pl-5 mt-2 space-y-1">
+                            <li>9 calls booked → only 3 show up.</li>
+                        </ul>
+                    </div>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4">
+                        Given your close rate (50–60% on show-ups), this is a huge leak.
+                        <br/>Right now, the pre-call experience is: <span className="italic">A few questions in the DMs → “book a call” → generic reminders.</span>
                     </p>
-                    <p className="text-gray-900 dark:text-white font-medium text-sm">
-                        What’s missing is a custom, high-value pre-call asset (e.g. tailored presentation/plan) that makes them feel, “These guys actually prepared something for me, I’d be stupid not to show up.”
+                    <p className="text-gray-900 dark:text-white font-medium text-sm mb-4">
+                        What’s missing is: <br/>
+                        A custom, high-value pre-call asset (e.g. tailored presentation/plan) that makes them feel, <span className="italic">“These guys actually prepared something for me, I’d be stupid not to show up.”</span>
+                    </p>
+                     <p className="text-gray-900 dark:text-white font-medium text-sm">
+                        Without this, prospects feel like they’re just entering “another sales call”, so they flake more.
                     </p>
                 </div>
             </div>
@@ -395,11 +413,11 @@ const PROPOSAL_CONTENT = [
             These phases are prioritized around three things: Increasing booked calls & show-up rates, Improving ROI from leads you already generate, and Freeing your time from the DMs. Each system can be added modularly.
         </p>
         
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6">
             {/* System 1 */}
             <div className="bg-white dark:bg-dark-800 rounded-xl border-2 border-brand-500 shadow-lg p-6 relative flex flex-col">
                 <div className="absolute top-0 right-0 bg-brand-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">Core P1</div>
-                <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-2 h-14">System 1: AI-Powered DM Foundation + Custom Presentations</h3>
+                <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-2">System 1: AI-Powered DM Foundation + Custom Presentations</h3>
                 
                 <div className="flex-grow space-y-4 mb-4">
                     <div>
@@ -427,7 +445,7 @@ const PROPOSAL_CONTENT = [
             {/* System 2 */}
             <div className="bg-white dark:bg-dark-800 rounded-xl border border-gray-200 dark:border-dark-700 p-6 relative flex flex-col">
                  <div className="absolute top-0 right-0 bg-gray-200 dark:bg-dark-600 text-gray-600 dark:text-gray-300 text-xs font-bold px-3 py-1 rounded-bl-lg">High P2</div>
-                <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-2 h-14">System 2: AI Setter Co-Pilot</h3>
+                <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-2">System 2: AI Setter Co-Pilot</h3>
                 
                 <div className="flex-grow space-y-4 mb-4">
                     <div>
@@ -454,7 +472,7 @@ const PROPOSAL_CONTENT = [
             {/* System 3 */}
             <div className="bg-white dark:bg-dark-800 rounded-xl border border-gray-200 dark:border-dark-700 p-6 relative flex flex-col">
                  <div className="absolute top-0 right-0 bg-gray-200 dark:bg-dark-600 text-gray-600 dark:text-gray-300 text-xs font-bold px-3 py-1 rounded-bl-lg">High P3</div>
-                <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-2 h-14">System 3: Personalized Re-Activation</h3>
+                <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-2">System 3: Personalized Re-Activation</h3>
                 
                 <div className="flex-grow space-y-4 mb-4">
                     <div>
@@ -487,11 +505,11 @@ const PROPOSAL_CONTENT = [
     subtitle: "Phase 2: Intelligence & Retention",
     content: (
       <div className="space-y-8 animate-fade-in">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6">
             {/* System 4 */}
             <div className="bg-white dark:bg-dark-800 rounded-xl border border-gray-200 dark:border-dark-700 p-6 relative flex flex-col">
                  <div className="absolute top-0 right-0 bg-gray-200 dark:bg-dark-600 text-gray-600 dark:text-gray-300 text-xs font-bold px-3 py-1 rounded-bl-lg">High P3</div>
-                <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-2 h-14">System 4: AI Call Analysis & CRM Enrichment</h3>
+                <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-2">System 4: AI Call Analysis & CRM Enrichment</h3>
                 
                 <div className="flex-grow space-y-4 mb-4">
                     <div>
@@ -517,7 +535,7 @@ const PROPOSAL_CONTENT = [
             {/* System 5 */}
             <div className="bg-white dark:bg-dark-800 rounded-xl border border-gray-200 dark:border-dark-700 p-6 relative flex flex-col">
                  <div className="absolute top-0 right-0 bg-gray-100 dark:bg-dark-700 text-gray-500 text-xs font-bold px-3 py-1 rounded-bl-lg">Med P4</div>
-                <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-2 h-14">System 5: Content Intelligence Engine</h3>
+                <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-2">System 5: Content Intelligence Engine</h3>
                 
                 <div className="flex-grow space-y-4 mb-4">
                     <div>
@@ -543,7 +561,7 @@ const PROPOSAL_CONTENT = [
             {/* System 6 */}
             <div className="bg-white dark:bg-dark-800 rounded-xl border border-gray-200 dark:border-dark-700 p-6 relative flex flex-col">
                  <div className="absolute top-0 right-0 bg-gray-100 dark:bg-dark-700 text-gray-500 text-xs font-bold px-3 py-1 rounded-bl-lg">Long-Term P5</div>
-                <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-2 h-14">System 6: Client App / LTV Dashboard</h3>
+                <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-2">System 6: Client App / LTV Dashboard</h3>
                 
                 <div className="flex-grow space-y-4 mb-4">
                      <div>
@@ -673,6 +691,17 @@ const PROPOSAL_CONTENT = [
                     </p>
                 </div>
             </div>
+
+            {/* Collapsible Calculator */}
+            <details className="bg-gray-50 dark:bg-dark-800/50 rounded-xl border border-gray-200 dark:border-dark-700">
+                <summary className="p-6 cursor-pointer font-bold flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-brand-500 select-none">
+                    <Calculator className="w-5 h-5"/> Customize Your Package (Full Stack Calculator)
+                    <ChevronDown className="w-4 h-4 ml-auto" />
+                </summary>
+                <div className="p-6 border-t border-gray-200 dark:border-dark-700">
+                    <PricingCalculator />
+                </div>
+            </details>
         </div>
     )
   },
@@ -719,12 +748,6 @@ const PROPOSAL_CONTENT = [
             </div>
         </div>
     )
-  },
-  {
-    id: 'calculator',
-    title: "Full Stack Calculator",
-    subtitle: "Explore the full potential",
-    content: <PricingCalculator />
   },
   {
     id: 'closing',
