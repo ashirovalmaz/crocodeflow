@@ -388,7 +388,7 @@ const PROPOSAL_CONTENT = [
 
         <div className="bg-gray-100 dark:bg-dark-800 p-6 rounded-xl text-center">
             <p className="text-gray-700 dark:text-gray-300 font-medium">
-                If these problems aren’t addressed, the pattern will likely continue: You generate leads -> Setters handle them "okay-ish" -> You feel compelled to jump in -> Revenue plateaus at ~$30–40k.
+                If these problems aren’t addressed, the pattern will likely continue: You generate leads → Setters handle them "okay-ish" → You feel compelled to jump in → Revenue plateaus at ~$30–40k.
             </p>
         </div>
       </div>
