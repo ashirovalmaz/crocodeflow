@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Header } from './Header';
-import { ArrowRight, ArrowLeft, CheckCircle2, AlertTriangle, ChevronRight, DollarSign, Target, BarChart2, Layers, Check, Calculator, Plus, Minus } from 'lucide-react';
+import { ArrowRight, ArrowLeft, CheckCircle2, AlertTriangle, Calculator, Check, Target, Gift, FileSignature, Handshake } from 'lucide-react';
 import { CAL_LINK } from '../constants';
 
 // --- Types & Data ---
@@ -136,7 +136,7 @@ const PricingCalculator: React.FC = () => {
 
             {/* Sticky Summary Card */}
             <div className="lg:col-span-4">
-                <div className="sticky top-6 bg-gray-900 dark:bg-black text-white rounded-2xl p-6 shadow-2xl border border-gray-800 dark:border-dark-700">
+                <div className="bg-gray-900 dark:bg-black text-white rounded-2xl p-6 shadow-2xl border border-gray-800 dark:border-dark-700">
                     <div className="flex items-center gap-2 mb-6 text-brand-400 font-bold uppercase tracking-widest text-xs">
                         <Calculator className="w-4 h-4" /> Estimated Investment
                     </div>
@@ -176,15 +176,6 @@ const PricingCalculator: React.FC = () => {
                             ${totalMonthly.toLocaleString()}<span className="text-sm font-normal text-gray-600">/mo</span>
                         </div>
                     </div>
-
-                    <a 
-                        href={CAL_LINK}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block w-full py-4 bg-brand-600 hover:bg-brand-500 text-white text-center font-bold rounded-xl transition-all shadow-lg hover:shadow-brand-500/25"
-                    >
-                        Review & Execute
-                    </a>
                 </div>
             </div>
         </div>
@@ -579,45 +570,208 @@ const PROPOSAL_CONTENT = [
     )
   },
   {
+    id: 'pitch',
+    title: "My Pitch",
+    subtitle: "Why CrocodeFlow?",
+    content: (
+        <div className="space-y-8 animate-fade-in max-w-4xl mx-auto">
+            <div className="bg-white dark:bg-dark-800 p-8 rounded-2xl border border-gray-200 dark:border-dark-700 shadow-sm relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-2 h-full bg-brand-500"></div>
+                
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 font-display">
+                    I want to become your AI Systems & Automation Partner.
+                </h3>
+                
+                <div className="prose dark:prose-invert text-gray-600 dark:text-gray-400 leading-relaxed space-y-4">
+                    <p>
+                        I've grown to really enjoy working with your company and I deeply want to see it succeed far past its current level. 
+                        I think <span className="text-brand-600 dark:text-brand-500 font-bold">$80–100k/mo</span> is on the lower end of what's possible, if I'm being honest.
+                    </p>
+                    <p>
+                        To that end, I want to become the person responsible for building, maintaining, and scaling the internal engines that drive your booked calls, show-up rates, reactivations, client experience, and LTV.
+                    </p>
+                    <p>
+                        My goal is simple: help you remove every operational bottleneck that limits your growth, and engineer a predictable machine behind your coaching brand.
+                    </p>
+                </div>
+            </div>
+
+            <div className="flex flex-col md:flex-row gap-6">
+                 <div className="flex-1">
+                    <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">The Vision</h4>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                        If you accept, I believe I can solve your current conversion issues and pair with you to scale this into a semi-autonomous acquisition and retention system that reliably supports $1M+/year.
+                    </p>
+                 </div>
+                 <div className="flex-1">
+                    <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">The Partnership</h4>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                        You'd gain a partner who is as invested in your success as you are, with the technical depth, strategic thinking, and execution ability to match your competence, reputation, and market demand.
+                    </p>
+                 </div>
+            </div>
+        </div>
+    )
+  },
+  {
+    id: 'terms',
+    title: "Terms of Engagement",
+    subtitle: "System 1 Implementation",
+    content: (
+        <div className="space-y-12 animate-fade-in max-w-5xl mx-auto">
+            <p className="text-center text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+                To make this simple, low-risk, and fully aligned with your goals, I’m proposing we start with <strong>one system only</strong> — the core system that will have the biggest and fastest impact on your booked calls and show-up rate: <strong>System 1</strong>.
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+                {/* Standard Option */}
+                <div className="bg-white dark:bg-dark-800 p-8 rounded-2xl border border-gray-200 dark:border-dark-700 flex flex-col">
+                    <h3 className="text-lg font-bold uppercase tracking-wider text-gray-500 mb-2">Option 1</h3>
+                    <h4 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Standard Engagement</h4>
+                    
+                    <div className="text-4xl font-display font-bold text-brand-600 dark:text-brand-500 mb-2">$2,500 <span className="text-lg font-normal text-gray-500">setup</span></div>
+                    <div className="text-xl text-gray-600 dark:text-gray-400 mb-8">+ $690 / month</div>
+
+                    <ul className="space-y-3 mb-8 flex-grow">
+                        <li className="flex gap-2 text-sm text-gray-600 dark:text-gray-300"><Check className="w-4 h-4 text-brand-500 shrink-0"/> Full Implementation of System 1</li>
+                        <li className="flex gap-2 text-sm text-gray-600 dark:text-gray-300"><Check className="w-4 h-4 text-brand-500 shrink-0"/> Qualification Logic & Instant CTA</li>
+                        <li className="flex gap-2 text-sm text-gray-600 dark:text-gray-300"><Check className="w-4 h-4 text-brand-500 shrink-0"/> Personalized Plan Generation</li>
+                        <li className="flex gap-2 text-sm text-gray-600 dark:text-gray-300"><Check className="w-4 h-4 text-brand-500 shrink-0"/> Intelligent Reminders</li>
+                        <li className="flex gap-2 text-sm text-gray-600 dark:text-gray-300"><Check className="w-4 h-4 text-brand-500 shrink-0"/> Ongoing Optimization</li>
+                    </ul>
+                </div>
+
+                {/* Annual Option */}
+                <div className="bg-gray-900 dark:bg-black p-8 rounded-2xl border border-brand-500/50 shadow-2xl relative overflow-hidden flex flex-col">
+                    <div className="absolute top-0 right-0 bg-brand-600 text-white text-xs font-bold px-4 py-1.5 rounded-bl-xl uppercase tracking-wider">
+                        Best Value
+                    </div>
+                    
+                    <h3 className="text-lg font-bold uppercase tracking-wider text-brand-400 mb-2">Option 2</h3>
+                    <h4 className="text-2xl font-bold text-white mb-6">Annual Engagement</h4>
+                    
+                    <div className="text-4xl font-display font-bold text-white mb-2">$6,000 <span className="text-lg font-normal text-gray-400">upfront</span></div>
+                    <div className="text-sm text-brand-400 font-bold mb-8 uppercase tracking-wide">Nearly 50% Savings</div>
+
+                    <div className="space-y-4 mb-8 flex-grow">
+                         <div className="flex justify-between items-center text-sm border-b border-gray-800 pb-2">
+                            <span className="text-gray-400">Monthly Plan Cost</span>
+                            <span className="text-gray-500 line-through">$8,280/yr</span>
+                        </div>
+                        <div className="flex justify-between items-center text-sm border-b border-gray-800 pb-2">
+                            <span className="text-gray-400">Annual Plan Cost</span>
+                            <span className="text-white font-bold">$6,000/yr</span>
+                        </div>
+                        <div className="flex justify-between items-center text-sm bg-brand-500/10 p-2 rounded">
+                            <span className="text-brand-400 font-bold">Total Savings</span>
+                            <span className="text-brand-400 font-bold">$2,280</span>
+                        </div>
+                    </div>
+                    
+                    <p className="text-xs text-gray-500 text-center">
+                        Effective cost: $500/month. No monthly payments.
+                    </p>
+                </div>
+            </div>
+        </div>
+    )
+  },
+  {
+    id: 'bonus',
+    title: "Fast-Action Bonus",
+    subtitle: "Valid for 24 Hours",
+    content: (
+        <div className="space-y-8 animate-fade-in max-w-4xl mx-auto text-center">
+            <div className="bg-gradient-to-b from-brand-50 to-white dark:from-brand-900/20 dark:to-dark-800 border border-brand-200 dark:border-brand-500/30 rounded-3xl p-12 relative overflow-hidden">
+                {/* Decorative confetti */}
+                <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none bg-[radial-gradient(circle_at_50%_50%,_rgba(34,197,94,0.4)_0%,_transparent_50%)]"></div>
+
+                <div className="w-20 h-20 bg-brand-100 dark:bg-brand-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <Gift className="w-10 h-10 text-brand-600 dark:text-brand-400 animate-pulse" />
+                </div>
+
+                <h3 className="text-3xl font-display font-bold text-gray-900 dark:text-white mb-4">
+                    One Additional System <span className="text-brand-600 dark:text-brand-500">100% FREE</span>
+                </h3>
+                
+                <p className="text-lg text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
+                    If you decide in the next 24 hours, you’ll receive one additional system of your choice with <strong>no setup fee</strong>.
+                </p>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left max-w-3xl mx-auto mb-8">
+                     <div className="bg-white dark:bg-dark-900 p-4 rounded-xl border border-gray-200 dark:border-dark-700 shadow-sm flex items-center gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-brand-500" />
+                        <span className="text-sm font-bold">Personalized Reactivations</span>
+                     </div>
+                     <div className="bg-white dark:bg-dark-900 p-4 rounded-xl border border-gray-200 dark:border-dark-700 shadow-sm flex items-center gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-brand-500" />
+                        <span className="text-sm font-bold">Call Analysis & CRM</span>
+                     </div>
+                     <div className="bg-white dark:bg-dark-900 p-4 rounded-xl border border-gray-200 dark:border-dark-700 shadow-sm flex items-center gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-brand-500" />
+                        <span className="text-sm font-bold">Content Intel Engine</span>
+                     </div>
+                </div>
+
+                <p className="text-sm text-gray-500 dark:text-gray-400 italic">
+                    This is a full system, not a “lite” version. It requires me to front-load additional development time, so I only offer it when someone is ready to move quickly.
+                </p>
+            </div>
+        </div>
+    )
+  },
+  {
     id: 'calculator',
-    title: "Build Your Growth Stack",
-    subtitle: "Investment Calculator",
+    title: "Full Stack Calculator",
+    subtitle: "Explore the full potential",
     content: <PricingCalculator />
   },
   {
-    id: 'summary',
-    title: "Next Steps",
-    subtitle: "Execution Plan",
+    id: 'closing',
+    title: "In Closing",
+    subtitle: "The Next Steps",
     content: (
-      <div className="space-y-12 animate-fade-in">
-        <div className="bg-brand-50 dark:bg-brand-900/10 border border-brand-200 dark:border-brand-500/20 rounded-2xl p-8 text-center">
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Summary of Priorities</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-left max-w-4xl mx-auto">
-                {SYSTEMS.map((sys, i) => (
-                    <div key={i} className="flex items-center gap-3 p-3 bg-white dark:bg-dark-800 rounded-lg border border-gray-100 dark:border-dark-700">
-                        <div className="w-6 h-6 rounded-full bg-brand-600 text-white flex items-center justify-center text-xs shrink-0">{i+1}</div>
-                        <div>
-                            <div className="text-sm font-bold text-gray-900 dark:text-white">{sys.title.split(':')[1]}</div>
-                            <div className="text-xs text-gray-500">{sys.priority}</div>
-                        </div>
-                    </div>
-                ))}
+      <div className="space-y-12 animate-fade-in max-w-4xl mx-auto">
+        <div className="prose dark:prose-invert max-w-none text-center">
+            <p className="text-xl text-gray-700 dark:text-gray-300 leading-relaxed">
+                As mentioned, I believe strongly that your coaching company can be multiple times larger than it is now — especially with your existing audience size, the quality of your product, and the demand you’ve already proven.
+            </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="bg-white dark:bg-dark-800 p-8 rounded-2xl border border-gray-200 dark:border-dark-700">
+                <FileSignature className="w-10 h-10 text-brand-500 mb-6" />
+                <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">The Execution</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                    With a few focused improvements to your DM workflows, follow-ups, nurturing, and call prep, you can convert significantly more of the leads you already generate. Scaling becomes a matter of operations, not luck.
+                </p>
+            </div>
+            <div className="bg-white dark:bg-dark-800 p-8 rounded-2xl border border-gray-200 dark:border-dark-700">
+                <Handshake className="w-10 h-10 text-brand-500 mb-6" />
+                <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">The Commitment</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                    I am ambitious and deeply committed to the craft of building AI systems that generate revenue autonomously. I wrote this in detail because I see the path clearly.
+                </p>
             </div>
         </div>
 
-        <div className="flex flex-col items-center gap-6">
-             <p className="text-gray-600 dark:text-gray-400 max-w-2xl text-center">
-                We are ready to start with System 1 immediately to fix the conversion leak. 
-                Everything else can be layered on as revenue increases.
+        <div className="flex flex-col items-center gap-6 pt-8 border-t border-gray-200 dark:border-dark-800">
+             <p className="text-gray-600 dark:text-gray-400 text-center max-w-lg">
+                If this resonates and you’d like to move forward, simply pay the associated invoice and we can begin implementation immediately.
             </p>
+            
             <a 
                 href={CAL_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-8 py-4 bg-brand-600 hover:bg-brand-500 text-white text-lg font-bold rounded-xl shadow-lg hover:shadow-brand-500/30 transition-all flex items-center gap-2"
+                className="px-10 py-5 bg-brand-600 hover:bg-brand-500 text-white text-xl font-bold rounded-xl shadow-xl hover:shadow-brand-500/30 transition-all flex items-center gap-3 transform hover:-translate-y-1"
             >
-                Start Implementation <ArrowRight className="w-5 h-5" />
+                Let's Build It <ArrowRight className="w-6 h-6" />
             </a>
+
+            <p className="text-xs text-gray-400 dark:text-dark-600 text-center">
+                If not, you’re still welcome to use everything I’ve laid out above; <br/>I genuinely want you and your company to succeed.
+            </p>
         </div>
       </div>
     )
