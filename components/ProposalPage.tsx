@@ -1,6 +1,7 @@
+
 import React, { useState, useEffect } from 'react';
 import { Header } from './Header';
-import { ArrowRight, ArrowLeft, CheckCircle2, AlertTriangle, Calculator, Check, Target, Gift, FileSignature, Handshake, ChevronDown } from 'lucide-react';
+import { ArrowRight, ArrowLeft, CheckCircle2, AlertTriangle, Calculator, Check, Target, Gift, FileSignature, Handshake } from 'lucide-react';
 import { CAL_LINK } from '../constants';
 
 // --- Types & Data ---
@@ -33,7 +34,7 @@ const SYSTEMS = [
   {
     id: 'sys4',
     title: 'System 4: Call Analysis & CRM',
-    desc: 'Transcribes calls, extracts insights, auto-populates CRM',
+    desc: 'Transcribes calls, auto-populates CRM, generates insights',
     setup: 1200,
     monthly: 300,
     priority: 'High P3'
@@ -58,129 +59,153 @@ const SYSTEMS = [
 
 // --- Internal Components ---
 
-const PricingCalculator: React.FC = () => {
-  const [selected, setSelected] = useState<string[]>(['sys1']); 
+const TermsSlideContent: React.FC = () => {
+    const [selected, setSelected] = useState<string[]>(['sys1']);
 
-  const toggle = (id: string) => {
-    if (selected.includes(id)) {
-      setSelected(selected.filter(s => s !== id));
-    } else {
-      setSelected([...selected, id]);
-    }
-  };
+    const toggle = (id: string) => {
+        if (selected.includes(id)) {
+            // Prevent unselecting everything? Maybe allow it but warn.
+            if (selected.length === 1) return; 
+            setSelected(selected.filter(s => s !== id));
+        } else {
+            setSelected([...selected, id]);
+        }
+    };
 
-  const count = selected.length;
-  let discountPercent = 0;
-  let discountLabel = '';
+    const count = selected.length;
+    let discountPercent = 0;
+    
+    if (count === 2) discountPercent = 0.10;
+    else if (count === 3) discountPercent = 0.15;
+    else if (count >= 4) discountPercent = 0.20;
 
-  if (count === 2) { discountPercent = 0.10; discountLabel = '10% Bundle Discount'; }
-  else if (count === 3) { discountPercent = 0.15; discountLabel = '15% Bundle Discount'; }
-  else if (count >= 4) { discountPercent = 0.20; discountLabel = '20% Scale Discount'; }
+    const baseSetup = SYSTEMS.reduce((acc, sys) => selected.includes(sys.id) ? acc + sys.setup : acc, 0);
+    const totalMonthly = SYSTEMS.reduce((acc, sys) => selected.includes(sys.id) ? acc + sys.monthly : acc, 0);
+    
+    const discountAmount = baseSetup * discountPercent;
+    const finalSetup = baseSetup - discountAmount;
 
-  const totalSetup = SYSTEMS.reduce((acc, sys) => selected.includes(sys.id) ? acc + sys.setup : acc, 0);
-  const totalMonthly = SYSTEMS.reduce((acc, sys) => selected.includes(sys.id) ? acc + sys.monthly : acc, 0);
-  
-  const discountAmount = totalSetup * discountPercent;
-  const finalSetup = totalSetup - discountAmount;
+    // Calculate Annual Option (Approx 45-50% savings on total first year value)
+    // Formula: (Setup + 12 * Monthly) * 0.55 -> Rounded to nearest 100
+    const firstYearValue = finalSetup + (totalMonthly * 12);
+    const annualPrice = Math.floor((firstYearValue * 0.55) / 100) * 100;
+    const annualSavings = firstYearValue - annualPrice;
 
-  return (
-    <div className="space-y-8 animate-fade-in">
-        <p className="text-gray-600 dark:text-gray-400">
-            Select the modules you want to implement. Pricing updates dynamically.
-        </p>
+    return (
+        <div className="space-y-8 animate-fade-in max-w-6xl mx-auto">
+            <p className="text-center text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+                To make this simple, low-risk, and fully aligned with your goals, I’m proposing we start with the core system. However, you can customize your implementation package below to include additional acceleration systems immediately.
+            </p>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            {/* Selection Grid */}
-            <div className="lg:col-span-8 grid grid-cols-1 gap-4">
-                {SYSTEMS.map((sys) => {
-                    const isSelected = selected.includes(sys.id);
-                    return (
-                        <div 
-                            key={sys.id}
-                            onClick={() => toggle(sys.id)}
-                            className={`
-                                relative cursor-pointer rounded-xl p-4 border-2 transition-all duration-200 flex items-center gap-4
-                                ${isSelected 
-                                    ? 'bg-brand-50 dark:bg-brand-900/10 border-brand-500 shadow-sm' 
-                                    : 'bg-white dark:bg-dark-800 border-gray-200 dark:border-dark-700 hover:border-brand-200 dark:hover:border-brand-500/30'
-                                }
-                            `}
-                        >
-                            <div className={`
-                                w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors
-                                ${isSelected ? 'bg-brand-500 border-brand-500' : 'border-gray-300 dark:border-dark-600'}
-                            `}>
-                                {isSelected && <Check className="w-3.5 h-3.5 text-white" />}
-                            </div>
-
-                            <div className="flex-grow">
-                                <div className="flex justify-between items-start mb-1">
-                                    <h4 className={`font-bold text-sm md:text-base ${isSelected ? 'text-gray-900 dark:text-white' : 'text-gray-600 dark:text-gray-400'}`}>
-                                        {sys.title}
-                                    </h4>
-                                    <span className="text-[10px] font-bold uppercase tracking-wider bg-gray-100 dark:bg-dark-700 text-gray-500 px-2 py-0.5 rounded ml-2 whitespace-nowrap">
-                                        {sys.priority}
-                                    </span>
+            {/* Customizer */}
+            <div className="bg-gray-50 dark:bg-dark-800/50 rounded-xl border border-gray-200 dark:border-dark-700 p-6">
+                <div className="flex items-center gap-2 mb-4">
+                    <Calculator className="w-5 h-5 text-brand-500"/> 
+                    <h3 className="font-bold text-gray-700 dark:text-gray-300">Select Included Systems</h3>
+                    <span className="text-xs text-gray-500 ml-auto">Pricing updates automatically below</span>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {SYSTEMS.map((sys) => {
+                        const isSelected = selected.includes(sys.id);
+                        return (
+                            <div 
+                                key={sys.id}
+                                onClick={() => toggle(sys.id)}
+                                className={`
+                                    cursor-pointer rounded-lg p-3 border transition-all duration-200 flex items-start gap-3
+                                    ${isSelected 
+                                        ? 'bg-white dark:bg-dark-700 border-brand-500 shadow-sm ring-1 ring-brand-500' 
+                                        : 'bg-white dark:bg-dark-800 border-gray-200 dark:border-dark-600 opacity-70 hover:opacity-100'
+                                    }
+                                `}
+                            >
+                                <div className={`
+                                    w-5 h-5 rounded border flex-shrink-0 flex items-center justify-center transition-colors mt-0.5
+                                    ${isSelected ? 'bg-brand-500 border-brand-500' : 'border-gray-400'}
+                                `}>
+                                    {isSelected && <Check className="w-3.5 h-3.5 text-white" />}
                                 </div>
-                                <p className="text-xs text-gray-500 dark:text-gray-500">{sys.desc}</p>
+                                <div>
+                                    <div className="text-sm font-bold text-gray-900 dark:text-white leading-tight mb-1">{sys.title}</div>
+                                    <div className="text-xs text-gray-500 dark:text-gray-400">{sys.desc}</div>
+                                </div>
                             </div>
-
-                            <div className="text-right min-w-[100px]">
-                                <div className="text-sm font-bold text-gray-900 dark:text-white">${sys.setup.toLocaleString()}</div>
-                                <div className="text-xs text-gray-500">+${sys.monthly}/mo</div>
-                            </div>
-                        </div>
-                    );
-                })}
+                        );
+                    })}
+                </div>
             </div>
 
-            {/* Sticky Summary Card */}
-            <div className="lg:col-span-4">
-                <div className="bg-gray-900 dark:bg-black text-white rounded-2xl p-6 shadow-2xl border border-gray-800 dark:border-dark-700">
-                    <div className="flex items-center gap-2 mb-6 text-brand-400 font-bold uppercase tracking-widest text-xs">
-                        <Calculator className="w-4 h-4" /> Estimated Investment
-                    </div>
-
-                    <div className="space-y-4 mb-6 pb-6 border-b border-gray-800">
-                        <div className="flex justify-between text-sm text-gray-400">
-                            <span>Selected Systems</span>
-                            <span className="text-white font-mono">{count}</span>
-                        </div>
-                        <div className="flex justify-between text-sm text-gray-400">
-                            <span>Base Setup Fee</span>
-                            <span className="text-white font-mono">${totalSetup.toLocaleString()}</span>
-                        </div>
-                        {discountPercent > 0 && (
-                            <div className="flex justify-between text-sm text-brand-400">
-                                <span>{discountLabel}</span>
-                                <span className="font-mono">-${discountAmount.toLocaleString()}</span>
-                            </div>
-                        )}
-                    </div>
-
-                    <div className="space-y-1 mb-8">
-                        <div className="text-xs text-gray-500 uppercase tracking-wider">One-Time Setup</div>
-                        <div className="text-4xl font-display font-bold text-white tracking-tight">
+            {/* Pricing Options */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+                {/* Standard Option */}
+                <div className="bg-white dark:bg-dark-800 p-8 rounded-2xl border border-gray-200 dark:border-dark-700 flex flex-col shadow-sm">
+                    <h3 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">Option 1</h3>
+                    <h4 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Standard Engagement</h4>
+                    
+                    <div className="flex items-baseline gap-2 mb-1">
+                        <div className="text-4xl font-display font-bold text-brand-600 dark:text-brand-500">
                             ${finalSetup.toLocaleString()}
                         </div>
-                        {discountPercent > 0 && (
-                            <div className="text-xs text-brand-400 font-bold bg-brand-500/10 inline-block px-2 py-0.5 rounded mt-1">
-                                You Save ${discountAmount.toLocaleString()}
-                            </div>
-                        )}
+                        <span className="text-lg font-normal text-gray-500">setup</span>
+                    </div>
+                    {discountAmount > 0 && (
+                        <div className="text-xs text-brand-600 dark:text-brand-400 font-bold mb-2">
+                            Includes ${discountAmount.toLocaleString()} Bundle Discount
+                        </div>
+                    )}
+                    <div className="text-xl text-gray-600 dark:text-gray-400 mb-8">+ ${totalMonthly.toLocaleString()} / month</div>
+
+                    <ul className="space-y-3 mb-8 flex-grow">
+                        {SYSTEMS.filter(s => selected.includes(s.id)).map(sys => (
+                            <li key={sys.id} className="flex gap-2 text-sm text-gray-600 dark:text-gray-300">
+                                <Check className="w-4 h-4 text-brand-500 shrink-0"/> {sys.title}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
+                {/* Annual Option */}
+                <div className="bg-gray-900 dark:bg-black p-8 rounded-2xl border border-brand-500/50 shadow-2xl relative overflow-hidden flex flex-col transform md:-translate-y-4">
+                    <div className="absolute top-0 right-0 bg-brand-600 text-white text-xs font-bold px-4 py-1.5 rounded-bl-xl uppercase tracking-wider">
+                        Best Value
+                    </div>
+                    
+                    <h3 className="text-sm font-bold uppercase tracking-wider text-brand-400 mb-2">Option 2</h3>
+                    <h4 className="text-2xl font-bold text-white mb-6">Annual Engagement</h4>
+                    
+                    <div className="flex items-baseline gap-2 mb-2">
+                        <div className="text-4xl font-display font-bold text-white">
+                            ${annualPrice.toLocaleString()}
+                        </div>
+                        <span className="text-lg font-normal text-gray-400">upfront</span>
+                    </div>
+                    <div className="text-sm text-brand-400 font-bold mb-8 uppercase tracking-wide">
+                        ~45% Total Savings
                     </div>
 
-                    <div className="space-y-1 mb-8">
-                         <div className="text-xs text-gray-500 uppercase tracking-wider">Monthly Retainer</div>
-                         <div className="text-2xl font-display font-bold text-gray-300">
-                            ${totalMonthly.toLocaleString()}<span className="text-sm font-normal text-gray-600">/mo</span>
+                    <div className="space-y-4 mb-8 flex-grow">
+                         <div className="flex justify-between items-center text-sm border-b border-gray-800 pb-2">
+                            <span className="text-gray-400">Standard 12-Mo Cost</span>
+                            <span className="text-gray-500 line-through">${firstYearValue.toLocaleString()}</span>
+                        </div>
+                        <div className="flex justify-between items-center text-sm border-b border-gray-800 pb-2">
+                            <span className="text-gray-400">Annual Plan Cost</span>
+                            <span className="text-white font-bold">${annualPrice.toLocaleString()}</span>
+                        </div>
+                        <div className="flex justify-between items-center text-sm bg-brand-500/10 p-2 rounded">
+                            <span className="text-brand-400 font-bold">Total Savings</span>
+                            <span className="text-brand-400 font-bold">${annualSavings.toLocaleString()}</span>
                         </div>
                     </div>
+                    
+                    <p className="text-xs text-gray-500 text-center">
+                        One-time payment. No monthly fees for 12 months.
+                    </p>
                 </div>
             </div>
         </div>
-    </div>
-  );
+    );
 };
 
 const PROPOSAL_CONTENT = [
@@ -597,19 +622,19 @@ const PROPOSAL_CONTENT = [
                 <div className="absolute top-0 left-0 w-2 h-full bg-brand-500"></div>
                 
                 <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 font-display">
-                    I want to become your AI Systems & Automation Partner.
+                    We want to become your AI Systems & Automation Partners.
                 </h3>
                 
                 <div className="prose dark:prose-invert text-gray-600 dark:text-gray-400 leading-relaxed space-y-4">
                     <p>
-                        I've grown to really enjoy working with your company and I deeply want to see it succeed far past its current level. 
-                        I think <span className="text-brand-600 dark:text-brand-500 font-bold">$80–100k/mo</span> is on the lower end of what's possible, if I'm being honest.
+                        We’ve gotten a clear understanding of your business, your goals, and the bottlenecks that are slowing your growth — and we genuinely want to see you scale far beyond your current level. 
+                        In our view, <span className="text-brand-600 dark:text-brand-500 font-bold">$80–100k/mo</span> is on the lower end of what’s possible for you with the right systems in place.
                     </p>
                     <p>
-                        To that end, I want to become the person responsible for building, maintaining, and scaling the internal engines that drive your booked calls, show-up rates, reactivations, client experience, and LTV.
+                        To that end, we want to become the team responsible for building, maintaining, and scaling the internal engines that drive your booked calls, show-up rates, reactivations, client experience, and long-term retention.
                     </p>
                     <p>
-                        My goal is simple: help you remove every operational bottleneck that limits your growth, and engineer a predictable machine behind your coaching brand.
+                        Our goal is simple: remove every operational bottleneck limiting your growth, and engineer a predictable machine behind your coaching brand.
                     </p>
                 </div>
             </div>
@@ -618,13 +643,13 @@ const PROPOSAL_CONTENT = [
                  <div className="flex-1">
                     <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">The Vision</h4>
                     <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                        If you accept, I believe I can solve your current conversion issues and pair with you to scale this into a semi-autonomous acquisition and retention system that reliably supports $1M+/year.
+                        If you choose to move forward, we’re confident we can solve the conversion issues you’re facing today and partner with you to scale this into a semi-autonomous acquisition and retention system capable of reliably supporting $1M+/year.
                     </p>
                  </div>
                  <div className="flex-1">
                     <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">The Partnership</h4>
                     <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                        You'd gain a partner who is as invested in your success as you are, with the technical depth, strategic thinking, and execution ability to match your competence, reputation, and market demand.
+                        You’d gain a dedicated partner team whose technical depth, systems thinking, and execution ability complement your expertise, brand, and market demand.
                     </p>
                  </div>
             </div>
@@ -634,76 +659,8 @@ const PROPOSAL_CONTENT = [
   {
     id: 'terms',
     title: "Terms of Engagement",
-    subtitle: "System 1 Implementation",
-    content: (
-        <div className="space-y-12 animate-fade-in max-w-5xl mx-auto">
-            <p className="text-center text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-                To make this simple, low-risk, and fully aligned with your goals, I’m proposing we start with <strong>one system only</strong> — the core system that will have the biggest and fastest impact on your booked calls and show-up rate: <strong>System 1</strong>.
-            </p>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
-                {/* Standard Option */}
-                <div className="bg-white dark:bg-dark-800 p-8 rounded-2xl border border-gray-200 dark:border-dark-700 flex flex-col">
-                    <h3 className="text-lg font-bold uppercase tracking-wider text-gray-500 mb-2">Option 1</h3>
-                    <h4 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Standard Engagement</h4>
-                    
-                    <div className="text-4xl font-display font-bold text-brand-600 dark:text-brand-500 mb-2">$2,500 <span className="text-lg font-normal text-gray-500">setup</span></div>
-                    <div className="text-xl text-gray-600 dark:text-gray-400 mb-8">+ $690 / month</div>
-
-                    <ul className="space-y-3 mb-8 flex-grow">
-                        <li className="flex gap-2 text-sm text-gray-600 dark:text-gray-300"><Check className="w-4 h-4 text-brand-500 shrink-0"/> Full Implementation of System 1</li>
-                        <li className="flex gap-2 text-sm text-gray-600 dark:text-gray-300"><Check className="w-4 h-4 text-brand-500 shrink-0"/> Qualification Logic & Instant CTA</li>
-                        <li className="flex gap-2 text-sm text-gray-600 dark:text-gray-300"><Check className="w-4 h-4 text-brand-500 shrink-0"/> Personalized Plan Generation</li>
-                        <li className="flex gap-2 text-sm text-gray-600 dark:text-gray-300"><Check className="w-4 h-4 text-brand-500 shrink-0"/> Intelligent Reminders</li>
-                        <li className="flex gap-2 text-sm text-gray-600 dark:text-gray-300"><Check className="w-4 h-4 text-brand-500 shrink-0"/> Ongoing Optimization</li>
-                    </ul>
-                </div>
-
-                {/* Annual Option */}
-                <div className="bg-gray-900 dark:bg-black p-8 rounded-2xl border border-brand-500/50 shadow-2xl relative overflow-hidden flex flex-col">
-                    <div className="absolute top-0 right-0 bg-brand-600 text-white text-xs font-bold px-4 py-1.5 rounded-bl-xl uppercase tracking-wider">
-                        Best Value
-                    </div>
-                    
-                    <h3 className="text-lg font-bold uppercase tracking-wider text-brand-400 mb-2">Option 2</h3>
-                    <h4 className="text-2xl font-bold text-white mb-6">Annual Engagement</h4>
-                    
-                    <div className="text-4xl font-display font-bold text-white mb-2">$6,000 <span className="text-lg font-normal text-gray-400">upfront</span></div>
-                    <div className="text-sm text-brand-400 font-bold mb-8 uppercase tracking-wide">Nearly 50% Savings</div>
-
-                    <div className="space-y-4 mb-8 flex-grow">
-                         <div className="flex justify-between items-center text-sm border-b border-gray-800 pb-2">
-                            <span className="text-gray-400">Monthly Plan Cost</span>
-                            <span className="text-gray-500 line-through">$8,280/yr</span>
-                        </div>
-                        <div className="flex justify-between items-center text-sm border-b border-gray-800 pb-2">
-                            <span className="text-gray-400">Annual Plan Cost</span>
-                            <span className="text-white font-bold">$6,000/yr</span>
-                        </div>
-                        <div className="flex justify-between items-center text-sm bg-brand-500/10 p-2 rounded">
-                            <span className="text-brand-400 font-bold">Total Savings</span>
-                            <span className="text-brand-400 font-bold">$2,280</span>
-                        </div>
-                    </div>
-                    
-                    <p className="text-xs text-gray-500 text-center">
-                        Effective cost: $500/month. No monthly payments.
-                    </p>
-                </div>
-            </div>
-
-            {/* Collapsible Calculator */}
-            <details className="bg-gray-50 dark:bg-dark-800/50 rounded-xl border border-gray-200 dark:border-dark-700">
-                <summary className="p-6 cursor-pointer font-bold flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-brand-500 select-none">
-                    <Calculator className="w-5 h-5"/> Customize Your Package (Full Stack Calculator)
-                    <ChevronDown className="w-4 h-4 ml-auto" />
-                </summary>
-                <div className="p-6 border-t border-gray-200 dark:border-dark-700">
-                    <PricingCalculator />
-                </div>
-            </details>
-        </div>
-    )
+    subtitle: "Implementation Package",
+    content: <TermsSlideContent />
   },
   {
     id: 'bonus',
