@@ -210,6 +210,60 @@ const TermsSlideContent: React.FC = () => {
 
 const PROPOSAL_CONTENT = [
   {
+  id: 'welcome',
+  title: "Proposal for Justin",
+  subtitle: "AI Systems to Scale Your Coaching Business",
+  content: (
+    <div className="space-y-12 animate-fade-in max-w-3xl mx-auto text-center">
+
+        <h2 className="text-3xl md:text-4xl font-display font-bold text-gray-900 dark:text-white">
+            Welcome, Justin 👋
+        </h2>
+
+        <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl mx-auto">
+            This proposal outlines the systems, automations, and architecture we recommend to 
+            help you unlock predictable growth, increase booked calls, improve show-up rate, 
+            and scale your coaching brand toward <strong>$80–100k/month</strong> — 
+            without adding more complexity or pulling you back into the DMs.
+        </p>
+
+        <div className="bg-white dark:bg-dark-800 p-8 rounded-2xl border border-gray-200 dark:border-dark-700 shadow-md text-left">
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                <Target className="w-5 h-5 text-brand-500" />
+                What you’ll find in this proposal
+            </h3>
+
+            <ul className="space-y-4 text-gray-700 dark:text-gray-300 text-sm">
+                <li className="flex gap-3">
+                    <CheckCircle2 className="text-brand-500 w-5 h-5 shrink-0" />
+                    A clear breakdown of your goals & the bottlenecks preventing scaling
+                </li>
+                <li className="flex gap-3">
+                    <CheckCircle2 className="text-brand-500 w-5 h-5 shrink-0" />
+                    A detailed systems architecture for fixing DM conversion, show-up rate, and lead efficiency
+                </li>
+                <li className="flex gap-3">
+                    <CheckCircle2 className="text-brand-500 w-5 h-5 shrink-0" />
+                    Pricing options with modular add-ons you can include immediately
+                </li>
+                <li className="flex gap-3">
+                    <CheckCircle2 className="text-brand-500 w-5 h-5 shrink-0" />
+                    A fast-action bonus to accelerate your implementation
+                </li>
+                <li className="flex gap-3">
+                    <CheckCircle2 className="text-brand-500 w-5 h-5 shrink-0" />
+                    A clear path to execution + next steps
+                </li>
+            </ul>
+        </div>
+
+        <p className="text-sm text-gray-500 dark:text-gray-400 italic">
+            Let’s get started.
+        </p>
+    </div>
+  )
+},
+  {
     id: 'executive-summary',
     title: "Executive Summary",
     subtitle: "Scaling to $80–100k/mo",
