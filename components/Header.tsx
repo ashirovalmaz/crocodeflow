@@ -27,6 +27,7 @@ export const Header: React.FC<HeaderProps> = ({
   const navigate = useNavigate();
   const location = useLocation();
   const isLoomPage = location.pathname.startsWith('/looms');
+  const isProposalPage = location.pathname.startsWith('/proposals');
   
   // Use custom link if provided, otherwise default constant
   const activeBookingLink = customBookingLink || CAL_LINK;
@@ -73,6 +74,8 @@ export const Header: React.FC<HeaderProps> = ({
     }
   };
 
+  const showNavLinks = !isLoomPage && !isProposalPage;
+
   return (
     <header
       className={`${position} top-0 left-0 right-0 z-50 border-b transition-all duration-300 ${
@@ -106,7 +109,7 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-6">
-          {!isLoomPage && NAV_ITEMS.map((item) => (
+          {showNavLinks && NAV_ITEMS.map((item) => (
             <a
               key={item.label}
               href={item.href}
@@ -144,7 +147,7 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="md:hidden absolute top-full left-0 w-full bg-white dark:bg-dark-900 border-b border-gray-200 dark:border-dark-700 py-4 px-6 flex flex-col gap-4 shadow-2xl">
-          {!isLoomPage && NAV_ITEMS.map((item) => (
+          {showNavLinks && NAV_ITEMS.map((item) => (
             <a
               key={item.label}
               href={item.href}
