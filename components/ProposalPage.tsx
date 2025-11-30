@@ -731,6 +731,118 @@ const PROPOSAL_CONTENT = [
     content: <TermsSlideContent />
   },
   {
+  id: 'bonus',
+  title: "Fast-Action Bonus",
+  subtitle: "For Decisive Partners",
+  content: (
+    <div className="space-y-10 animate-fade-in max-w-4xl mx-auto">
+      
+      {/* Текст про быстрые решения */}
+      <div className="bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 rounded-2xl p-8 shadow-sm">
+        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+          We deeply value fast, clear decision-makers.
+        </h3>
+        <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
+          In our experience, the most enjoyable and successful clients tend to share one trait:
+          they make decisions quickly once they have enough signal. They’re not reckless — they’re 
+          decisive. They ask the right questions, weigh the upside, and then commit.
+        </p>
+        <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
+          Those are also the clients who get results fastest. Systems ship sooner, feedback loops 
+          tighten, and momentum builds instead of stalling in “maybe later”.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+          <div className="bg-gray-50 dark:bg-dark-900 rounded-xl p-4 border border-gray-200 dark:border-dark-700">
+            <p className="text-xs font-semibold text-gray-900 dark:text-white mb-1">
+              Momentum over hesitation
+            </p>
+            <p className="text-xs text-gray-600 dark:text-gray-400">
+              Every week you delay is a week where leads leak and systems don’t compound.
+            </p>
+          </div>
+          <div className="bg-gray-50 dark:bg-dark-900 rounded-xl p-4 border border-gray-200 dark:border-dark-700">
+            <p className="text-xs font-semibold text-gray-900 dark:text-white mb-1">
+              Clarity over noise
+            </p>
+            <p className="text-xs text-gray-600 dark:text-gray-400">
+              Decisive founders know what they want and move toward it with focus.
+            </p>
+          </div>
+          <div className="bg-gray-50 dark:bg-dark-900 rounded-xl p-4 border border-gray-200 dark:border-dark-700">
+            <p className="text-xs font-semibold text-gray-900 dark:text-white mb-1">
+              Partnership over “vendor”
+            </p>
+            <p className="text-xs text-gray-600 dark:text-gray-400">
+              When you commit, we can commit fully as a long-term systems partner.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Бонусный блок */}
+      <div className="bg-gradient-to-br from-brand-50 via-white to-white dark:from-brand-900/20 dark:via-dark-900 dark:to-dark-800 border border-brand-200 dark:border-brand-500/40 rounded-3xl p-10 relative overflow-hidden">
+        
+        <div className="absolute inset-0 pointer-events-none opacity-10 bg-[radial-gradient(circle_at_0%_0%,rgba(34,197,94,0.5),transparent_55%),radial-gradient(circle_at_100%_100%,rgba(34,197,94,0.4),transparent_55%)]" />
+
+        <div className="relative z-10 space-y-8 text-center">
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-16 h-16 rounded-full bg-brand-100 dark:bg-brand-900/40 flex items-center justify-center">
+              <Gift className="w-8 h-8 text-brand-600 dark:text-brand-400" />
+            </div>
+            <h3 className="text-2xl md:text-3xl font-display font-bold text-gray-900 dark:text-white">
+              Fast-Action Bonus for Justin
+            </h3>
+            <p className="text-sm uppercase tracking-[0.18em] text-brand-600 dark:text-brand-400 font-semibold">
+              One Additional System · 0$ Setup
+            </p>
+          </div>
+
+          <p className="text-sm md:text-base text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
+            If you move forward within <strong>24 hours</strong> of receiving this proposal, we’ll waive the 
+            setup fee on <strong>one additional system</strong> of your choice. This is our way of rewarding 
+            clear, decisive partners — the ones we most enjoy building with.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto text-left">
+            <div className="bg-white dark:bg-dark-900 p-4 rounded-xl border border-gray-200 dark:border-dark-700 shadow-sm flex items-start gap-3">
+              <CheckCircle2 className="w-5 h-5 text-brand-500 mt-0.5" />
+              <div>
+                <p className="text-sm font-bold text-gray-900 dark:text-white">Personalized Reactivations</p>
+                <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                  Monetize non-buyers & no-shows in a way that still feels 1:1 and contextual.
+                </p>
+              </div>
+            </div>
+            <div className="bg-white dark:bg-dark-900 p-4 rounded-xl border border-gray-200 dark:border-dark-700 shadow-sm flex items-start gap-3">
+              <CheckCircle2 className="w-5 h-5 text-brand-500 mt-0.5" />
+              <div>
+                <p className="text-sm font-bold text-gray-900 dark:text-white">Call Analysis & CRM</p>
+                <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                  Turn every call into structured data, insights, and intelligent follow-ups.
+                </p>
+              </div>
+            </div>
+            <div className="bg-white dark:bg-dark-900 p-4 rounded-xl border border-gray-200 dark:border-dark-700 shadow-sm flex items-start gap-3">
+              <CheckCircle2 className="w-5 h-5 text-brand-500 mt-0.5" />
+              <div>
+                <p className="text-sm font-bold text-gray-900 dark:text-white">Content Intelligence</p>
+                <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                  Feed your audience with proven angles, hooks, and scripts tailored to your voice.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <p className="text-xs text-gray-500 dark:text-gray-400 italic max-w-xl mx-auto">
+            This is a full implementation, not a “lite” feature add-on. It requires us to front-load 
+            additional dev and systems work — which is why we reserve it for founders who are ready to move.
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+},
+  {
     id: 'closing',
     title: "In Closing",
     subtitle: "The Next Steps",
@@ -758,46 +870,6 @@ const PROPOSAL_CONTENT = [
                 </p>
             </div>
         </div>
-
-        
-        {/* --- ВСТАВЛЕННЫЙ БОНУС-БЛОК --- */}
-        <div className="space-y-8 max-w-4xl mx-auto text-center">
-          <div className="bg-gradient-to-b from-brand-50 to-white dark:from-brand-900/20 dark:to-dark-800 border border-brand-200 dark:border-brand-500/30 rounded-3xl p-12 relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none bg-[radial-gradient(circle_at_50%_50%,_rgba(34,197,94,0.4)_0%,_transparent_50%)]"></div>
-
-              <div className="w-20 h-20 bg-brand-100 dark:bg-brand-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Gift className="w-10 h-10 text-brand-600 dark:text-brand-400 animate-pulse" />
-              </div>
-
-              <h3 className="text-3xl font-display font-bold text-gray-900 dark:text-white mb-4">
-                  One Additional System <span className="text-brand-600 dark:text-brand-500">100% FREE</span>
-              </h3>
-              
-              <p className="text-lg text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-                  If you decide in the next 24 hours, you’ll receive one additional system of your choice with <strong>no setup fee</strong>.
-              </p>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left max-w-3xl mx-auto mb-8">
-                  <div className="bg-white dark:bg-dark-900 p-4 rounded-xl border border-gray-200 dark:border-dark-700 shadow-sm flex items-center gap-3">
-                      <CheckCircle2 className="w-5 h-5 text-brand-500" />
-                      <span className="text-sm font-bold">Personalized Reactivations</span>
-                  </div>
-                  <div className="bg-white dark:bg-dark-900 p-4 rounded-xl border border-gray-200 dark:border-dark-700 shadow-sm flex items-center gap-3">
-                      <CheckCircle2 className="w-5 h-5 text-brand-500" />
-                      <span className="text-sm font-bold">Call Analysis & CRM</span>
-                  </div>
-                  <div className="bg-white dark:bg-dark-900 p-4 rounded-xl border border-gray-200 dark:border-dark-700 shadow-sm flex items-center gap-3">
-                      <CheckCircle2 className="w-5 h-5 text-brand-500" />
-                      <span className="text-sm font-bold">Content Intel Engine</span>
-                  </div>
-              </div>
-
-              <p className="text-sm text-gray-500 dark:text-gray-400 italic">
-                  This is a full system, not a “lite” version. It requires me to front-load additional development time, so I only offer it when someone is ready to move quickly.
-              </p>
-          </div>
-        </div>
-        {/* --- КОНЕЦ ВСТАВКИ --- */}
 
         <div className="flex flex-col items-center gap-6 pt-8 border-t border-gray-200 dark:border-dark-800">
              <p className="text-gray-600 dark:text-gray-400 text-center max-w-lg">
