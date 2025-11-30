@@ -64,8 +64,8 @@ const TermsSlideContent: React.FC = () => {
 
     const toggle = (id: string) => {
         if (selected.includes(id)) {
-            // Prevent unselecting everything? Maybe allow it but warn.
-            if (selected.length === 1) return; 
+            // Не позволяем снять последний выбранный
+            if (selected.length === 1) return;
             setSelected(selected.filter(s => s !== id));
         } else {
             setSelected([...selected, id]);
@@ -85,25 +85,41 @@ const TermsSlideContent: React.FC = () => {
     const discountAmount = baseSetup * discountPercent;
     const finalSetup = baseSetup - discountAmount;
 
-    // Calculate Annual Option (Approx 45-50% savings on total first year value)
-    // Formula: (Setup + 12 * Monthly) * 0.55 -> Rounded to nearest 100
+    // First year value & annual option
     const firstYearValue = finalSetup + (totalMonthly * 12);
     const annualPrice = Math.floor((firstYearValue * 0.55) / 100) * 100;
     const annualSavings = firstYearValue - annualPrice;
 
+    let discountTierLabel = '';
+    if (count === 1) {
+        discountTierLabel = 'No bundle discount yet — add more systems to unlock savings.';
+    } else if (count === 2) {
+        discountTierLabel = 'Bundle Tier: 10% off setup (2 systems).';
+    } else if (count === 3) {
+        discountTierLabel = 'Bundle Tier: 15% off setup (3 systems).';
+    } else if (count >= 4) {
+        discountTierLabel = 'Bundle Tier: 20% off setup (4+ systems).';
+    }
+
     return (
         <div className="space-y-8 animate-fade-in max-w-6xl mx-auto">
             <p className="text-center text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-                To make this simple, low-risk, and fully aligned with your goals, I’m proposing we start with the core system. However, you can customize your implementation package below to include additional acceleration systems immediately.
+                To make this simple, low-risk, and aligned with your goals, you can start with the core system and then
+                add any acceleration systems below. The pricing updates automatically based on what you include.
             </p>
 
             {/* Customizer */}
             <div className="bg-gray-50 dark:bg-dark-800/50 rounded-xl border border-gray-200 dark:border-dark-700 p-6">
-                <div className="flex items-center gap-2 mb-4">
+                <div className="flex flex-wrap items-center gap-2 mb-2">
                     <Calculator className="w-5 h-5 text-brand-500"/> 
                     <h3 className="font-bold text-gray-700 dark:text-gray-300">Select Included Systems</h3>
-                    <span className="text-xs text-gray-500 ml-auto">Pricing updates automatically below</span>
+                    <span className="text-xs text-gray-500 ml-auto">
+                        Pricing updates automatically below
+                    </span>
                 </div>
+                <p className="text-[11px] text-gray-500 mb-4">
+                    Bundle tiers: 2 systems → 10% off setup · 3 systems → 15% off · 4+ systems → 20% off.
+                </p>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                     {SYSTEMS.map((sys) => {
@@ -120,19 +136,56 @@ const TermsSlideContent: React.FC = () => {
                                     }
                                 `}
                             >
-                                <div className={`
-                                    w-5 h-5 rounded border flex-shrink-0 flex items-center justify-center transition-colors mt-0.5
-                                    ${isSelected ? 'bg-brand-500 border-brand-500' : 'border-gray-400'}
-                                `}>
+                                <div
+                                    className={`
+                                        w-5 h-5 rounded border flex-shrink-0 flex items-center justify-center transition-colors mt-0.5
+                                        ${isSelected ? 'bg-brand-500 border-brand-500' : 'border-gray-400'}
+                                    `}
+                                >
                                     {isSelected && <Check className="w-3.5 h-3.5 text-white" />}
                                 </div>
                                 <div>
-                                    <div className="text-sm font-bold text-gray-900 dark:text-white leading-tight mb-1">{sys.title}</div>
-                                    <div className="text-xs text-gray-500 dark:text-gray-400">{sys.desc}</div>
+                                    <div className="flex items-center gap-1 mb-1">
+                                        <div className="text-sm font-bold text-gray-900 dark:text-white leading-tight">
+                                            {sys.title}
+                                        </div>
+                                        {sys.id === 'sys1' && (
+                                            <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-brand-50 dark:bg-brand-900/40 text-[10px] font-semibold text-brand-600 dark:text-brand-400">
+                                                Core
+                                            </span>
+                                        )}
+                                    </div>
+                                    <div className="text-xs text-gray-500 dark:text-gray-400">
+                                        {sys.desc}
+                                    </div>
                                 </div>
                             </div>
                         );
                     })}
+                </div>
+            </div>
+
+            {/* Summary Row */}
+            <div className="bg-white dark:bg-dark-900/60 border border-gray-200 dark:border-dark-700 rounded-xl px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs">
+                <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                    <span className="font-semibold">
+                        {count} system{count > 1 ? 's' : ''} selected
+                    </span>
+                    <span className="text-gray-400">•</span>
+                    <span className="text-gray-500">
+                        Setup before discount: ${baseSetup.toLocaleString()}
+                    </span>
+                    {discountAmount > 0 && (
+                        <>
+                            <span className="text-gray-400">•</span>
+                            <span className="text-gray-500">
+                                You save ${discountAmount.toLocaleString()} on setup
+                            </span>
+                        </>
+                    )}
+                </div>
+                <div className="text-[11px] text-gray-500 text-left sm:text-right">
+                    {discountTierLabel}
                 </div>
             </div>
 
@@ -141,28 +194,45 @@ const TermsSlideContent: React.FC = () => {
                 {/* Standard Option */}
                 <div className="bg-white dark:bg-dark-800 p-8 rounded-2xl border border-gray-200 dark:border-dark-700 flex flex-col shadow-sm">
                     <h3 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">Option 1</h3>
-                    <h4 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Standard Engagement</h4>
+                    <h4 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Standard Engagement</h4>
+
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                        Best if you prefer to keep monthly flexibility while validating the systems and scaling them over time.
+                    </p>
                     
+                    {discountAmount > 0 && (
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 dark:bg-brand-900/30 border border-brand-100 dark:border-brand-500/40 mb-3">
+                            <span className="text-[11px] font-bold uppercase tracking-wide text-brand-600 dark:text-brand-400">
+                                Bundle Discount
+                            </span>
+                            <span className="text-xs text-brand-700 dark:text-brand-300">
+                                Saved ${discountAmount.toLocaleString()} on setup
+                            </span>
+                        </div>
+                    )}
+
                     <div className="flex items-baseline gap-2 mb-1">
                         <div className="text-4xl font-display font-bold text-brand-600 dark:text-brand-500">
                             ${finalSetup.toLocaleString()}
                         </div>
                         <span className="text-lg font-normal text-gray-500">setup</span>
                     </div>
-                    {discountAmount > 0 && (
-                        <div className="text-xs text-brand-600 dark:text-brand-400 font-bold mb-2">
-                            Includes ${discountAmount.toLocaleString()} Bundle Discount
-                        </div>
-                    )}
-                    <div className="text-xl text-gray-600 dark:text-gray-400 mb-8">+ ${totalMonthly.toLocaleString()} / month</div>
+                    <div className="text-xl text-gray-600 dark:text-gray-400 mb-6">
+                        + ${totalMonthly.toLocaleString()} / month
+                    </div>
 
-                    <ul className="space-y-3 mb-8 flex-grow">
+                    <ul className="space-y-3 mb-6 flex-grow">
                         {SYSTEMS.filter(s => selected.includes(s.id)).map(sys => (
                             <li key={sys.id} className="flex gap-2 text-sm text-gray-600 dark:text-gray-300">
                                 <Check className="w-4 h-4 text-brand-500 shrink-0"/> {sys.title}
                             </li>
                         ))}
                     </ul>
+
+                    <p className="text-xs text-gray-500 mt-auto">
+                        For context: even a small lift of 2–3 extra closed clients per month at your current price point
+                        more than covers this monthly investment.
+                    </p>
                 </div>
 
                 {/* Annual Option */}
@@ -172,7 +242,11 @@ const TermsSlideContent: React.FC = () => {
                     </div>
                     
                     <h3 className="text-sm font-bold uppercase tracking-wider text-brand-400 mb-2">Option 2</h3>
-                    <h4 className="text-2xl font-bold text-white mb-6">Annual Engagement</h4>
+                    <h4 className="text-2xl font-bold text-white mb-2">Annual Engagement</h4>
+                    
+                    <p className="text-sm text-gray-400 mb-4">
+                        Designed for partners who already know they want these systems long-term and want to lock in the lowest effective rate for the first year.
+                    </p>
                     
                     <div className="flex items-baseline gap-2 mb-2">
                         <div className="text-4xl font-display font-bold text-white">
@@ -180,33 +254,40 @@ const TermsSlideContent: React.FC = () => {
                         </div>
                         <span className="text-lg font-normal text-gray-400">upfront</span>
                     </div>
-                    <div className="text-sm text-brand-400 font-bold mb-8 uppercase tracking-wide">
-                        ~45% Total Savings
+                    <div className="text-sm text-brand-400 font-bold mb-2 uppercase tracking-wide">
+                        ~45% total savings
                     </div>
+                    <p className="text-[11px] text-gray-500 mb-6">
+                        Based on setup + 12 months of standard monthly pricing for the selected systems.
+                    </p>
 
                     <div className="space-y-4 mb-8 flex-grow">
-                         <div className="flex justify-between items-center text-sm border-b border-gray-800 pb-2">
-                            <span className="text-gray-400">Standard 12-Mo Cost</span>
+                        <div className="flex justify-between items-center text-sm border-b border-gray-800 pb-2">
+                            <span className="text-gray-400">Standard 12-month cost</span>
                             <span className="text-gray-500 line-through">${firstYearValue.toLocaleString()}</span>
                         </div>
                         <div className="flex justify-between items-center text-sm border-b border-gray-800 pb-2">
-                            <span className="text-gray-400">Annual Plan Cost</span>
+                            <span className="text-gray-400">Annual plan cost</span>
                             <span className="text-white font-bold">${annualPrice.toLocaleString()}</span>
                         </div>
                         <div className="flex justify-between items-center text-sm bg-brand-500/10 p-2 rounded">
-                            <span className="text-brand-400 font-bold">Total Savings</span>
+                            <span className="text-brand-400 font-bold">Total savings</span>
                             <span className="text-brand-400 font-bold">${annualSavings.toLocaleString()}</span>
                         </div>
                     </div>
                     
                     <p className="text-xs text-gray-500 text-center">
-                        One-time payment. No monthly fees for 12 months.
+                        One-time payment covering setup + 12 months of operations. No monthly fees for 12 months.
+                    </p>
+                    <p className="text-[11px] text-gray-500 text-center mt-1">
+                        After 12 months, you can renew on a preferred partner rate or switch to a monthly structure.
                     </p>
                 </div>
             </div>
         </div>
     );
 };
+
 
 const PROPOSAL_CONTENT = [
   {
