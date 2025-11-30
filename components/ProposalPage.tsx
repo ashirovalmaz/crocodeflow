@@ -791,7 +791,7 @@ export const ProposalPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-dark-900 text-gray-900 dark:text-white transition-colors duration-300 flex flex-col">
-      <Header isSharedPage={true} hideThemeToggle={false} />
+      <Header isSharedPage={true} hideThemeToggle={true} />
       
       <main className="flex-grow pt-24 pb-12 px-4 md:px-6 flex flex-col items-center">
         <div className="w-full max-w-5xl">
