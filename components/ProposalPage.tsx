@@ -602,9 +602,7 @@ const PROPOSAL_CONTENT = [
                                 <ul className="text-xs text-gray-600 dark:text-gray-400 list-disc pl-4 space-y-0.5">
                                     <li>incoming DM</li>
                                     <li>comment with a keyword</li>
-                                    <li>reply to your CTA</li>
-                                    <li>new follower</li>
-                                    <li>response to your lead magnet or macro calculator</li>
+                                    <li>etc.</li>
                                 </ul>
                                 <p className="text-xs font-medium text-brand-600 dark:text-brand-500 mt-1">This ensures zero lost leads and perfect speed-to-lead, even at 2am.</p>
                              </div>
