@@ -61,13 +61,7 @@ export const Header: React.FC<HeaderProps> = ({
 
     if (href.startsWith('#')) {
         if (location.pathname === '/') {
-            if (onNavigate) {
-                onNavigate(href);
-            } else {
-                const id = href.replace('#', '');
-                const element = document.getElementById(id);
-                element?.scrollIntoView({ behavior: 'smooth' });
-            }
+            onNavigate?.(href);
         } else {
             navigate('/' + href);
         }
@@ -126,7 +120,7 @@ export const Header: React.FC<HeaderProps> = ({
             href={activeBookingLink}
             target="_blank" 
             rel="noopener noreferrer"
-            className="px-5 py-2.5 bg-brand-600 hover:bg-brand-500 text-white text-sm font-bold rounded-lg transition-all shadow-[0_0_20px_rgba(34,197,94,0.3)] hover:shadow-[0_0_30px_rgba(34,197,94,0.5)] border border-brand-500/50"
+            className="px-5 py-2.5 bg-brand-500 hover:bg-brand-400 text-white text-sm font-bold rounded-lg transition-all shadow-[0_0_20px] shadow-brand-500/30 hover:shadow-[0_0_30px] hover:shadow-brand-500/50 border border-brand-500/50"
           >
             Book Strategy Call
           </a>
@@ -161,7 +155,7 @@ export const Header: React.FC<HeaderProps> = ({
             href={activeBookingLink}
             target="_blank" 
             rel="noopener noreferrer"
-            className="mt-2 w-full py-3 bg-brand-600 text-center text-white font-bold rounded-lg uppercase tracking-wide"
+            className="mt-2 w-full py-3 bg-brand-500 text-center text-white font-bold rounded-lg uppercase tracking-wide"
             onClick={() => setMobileMenuOpen(false)}
           >
             Book Strategy Call

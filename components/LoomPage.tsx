@@ -162,6 +162,7 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
       /* --- Background Colors --- */
       ${scope}.bg-brand-500 { background-color: ${c500} !important; }
       ${scope}.bg-brand-600 { background-color: ${c600} !important; }
+      ${scope}.bg-brand-400 { background-color: ${c400} !important; }
       ${scope}.bg-brand-50 { background-color: ${c50} !important; }
       
       /* --- Background Opacities (Approximation) --- */
@@ -188,14 +189,19 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
       /* --- Shadows --- */
       ${scope}.shadow-brand-500\\/25 { --tw-shadow-color: ${c500}40 !important; }
       ${scope}.shadow-brand-500\\/30 { --tw-shadow-color: ${c500}4d !important; }
+      ${scope}.shadow-brand-500\\/50 { --tw-shadow-color: ${c500}80 !important; }
       
       /* --- Fill --- */
       ${scope}.fill-brand-500\\/20 { fill: ${c500}33 !important; }
       
       /* --- Hover States --- */
       ${scope}.hover\\:bg-brand-500:hover { background-color: ${c500} !important; }
+      ${scope}.hover\\:bg-brand-400:hover { background-color: ${c400} !important; }
       ${scope}.hover\\:border-brand-500:hover { border-color: ${c500} !important; }
       ${scope}.hover\\:border-brand-400\\/50:hover { border-color: ${c400}80 !important; }
+      
+      /* --- Shadow Hover --- */
+      ${scope}.hover\\:shadow-brand-500\\/50:hover { --tw-shadow-color: ${c500}80 !important; }
       
       /* --- DARK MODE SPECIFIC --- */
       
@@ -357,4 +363,4 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
         </div>
     </div>
   );
-};
+}
