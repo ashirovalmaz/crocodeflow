@@ -127,7 +127,7 @@ export const Header: React.FC<HeaderProps> = ({
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between relative min-h-[72px]">
         {/* Left Side: Either Company Name OR Logo */}
-        <div className="flex items-center gap-3 relative z-20 max-w-[60%] md:max-w-none">
+        <div className="flex items-center gap-3 relative z-20 max-w-[70%] md:max-w-none">
             {companyName ? (
                  <div className="font-display font-bold text-lg md:text-2xl text-gray-900 dark:text-white tracking-tight truncate w-full" title={companyName}>
                     {companyName}
@@ -138,15 +138,11 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Center: Logo (Only if companyName is present - Treated as 'Made With' Badge) */}
+        {/* Hidden on Mobile to prevent overlap, moved to Mobile Menu */}
         {companyName && (
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-                 {/* Desktop: Slightly larger, centered */}
-                 <div className="hidden md:block transform scale-75 opacity-40 hover:opacity-100 transition-all duration-300 grayscale hover:grayscale-0">
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 hidden md:block">
+                 <div className="transform scale-75 opacity-40 hover:opacity-100 transition-all duration-300 grayscale hover:grayscale-0">
                     <Logo />
-                 </div>
-                 {/* Mobile: Smaller, centered, very subtle */}
-                 <div className="md:hidden transform scale-[0.6] opacity-30 grayscale pointer-events-none">
-                    <Logo simple />
                  </div>
             </div>
         )}
@@ -192,7 +188,7 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-white dark:bg-dark-900 border-b border-gray-200 dark:border-dark-700 py-4 px-6 flex flex-col gap-4 shadow-2xl animate-fade-in">
+        <div className="md:hidden absolute top-full left-0 w-full bg-white dark:bg-dark-900 border-b border-gray-200 dark:border-dark-700 py-4 px-6 flex flex-col gap-4 shadow-2xl animate-fade-in max-h-[85vh] overflow-y-auto">
           {showNavLinks && NAV_ITEMS.map((item) => (
             <a
               key={item.label}
@@ -214,6 +210,15 @@ export const Header: React.FC<HeaderProps> = ({
             >
                 {buttonText}
             </a>
+          )}
+
+          {/* Made With Logo (Mobile Only - moved from header bar) */}
+          {companyName && (
+             <div className="mt-4 pt-6 border-t border-gray-100 dark:border-dark-800 flex justify-center pb-2">
+                 <div className="opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300 transform scale-90">
+                    <Logo />
+                 </div>
+             </div>
           )}
         </div>
       )}
