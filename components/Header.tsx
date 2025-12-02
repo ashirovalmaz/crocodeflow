@@ -11,6 +11,7 @@ interface HeaderProps {
     isSharedPage?: boolean;
     position?: 'fixed' | 'absolute';
     hideThemeToggle?: boolean;
+    companyName?: string; // New Optional Prop
 }
 
 export const Header: React.FC<HeaderProps> = ({ 
@@ -19,7 +20,8 @@ export const Header: React.FC<HeaderProps> = ({
     customBookingLink,
     isSharedPage = false,
     position = 'fixed',
-    hideThemeToggle = false
+    hideThemeToggle = false,
+    companyName
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -70,6 +72,30 @@ export const Header: React.FC<HeaderProps> = ({
 
   const showNavLinks = !isLoomPage && !isProposalPage;
 
+  // Reusable Logo Component
+  const Logo = ({ className = "" }: { className?: string }) => (
+    <a 
+        href="/" 
+        onClick={(e) => handleNavClick(e, '#home')}
+        className={`flex items-center gap-2 group ${className}`}
+    >
+      <div className="relative">
+        <Waypoints className="w-8 h-8 text-brand-500 transition-transform group-hover:rotate-90 duration-500 fill-brand-500/20" />
+        <div className="absolute inset-0 bg-brand-500/20 blur-lg rounded-full animate-pulse-slow"></div>
+      </div>
+      <div className="flex flex-col md:flex-row md:items-baseline gap-0 md:gap-1">
+        {isSharedPage && !companyName && (
+            <span className="text-[10px] uppercase font-bold tracking-wider text-gray-500 dark:text-gray-400">
+                Made with
+            </span>
+        )}
+        <span className="text-2xl font-display font-bold tracking-tight text-gray-900 dark:text-white transition-colors leading-none">
+            Crocode<span className="text-brand-500">Flow</span>
+        </span>
+      </div>
+    </a>
+  );
+
   return (
     <header
       className={`${position} top-0 left-0 right-0 z-50 border-b transition-all duration-300 ${
@@ -78,28 +104,27 @@ export const Header: React.FC<HeaderProps> = ({
           : 'bg-transparent border-transparent'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        {/* Logo */}
-        <a 
-            href="/" 
-            onClick={(e) => handleNavClick(e, '#home')}
-            className="flex items-center gap-2 group"
-        >
-          <div className="relative">
-            <Waypoints className="w-8 h-8 text-brand-500 transition-transform group-hover:rotate-90 duration-500 fill-brand-500/20" />
-            <div className="absolute inset-0 bg-brand-500/20 blur-lg rounded-full animate-pulse-slow"></div>
-          </div>
-          <div className="flex flex-col md:flex-row md:items-baseline gap-0 md:gap-1">
-            {isSharedPage && (
-                <span className="text-[10px] uppercase font-bold tracking-wider text-gray-500 dark:text-gray-400">
-                    Made with
-                </span>
-            )}
-            <span className="text-2xl font-display font-bold tracking-tight text-gray-900 dark:text-white transition-colors leading-none">
-                Crocode<span className="text-brand-500">Flow</span>
-            </span>
-          </div>
-        </a>
+      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between relative">
+        {/* Left Side: Either Company Name OR Logo */}
+        {companyName ? (
+             <div className="flex items-center gap-3">
+                 <div className="font-display font-bold text-xl md:text-2xl text-gray-900 dark:text-white tracking-tight">
+                    {companyName}
+                 </div>
+                 {isSharedPage && (
+                    <div className="h-4 w-px bg-gray-300 dark:bg-gray-700 mx-1"></div>
+                 )}
+             </div>
+        ) : (
+             <Logo />
+        )}
+
+        {/* Center: Logo (Only if companyName is present) */}
+        {companyName && (
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform scale-75 hidden md:block">
+                 <Logo />
+            </div>
+        )}
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-6">

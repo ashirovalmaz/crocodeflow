@@ -57,6 +57,7 @@ interface LoomPageProps {
     videoId: string;
     color: string;
     bookingLink: string;
+    senderName?: string; // New
     text?: {
       headline?: string;
       description?: string;
@@ -108,6 +109,7 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
     if (isJustinDemo) {
       return {
         name: "Justin Howells",
+        senderName: "",
         videoId: "d803199dda4449eeaae27cc46d019fae",
         color: null,
         bookingLink: CAL_LINK,
@@ -120,6 +122,7 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
     
     return {
       name: searchParams.get('name') || "Valued Partner",
+      senderName: searchParams.get('from') || "", // Extract sender
       videoId: searchParams.get('id') || "d803199dda4449eeaae27cc46d019fae", 
       color: searchParams.get('color'),
       bookingLink: searchParams.get('booking') || CAL_LINK,
@@ -265,6 +268,7 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
             isSharedPage={true}
             position={previewData ? 'absolute' : 'fixed'}
             hideThemeToggle={true}
+            companyName={pageData.senderName} // Pass senderName
         />
         
         <main className={`flex-grow px-4 md:px-6 relative z-10 flex flex-col items-center ${previewData ? 'pt-24 pb-12' : 'pt-32 pb-24'}`}>

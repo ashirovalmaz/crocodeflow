@@ -8,6 +8,7 @@ const DEFAULT_HIGHLIGHTS = "Current bottlenecks analysis\nProposed AI architectu
 
 export const LoomGenerator: React.FC = () => {
   const [clientName, setClientName] = useState('');
+  const [senderName, setSenderName] = useState(''); // New State
   const [loomUrl, setLoomUrl] = useState('');
   const [themeColor, setThemeColor] = useState('#22c55e'); // Default Brand Green
   const [bookingLink, setBookingLink] = useState('');
@@ -76,6 +77,7 @@ export const LoomGenerator: React.FC = () => {
       color: themeColor,
     });
 
+    if (senderName.trim()) params.append('from', senderName.trim());
     if (bookingLink.trim()) params.append('booking', bookingLink.trim());
     
     // Only append text params if they differ from defaults to keep URL clean
@@ -107,6 +109,7 @@ export const LoomGenerator: React.FC = () => {
   // Preview Data Object
   const previewData = {
       name: clientName || "Client Name",
+      senderName: senderName, // Pass to preview
       videoId: extractLoomId(loomUrl),
       color: themeColor,
       bookingLink: bookingLink || CAL_LINK,
@@ -157,7 +160,22 @@ export const LoomGenerator: React.FC = () => {
                             className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-dark-600 rounded-lg p-3 text-sm focus:ring-2 focus:ring-brand-500 outline-none"
                             />
                         </div>
-                        <div>
+                         <div>
+                            <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
+                             Your Name / Company
+                            </label>
+                            <input
+                            type="text"
+                            value={senderName}
+                            onChange={(e) => setSenderName(e.target.value)}
+                            placeholder="e.g. Acme Corp"
+                            className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-dark-600 rounded-lg p-3 text-sm focus:ring-2 focus:ring-brand-500 outline-none"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                         <div>
                             <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
                              Brand Color
                             </label>
@@ -172,6 +190,18 @@ export const LoomGenerator: React.FC = () => {
                                 </div>
                             </div>
                         </div>
+                        <div>
+                            <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
+                            Booking Link (Optional)
+                            </label>
+                            <input
+                            type="text"
+                            value={bookingLink}
+                            onChange={(e) => setBookingLink(e.target.value)}
+                            placeholder="e.g. https://cal.com/..."
+                            className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-dark-600 rounded-lg p-3 text-sm focus:ring-2 focus:ring-brand-500 outline-none"
+                            />
+                        </div>
                     </div>
 
                     <div>
@@ -183,19 +213,6 @@ export const LoomGenerator: React.FC = () => {
                         value={loomUrl}
                         onChange={(e) => setLoomUrl(e.target.value)}
                         placeholder="Paste full Loom URL..."
-                        className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-dark-600 rounded-lg p-3 text-sm focus:ring-2 focus:ring-brand-500 outline-none"
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
-                          Booking Link (Optional)
-                        </label>
-                        <input
-                        type="text"
-                        value={bookingLink}
-                        onChange={(e) => setBookingLink(e.target.value)}
-                        placeholder="e.g. https://cal.com/..."
                         className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-dark-600 rounded-lg p-3 text-sm focus:ring-2 focus:ring-brand-500 outline-none"
                         />
                     </div>
