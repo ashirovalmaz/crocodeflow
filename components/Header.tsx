@@ -137,9 +137,9 @@ export const Header: React.FC<HeaderProps> = ({
              <Logo />
         )}
 
-        {/* Center: Logo (Only if companyName is present) */}
+        {/* Center: Logo (Only if companyName is present - Treated as 'Made With' Badge) */}
         {companyName && (
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform scale-[0.6] md:scale-75">
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform scale-[0.65] md:scale-75 opacity-50 hover:opacity-100 transition-all duration-300 grayscale hover:grayscale-0">
                  <Logo />
             </div>
         )}
