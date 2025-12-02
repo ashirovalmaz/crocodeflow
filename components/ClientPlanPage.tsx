@@ -4,18 +4,21 @@ import { Footer } from './Footer';
 import { 
   Search, PenTool, Hammer, Rocket, 
   CheckCircle2, Target, ListTodo, Package,
-  ArrowRight, Calendar
+  ArrowRight, Calendar, BrainCircuit,
+  Sparkles, Layers
 } from 'lucide-react';
 import { CAL_LINK } from '../constants';
 
 const PLAN_DATA = [
   {
-    week: 1,
+    week: "01",
+    phase: "Week 1",
     title: "Deep Dive & Mapping",
     subtitle: "Understanding the Human Layer",
-    icon: Search,
-    theme: "blue", // Conceptual theme, mapped to classes below
     description: "We start by analyzing exactly how your best deals are closed today, so the AI doesn't just 'talk'—it sells like you.",
+    icon: Search,
+    themeColor: "blue",
+    gradient: "from-blue-500 to-cyan-400",
     goals: [
       "Understand real decision-making of setters & closer",
       "Map funnel: DM → qualified → booked → showed → closed",
@@ -24,7 +27,7 @@ const PLAN_DATA = [
     todo: [
       "Interview with you",
       "Interviews with 1–2 setters and the closer",
-      "Audit: DM scripts, saved replies, call recordings, lead magnets",
+      "Audit: DM scripts, saved replies, call recordings",
       "Voice analysis → “Do / Don’t” Messaging Guide"
     ],
     deliverables: [
@@ -34,12 +37,14 @@ const PLAN_DATA = [
     ]
   },
   {
-    week: 2,
+    week: "02",
+    phase: "Week 2",
     title: "Conversation Design & Assets",
     subtitle: "Building the Brain & The Magnet",
-    icon: PenTool,
-    theme: "purple",
     description: "We architect the conversation flows to feel natural, and design the custom assets that make booking a call irresistible.",
+    icon: BrainCircuit,
+    themeColor: "purple",
+    gradient: "from-purple-500 to-pink-500",
     goals: [
       "Build natural, non-scripted AI conversation flow",
       "Design personalized branded presentation template"
@@ -58,21 +63,23 @@ const PLAN_DATA = [
     ]
   },
   {
-    week: 3,
+    week: "03",
+    phase: "Week 3",
     title: "Build, Integration & Pilot",
     subtitle: "Bringing the System to Life",
-    icon: Hammer,
-    theme: "amber",
     description: "We connect the pipes. The AI starts talking, the PDFs start generating, and we turn the traffic on safely.",
+    icon: Hammer,
+    themeColor: "amber",
+    gradient: "from-amber-500 to-orange-500",
     goals: [
       "Turn designed flows into a functioning system",
       "Run a safe controlled pilot"
     ],
     todo: [
-      "Implement AI DM system: speed-to-lead, questions, transitions",
+      "Implement AI DM system: speed-to-lead, questions",
       "Build pre-call plan generator (PDF/deck/carousel)",
       "Connect CRM + calendar",
-      "Build contextual reminder system (3 days, 24h + plan, 3h, 30m)",
+      "Build contextual reminder system",
       "Launch partial-traffic pilot"
     ],
     deliverables: [
@@ -83,12 +90,14 @@ const PLAN_DATA = [
     ]
   },
   {
-    week: 4,
+    week: "04",
+    phase: "Week 4",
     title: "Optimization & Handover",
     subtitle: "Refining & Scaling",
-    icon: Rocket,
-    theme: "green",
     description: "We review the data, polish the rough edges, and hand you the keys to a Ferrari that drives itself.",
+    icon: Rocket,
+    themeColor: "emerald",
+    gradient: "from-emerald-500 to-green-400",
     goals: [
       "Validate metrics against KPIs",
       "Full team adoption"
@@ -115,147 +124,198 @@ export const ClientPlanPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-dark-900 text-gray-900 dark:text-white transition-colors duration-300 flex flex-col font-sans">
+    <div className="min-h-screen bg-[#050505] text-white selection:bg-brand-500 selection:text-white font-sans overflow-x-hidden">
       <Header isSharedPage={true} companyName="Justin Howells" />
       
-      <main className="flex-grow pt-28 pb-20 px-4 md:px-6 relative overflow-hidden">
-        {/* Ambient Background */}
-        <div className="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-brand-500/5 to-transparent pointer-events-none"></div>
-        <div className="absolute top-20 right-0 w-96 h-96 bg-brand-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      {/* Hero Section */}
+      <div className="relative pt-32 pb-20 px-6 overflow-hidden">
+        {/* Ambient Glows */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-brand-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+        <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-blue-600/5 rounded-full blur-[120px] pointer-events-none"></div>
 
-        <div className="max-w-5xl mx-auto relative z-10">
-            {/* Header */}
-            <div className="text-center mb-16 animate-fade-in">
-                <div className="inline-flex items-center gap-2 px-3 py-1 mb-6 rounded-full bg-brand-50 dark:bg-brand-500/10 border border-brand-200 dark:border-brand-500/20 text-brand-700 dark:text-brand-400 text-xs font-bold uppercase tracking-widest backdrop-blur-sm">
-                  <Calendar className="w-3 h-3" /> Project Roadmap
-                </div>
-                
-                <h1 className="text-4xl md:text-6xl font-display font-bold text-gray-900 dark:text-white mb-6 leading-tight">
-                    4-Week <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-brand-400 dark:from-brand-400 dark:to-brand-200">Implementation Plan</span>
-                </h1>
-                
-                <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
-                    AI DM System + Custom Pre-Call Assets. <br/>
-                    A structured path from "Manual Grind" to "Automated Scale".
-                </p>
+        <div className="max-w-4xl mx-auto text-center relative z-10 animate-fade-in">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 mb-8 rounded-full bg-white/5 border border-white/10 text-brand-400 text-xs font-bold uppercase tracking-widest backdrop-blur-md shadow-lg">
+                <Sparkles className="w-3.5 h-3.5" /> Project Roadmap
             </div>
+            
+            <h1 className="text-5xl md:text-7xl font-display font-bold text-white mb-6 leading-[1.1] tracking-tight">
+                4-Week <br className="md:hidden"/>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 via-brand-200 to-brand-400 animate-pulse-slow">
+                    Implementation Plan
+                </span>
+            </h1>
+            
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed font-light">
+                AI DM System + Custom Pre-Call Assets. <br/>
+                From <span className="text-white font-medium">manual grind</span> to <span className="text-brand-400 font-medium">automated scale</span> in 30 days.
+            </p>
+        </div>
+      </div>
 
-            {/* Timeline Container */}
-            <div className="relative">
-                {/* Vertical Line (Desktop: Center, Mobile: Left) */}
-                <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-brand-500/0 via-brand-500/30 to-brand-500/0 md:-translate-x-1/2"></div>
+      {/* Timeline Section */}
+      <main className="max-w-6xl mx-auto px-4 md:px-6 pb-32 relative z-10">
+        
+        {/* Central Line (Desktop) */}
+        <div className="absolute left-6 md:left-1/2 top-0 bottom-32 w-px bg-gradient-to-b from-transparent via-brand-500/20 to-transparent md:-translate-x-1/2 hidden md:block"></div>
+        
+        {/* Mobile Line */}
+        <div className="absolute left-8 top-0 bottom-32 w-px bg-gradient-to-b from-transparent via-brand-500/20 to-transparent md:hidden"></div>
 
-                <div className="space-y-12 md:space-y-24">
-                    {PLAN_DATA.map((week, index) => {
-                        const isEven = index % 2 === 0;
-                        return (
-                            <div key={week.week} className={`relative flex flex-col md:flex-row gap-8 ${isEven ? '' : 'md:flex-row-reverse'} items-center md:items-stretch group`}>
+        <div className="space-y-16 md:space-y-32">
+            {PLAN_DATA.map((step, index) => {
+                const isEven = index % 2 === 0;
+                
+                // Color mapping for dynamic styles
+                const themeColors: Record<string, string> = {
+                    blue: "text-blue-400 bg-blue-500/10 border-blue-500/20",
+                    purple: "text-purple-400 bg-purple-500/10 border-purple-500/20",
+                    amber: "text-amber-400 bg-amber-500/10 border-amber-500/20",
+                    emerald: "text-emerald-400 bg-emerald-500/10 border-emerald-500/20",
+                };
+
+                const deliverableColors: Record<string, string> = {
+                    blue: "bg-blue-500/10 text-blue-300 border-blue-500/20",
+                    purple: "bg-purple-500/10 text-purple-300 border-purple-500/20",
+                    amber: "bg-amber-500/10 text-amber-300 border-amber-500/20",
+                    emerald: "bg-emerald-500/10 text-emerald-300 border-emerald-500/20",
+                };
+
+                return (
+                    <div key={index} className={`relative flex flex-col md:flex-row gap-8 md:gap-20 items-center ${isEven ? '' : 'md:flex-row-reverse'}`}>
+                        
+                        {/* Timeline Node */}
+                        <div className={`
+                            absolute left-8 md:left-1/2 -translate-x-1/2 w-12 h-12 rounded-full 
+                            bg-[#0a0a0a] border border-gray-800 flex items-center justify-center z-20
+                            shadow-[0_0_30px_rgba(0,0,0,0.5)]
+                        `}>
+                            <div className={`w-3 h-3 rounded-full bg-gradient-to-r ${step.gradient} animate-pulse`}></div>
+                            {/* Connector Line for Mobile visual fix */}
+                            <div className="absolute top-12 bottom-[-80px] w-px bg-gray-800 md:hidden -z-10"></div> 
+                        </div>
+
+                        {/* Card Side */}
+                        <div className="w-full md:w-1/2 pl-20 md:pl-0">
+                            <div className="relative group perspective-1000">
+                                {/* Glow Effect on Hover */}
+                                <div className={`absolute -inset-0.5 bg-gradient-to-r ${step.gradient} rounded-2xl opacity-20 group-hover:opacity-50 blur transition duration-500`}></div>
                                 
-                                {/* Timeline Node */}
-                                <div className="absolute left-6 md:left-1/2 top-0 md:top-8 -translate-x-1/2 w-4 h-4 rounded-full border-2 border-brand-500 bg-white dark:bg-dark-900 z-20 group-hover:scale-125 transition-transform duration-300">
-                                    <div className="absolute inset-0 rounded-full bg-brand-500/50 animate-ping"></div>
-                                </div>
-
-                                {/* Content Card */}
-                                <div className={`flex-1 w-full pl-16 md:pl-0 ${isEven ? 'md:pr-16 md:text-right' : 'md:pl-16'}`}>
-                                    <div className={`
-                                        bg-white dark:bg-dark-800/60 backdrop-blur-md border border-gray-200 dark:border-dark-700 
-                                        rounded-2xl p-6 md:p-8 shadow-xl hover:shadow-2xl hover:border-brand-500/30 transition-all duration-300
-                                        ${isEven ? 'md:mr-auto' : 'md:ml-auto'}
-                                    `}>
-                                        {/* Week Header */}
-                                        <div className={`flex flex-col gap-2 mb-6 ${isEven ? 'md:items-end' : ''}`}>
-                                            <div className="flex items-center gap-3 text-brand-600 dark:text-brand-500 font-bold uppercase tracking-wider text-sm">
-                                                <span className="p-1.5 bg-brand-50 dark:bg-brand-500/10 rounded-md">Week {week.week}</span>
-                                                <span className="w-1 h-1 rounded-full bg-brand-500"></span>
-                                                <span>{week.subtitle}</span>
+                                <div className="relative bg-[#0F0F0F] border border-white/5 rounded-2xl p-6 md:p-8 hover:border-white/10 transition-colors duration-300">
+                                    
+                                    {/* Header */}
+                                    <div className="flex items-start justify-between mb-6">
+                                        <div>
+                                            <div className={`text-xs font-bold uppercase tracking-widest mb-1 bg-clip-text text-transparent bg-gradient-to-r ${step.gradient}`}>
+                                                {step.phase}
                                             </div>
-                                            <h2 className="text-2xl md:text-3xl font-display font-bold text-gray-900 dark:text-white">
-                                                {week.title}
+                                            <h2 className="text-2xl md:text-3xl font-display font-bold text-white mb-2">
+                                                {step.title}
                                             </h2>
-                                            <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed max-w-md">
-                                                {week.description}
-                                            </p>
+                                            <p className="text-gray-500 text-sm">{step.subtitle}</p>
                                         </div>
+                                        <div className={`p-3 rounded-xl ${themeColors[step.themeColor]} hidden sm:block`}>
+                                            <step.icon className="w-6 h-6" />
+                                        </div>
+                                    </div>
 
-                                        {/* Details Grid */}
-                                        <div className="grid grid-cols-1 gap-6 text-left">
-                                            {/* Goals */}
-                                            <div className="bg-brand-50/50 dark:bg-brand-900/5 rounded-xl p-4 border border-brand-100 dark:border-brand-500/10">
-                                                <h3 className="flex items-center gap-2 font-bold text-brand-700 dark:text-brand-400 text-xs uppercase tracking-wider mb-3">
-                                                    <Target className="w-4 h-4" /> Goals
-                                                </h3>
+                                    <p className="text-gray-400 text-sm leading-relaxed mb-8 border-b border-white/5 pb-8">
+                                        {step.description}
+                                    </p>
+
+                                    {/* Sections */}
+                                    <div className="space-y-6">
+                                        
+                                        {/* Goals - Optional based on data but mostly present */}
+                                        {step.goals && (
+                                            <div>
+                                                <h4 className="flex items-center gap-2 text-xs font-bold text-white uppercase tracking-wider mb-3">
+                                                    <Target className="w-3.5 h-3.5 text-gray-400" /> Goals
+                                                </h4>
                                                 <ul className="space-y-2">
-                                                    {week.goals.map((g, i) => (
-                                                        <li key={i} className="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
-                                                            <span className="w-1.5 h-1.5 rounded-full bg-brand-500 mt-1.5 shrink-0 opacity-60"></span>
+                                                    {step.goals.map((g, i) => (
+                                                        <li key={i} className="flex items-start gap-2.5 text-sm text-gray-400 group-hover:text-gray-300 transition-colors">
+                                                            <div className={`w-1 h-1 rounded-full mt-2 bg-gradient-to-r ${step.gradient}`}></div>
                                                             {g}
                                                         </li>
                                                     ))}
                                                 </ul>
                                             </div>
+                                        )}
 
-                                            {/* What we'll do */}
-                                            <div>
-                                                <h3 className="flex items-center gap-2 font-bold text-gray-900 dark:text-white text-xs uppercase tracking-wider mb-3">
-                                                    <ListTodo className="w-4 h-4 text-gray-400" /> What we'll do
-                                                </h3>
-                                                <ul className="space-y-2">
-                                                    {week.todo.map((t, i) => (
-                                                        <li key={i} className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-400">
-                                                            <CheckCircle2 className="w-4 h-4 text-gray-300 dark:text-dark-600 mt-0.5 shrink-0" />
-                                                            {t}
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                            </div>
+                                        {/* Actions */}
+                                        <div>
+                                            <h4 className="flex items-center gap-2 text-xs font-bold text-white uppercase tracking-wider mb-3">
+                                                <ListTodo className="w-3.5 h-3.5 text-gray-400" /> Execution
+                                            </h4>
+                                            <ul className="space-y-2">
+                                                {step.todo.map((t, i) => (
+                                                    <li key={i} className="flex items-start gap-2.5 text-sm text-gray-400 group-hover:text-gray-300 transition-colors">
+                                                        <CheckCircle2 className="w-4 h-4 text-gray-600 group-hover:text-brand-500 transition-colors mt-0.5 shrink-0" />
+                                                        {t}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
 
-                                            {/* Deliverables */}
-                                            <div className="pt-4 border-t border-gray-100 dark:border-dark-700">
-                                                <h3 className="flex items-center gap-2 font-bold text-gray-900 dark:text-white text-xs uppercase tracking-wider mb-3">
-                                                    <Package className="w-4 h-4 text-gray-400" /> Key Deliverables
-                                                </h3>
-                                                <div className="flex flex-wrap gap-2">
-                                                    {week.deliverables.map((d, i) => (
-                                                        <span key={i} className="px-3 py-1 bg-gray-100 dark:bg-dark-700 border border-gray-200 dark:border-dark-600 rounded-lg text-xs font-medium text-gray-700 dark:text-gray-300">
-                                                            {d}
-                                                        </span>
-                                                    ))}
-                                                </div>
+                                        {/* Deliverables */}
+                                        <div className="pt-2">
+                                            <h4 className="flex items-center gap-2 text-xs font-bold text-white uppercase tracking-wider mb-3">
+                                                <Package className="w-3.5 h-3.5 text-gray-400" /> Deliverables
+                                            </h4>
+                                            <div className="flex flex-wrap gap-2">
+                                                {step.deliverables.map((d, i) => (
+                                                    <span key={i} className={`px-3 py-1.5 rounded-lg border text-[11px] font-medium tracking-wide ${deliverableColors[step.themeColor]}`}>
+                                                        {d}
+                                                    </span>
+                                                ))}
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                {/* Empty Spacer for Grid Balance */}
-                                <div className="hidden md:block flex-1"></div>
+                                </div>
                             </div>
-                        );
-                    })}
+                        </div>
+
+                        {/* Empty Side for Balance */}
+                        <div className="hidden md:block w-1/2">
+                            <div className={`text-[12rem] font-display font-bold text-white/[0.02] select-none leading-none ${isEven ? 'text-left -ml-12' : 'text-right -mr-12'}`}>
+                                {step.week}
+                            </div>
+                        </div>
+                    </div>
+                );
+            })}
+        </div>
+
+        {/* Bottom Action Area */}
+        <div className="mt-32 max-w-2xl mx-auto text-center relative">
+            <div className="absolute inset-0 bg-brand-500/20 blur-[100px] pointer-events-none"></div>
+            
+            <div className="relative bg-[#0F0F0F] border border-white/10 rounded-2xl p-8 md:p-12 shadow-2xl">
+                <h3 className="text-3xl font-display font-bold text-white mb-4">Ready to Launch Week 1?</h3>
+                <p className="text-gray-400 mb-8 leading-relaxed">
+                    We can begin the Deep Dive & Mapping phase immediately. <br/>
+                    The sooner we map the funnel, the sooner we automate it.
+                </p>
+                
+                <a 
+                    href={CAL_LINK}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-8 py-4 bg-white text-black hover:bg-gray-200 font-bold rounded-xl transition-all transform hover:-translate-y-1 shadow-[0_0_20px_rgba(255,255,255,0.2)]"
+                >
+                    Start Implementation <ArrowRight className="w-5 h-5" />
+                </a>
+                
+                <div className="mt-6 flex items-center justify-center gap-6 text-xs text-gray-500 font-mono uppercase tracking-widest">
+                    <span className="flex items-center gap-2"><Layers className="w-3 h-3" /> 4 Phases</span>
+                    <span className="flex items-center gap-2"><Calendar className="w-3 h-3" /> 30 Days</span>
                 </div>
             </div>
-
-            {/* Bottom CTA */}
-            <div className="mt-24 text-center pb-8">
-                 <div className="inline-block p-1 rounded-2xl bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-dark-800 dark:via-dark-700 dark:to-dark-800">
-                    <div className="bg-white dark:bg-dark-900 rounded-xl px-8 py-10 md:px-16 border border-gray-200 dark:border-dark-700 shadow-2xl">
-                        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Ready to start Week 1?</h3>
-                        <p className="text-gray-500 mb-8">We can begin the Deep Dive & Mapping phase immediately.</p>
-                        
-                        <a 
-                            href={CAL_LINK}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-8 py-4 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl shadow-lg hover:shadow-brand-500/25 transition-all transform hover:-translate-y-1"
-                        >
-                            Execute Plan <ArrowRight className="w-5 h-5" />
-                        </a>
-                    </div>
-                 </div>
-            </div>
         </div>
+
       </main>
-      
+
       <Footer />
     </div>
   );
