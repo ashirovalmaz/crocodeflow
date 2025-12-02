@@ -20,6 +20,10 @@ export const LoomGenerator: React.FC = () => {
   const [ctaDesc, setCtaDesc] = useState("Let's discuss the implementation plan and get your automation systems running next week.");
   const [ctaBtn, setCtaBtn] = useState("Book Strategy Call");
   
+  // New Customizable Fields
+  const [badgeText, setBadgeText] = useState("Private Video Brief");
+  const [highlightsTitle, setHighlightsTitle] = useState("Key Takeaways");
+  
   const [generatedLink, setGeneratedLink] = useState('');
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
@@ -81,6 +85,8 @@ export const LoomGenerator: React.FC = () => {
     if (ctaTitle !== "Ready to execute?") params.append('cta_t', ctaTitle);
     if (ctaDesc !== "Let's discuss the implementation plan and get your automation systems running next week.") params.append('cta_d', ctaDesc);
     if (ctaBtn !== "Book Strategy Call") params.append('cta_b', ctaBtn);
+    if (badgeText !== "Private Video Brief") params.append('badge', badgeText);
+    if (highlightsTitle !== "Key Takeaways") params.append('list_t', highlightsTitle);
 
     setGeneratedLink(`${baseUrl}/looms/share?${params.toString()}`);
     
@@ -110,7 +116,9 @@ export const LoomGenerator: React.FC = () => {
           highlights: highlights.split('\n'),
           ctaTitle,
           ctaDescription: ctaDesc,
-          ctaButton: ctaBtn
+          ctaButton: ctaBtn,
+          badgeText,
+          highlightsTitle,
       }
   };
 
@@ -201,6 +209,10 @@ export const LoomGenerator: React.FC = () => {
                         
                         <div className="mt-4 space-y-4 pl-1">
                             <div>
+                                <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Badge Text</label>
+                                <input type="text" value={badgeText} onChange={e => setBadgeText(e.target.value)} className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-dark-600 rounded-lg p-2 text-sm" />
+                            </div>
+                            <div>
                                 <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Headline</label>
                                 <input type="text" value={headline} onChange={e => setHeadline(e.target.value)} className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-dark-600 rounded-lg p-2 text-sm" />
                                 <p className="text-[10px] text-gray-400 mt-1">Use {'{name}'} to insert client name dynamically.</p>
@@ -210,7 +222,11 @@ export const LoomGenerator: React.FC = () => {
                                 <textarea rows={2} value={description} onChange={e => setDescription(e.target.value)} className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-dark-600 rounded-lg p-2 text-sm resize-none" />
                             </div>
                             <div>
-                                <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Highlights (One per line)</label>
+                                <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Highlights Title</label>
+                                <input type="text" value={highlightsTitle} onChange={e => setHighlightsTitle(e.target.value)} className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-dark-600 rounded-lg p-2 text-sm" />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Highlights List (One per line)</label>
                                 <textarea rows={3} value={highlights} onChange={e => setHighlights(e.target.value)} className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-dark-600 rounded-lg p-2 text-sm resize-none" />
                             </div>
                             <div className="grid grid-cols-2 gap-3">
@@ -222,6 +238,10 @@ export const LoomGenerator: React.FC = () => {
                                     <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Button Text</label>
                                     <input type="text" value={ctaBtn} onChange={e => setCtaBtn(e.target.value)} className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-dark-600 rounded-lg p-2 text-sm" />
                                 </div>
+                            </div>
+                            <div>
+                                <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">CTA Description</label>
+                                <textarea rows={2} value={ctaDesc} onChange={e => setCtaDesc(e.target.value)} className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-dark-600 rounded-lg p-2 text-sm resize-none" />
                             </div>
                         </div>
                     </details>

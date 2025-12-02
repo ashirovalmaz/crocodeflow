@@ -16,7 +16,9 @@ const DEFAULTS = {
   ],
   ctaTitle: "Ready to execute?",
   ctaDescription: "Let's discuss the implementation plan and get your automation systems running next week.",
-  ctaButton: "Book Strategy Call"
+  ctaButton: "Book Strategy Call",
+  badgeText: "Private Video Brief",
+  highlightsTitle: "Key Takeaways"
 };
 
 // Robust color adjustment (Tint/Shade)
@@ -62,6 +64,8 @@ interface LoomPageProps {
       ctaTitle?: string;
       ctaDescription?: string;
       ctaButton?: string;
+      badgeText?: string;
+      highlightsTitle?: string;
     }
   };
   themeMode?: 'light' | 'dark';
@@ -91,6 +95,8 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
               ctaTitle: previewData.text?.ctaTitle || DEFAULTS.ctaTitle,
               ctaDescription: previewData.text?.ctaDescription || DEFAULTS.ctaDescription,
               ctaButton: previewData.text?.ctaButton || DEFAULTS.ctaButton,
+              badgeText: previewData.text?.badgeText || DEFAULTS.badgeText,
+              highlightsTitle: previewData.text?.highlightsTitle || DEFAULTS.highlightsTitle,
           }
       };
     }
@@ -124,6 +130,8 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
           ctaTitle: searchParams.get('cta_t') || DEFAULTS.ctaTitle,
           ctaDescription: searchParams.get('cta_d') || DEFAULTS.ctaDescription,
           ctaButton: searchParams.get('cta_b') || DEFAULTS.ctaButton,
+          badgeText: searchParams.get('badge') || DEFAULTS.badgeText,
+          highlightsTitle: searchParams.get('list_t') || DEFAULTS.highlightsTitle,
       }
     };
   }, [location, searchParams, previewData]);
@@ -266,7 +274,7 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
             <div className="mb-12 text-center animate-fade-in">
                 <div className="inline-flex items-center gap-2 px-3 py-1 mb-6 rounded-full bg-white dark:bg-brand-500/5 border border-brand-200 dark:border-brand-500/20 text-brand-700 dark:text-brand-400 text-xs font-bold uppercase tracking-widest backdrop-blur-sm shadow-sm">
                   <Video className="w-3 h-3 text-brand-500" />
-                  Private Video Brief
+                  {pageData.text?.badgeText}
                 </div>
                 
                 <h1 className="text-4xl md:text-5xl lg:text-7xl font-display font-bold text-gray-900 dark:text-white mb-6 tracking-tight leading-tight">
@@ -317,7 +325,7 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
                     {/* Highlights Card */}
                     <div className="lg:col-span-7 p-8 bg-white dark:bg-dark-800/50 backdrop-blur-sm rounded-2xl border border-gray-200 dark:border-dark-700 shadow-sm flex flex-col justify-center">
                         <h3 className="font-display font-bold text-xl mb-6 text-gray-900 dark:text-white flex items-center gap-2">
-                            <ListChecks className="w-5 h-5 text-brand-500" /> Key Takeaways
+                            <ListChecks className="w-5 h-5 text-brand-500" /> {pageData.text?.highlightsTitle}
                         </h3>
                         <ul className="space-y-4">
                             {pageData.text?.highlights?.map((item, i) => (
