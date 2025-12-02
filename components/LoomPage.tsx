@@ -1,3 +1,4 @@
+
 import React, { useEffect, useMemo } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { Header } from './Header';
@@ -174,82 +175,91 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
     const existingStyle = document.getElementById(styleId);
     if (existingStyle) existingStyle.remove();
     
-    const scope = previewData ? '.custom-theme-scope ' : '';
+    // Scope Logic:
+    // If preview: .custom-theme-scope .class (Light) OR .custom-theme-scope.dark .class (Dark)
+    // If live: .class (Light) OR .dark .class (Dark)
+    const p = previewData ? '.custom-theme-scope' : '';
+    
+    // Helper for Light Mode Selectors (Space required if scope exists)
+    const l = (sel: string) => p ? `${p} ${sel}` : sel;
+    
+    // Helper for Dark Mode Selectors (No space between scope and .dark if scope exists)
+    const d = (sel: string) => p ? `${p}.dark ${sel}` : `.dark ${sel}`;
 
     const style = document.createElement('style');
     style.id = styleId;
     style.innerHTML = `
       /* --- Text Colors --- */
-      ${scope}.text-brand-500 { color: ${c500} !important; }
-      ${scope}.text-brand-600 { color: ${c600} !important; }
-      ${scope}.text-brand-700 { color: ${c700} !important; }
-      ${scope}.text-brand-400 { color: ${c400} !important; }
+      ${l('.text-brand-500')} { color: ${c500} !important; }
+      ${l('.text-brand-600')} { color: ${c600} !important; }
+      ${l('.text-brand-700')} { color: ${c700} !important; }
+      ${l('.text-brand-400')} { color: ${c400} !important; }
 
       /* --- Background Colors --- */
-      ${scope}.bg-brand-500 { background-color: ${c500} !important; }
-      ${scope}.bg-brand-600 { background-color: ${c600} !important; }
-      ${scope}.bg-brand-400 { background-color: ${c400} !important; }
-      ${scope}.bg-brand-50 { background-color: ${c50} !important; }
+      ${l('.bg-brand-500')} { background-color: ${c500} !important; }
+      ${l('.bg-brand-600')} { background-color: ${c600} !important; }
+      ${l('.bg-brand-400')} { background-color: ${c400} !important; }
+      ${l('.bg-brand-50')} { background-color: ${c50} !important; }
       
-      /* --- Background Opacities (Approximation) --- */
-      ${scope}.bg-brand-500\\/5  { background-color: ${c500}0d !important; } 
-      ${scope}.bg-brand-500\\/10 { background-color: ${c500}1a !important; } 
-      ${scope}.bg-brand-500\\/20 { background-color: ${c500}33 !important; }
-      ${scope}.bg-brand-500\\/30 { background-color: ${c500}4d !important; }
+      /* --- Background Opacities --- */
+      ${l('.bg-brand-500\\/5')}  { background-color: ${c500}0d !important; } 
+      ${l('.bg-brand-500\\/10')} { background-color: ${c500}1a !important; } 
+      ${l('.bg-brand-500\\/20')} { background-color: ${c500}33 !important; }
+      ${l('.bg-brand-500\\/30')} { background-color: ${c500}4d !important; }
       
       /* --- Borders --- */
-      ${scope}.border-brand-200 { border-color: ${c200} !important; }
-      ${scope}.border-brand-500 { border-color: ${c500} !important; }
-      ${scope}.border-brand-500\\/20 { border-color: ${c500}33 !important; }
-      ${scope}.border-brand-500\\/30 { border-color: ${c500}4d !important; }
-      ${scope}.border-brand-500\\/50 { border-color: ${c500}80 !important; }
-      ${scope}.border-brand-400\\/50 { border-color: ${c400}80 !important; }
+      ${l('.border-brand-200')} { border-color: ${c200} !important; }
+      ${l('.border-brand-500')} { border-color: ${c500} !important; }
+      ${l('.border-brand-500\\/20')} { border-color: ${c500}33 !important; }
+      ${l('.border-brand-500\\/30')} { border-color: ${c500}4d !important; }
+      ${l('.border-brand-500\\/50')} { border-color: ${c500}80 !important; }
+      ${l('.border-brand-400\\/50')} { border-color: ${c400}80 !important; }
       
-      /* --- Gradients (Setting Variables) --- */
-      ${scope}.from-brand-600 { --tw-gradient-from: ${c600} !important; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important; }
-      ${scope}.from-brand-500 { --tw-gradient-from: ${c500} !important; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important; }
-      ${scope}.to-brand-400 { --tw-gradient-to: ${c400} !important; }
-      ${scope}.to-brand-300 { --tw-gradient-to: ${c300} !important; }
-      ${scope}.to-brand-200 { --tw-gradient-to: ${c200} !important; }
+      /* --- Gradients --- */
+      ${l('.from-brand-600')} { --tw-gradient-from: ${c600} !important; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important; }
+      ${l('.from-brand-500')} { --tw-gradient-from: ${c500} !important; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important; }
+      ${l('.to-brand-400')} { --tw-gradient-to: ${c400} !important; }
+      ${l('.to-brand-300')} { --tw-gradient-to: ${c300} !important; }
+      ${l('.to-brand-200')} { --tw-gradient-to: ${c200} !important; }
       
       /* --- Shadows --- */
-      ${scope}.shadow-brand-500\\/25 { --tw-shadow-color: ${c500}40 !important; }
-      ${scope}.shadow-brand-500\\/30 { --tw-shadow-color: ${c500}4d !important; }
-      ${scope}.shadow-brand-500\\/50 { --tw-shadow-color: ${c500}80 !important; }
+      ${l('.shadow-brand-500\\/25')} { --tw-shadow-color: ${c500}40 !important; }
+      ${l('.shadow-brand-500\\/30')} { --tw-shadow-color: ${c500}4d !important; }
+      ${l('.shadow-brand-500\\/50')} { --tw-shadow-color: ${c500}80 !important; }
       
       /* --- Fill --- */
-      ${scope}.fill-brand-500\\/20 { fill: ${c500}33 !important; }
+      ${l('.fill-brand-500\\/20')} { fill: ${c500}33 !important; }
       
       /* --- Hover States --- */
-      ${scope}.hover\\:bg-brand-500:hover { background-color: ${c500} !important; }
-      ${scope}.hover\\:bg-brand-400:hover { background-color: ${c400} !important; }
-      ${scope}.hover\\:border-brand-500:hover { border-color: ${c500} !important; }
-      ${scope}.hover\\:border-brand-400\\/50:hover { border-color: ${c400}80 !important; }
+      ${l('.hover\\:bg-brand-500:hover')} { background-color: ${c500} !important; }
+      ${l('.hover\\:bg-brand-400:hover')} { background-color: ${c400} !important; }
+      ${l('.hover\\:border-brand-500:hover')} { border-color: ${c500} !important; }
+      ${l('.hover\\:border-brand-400\\/50:hover')} { border-color: ${c400}80 !important; }
       
       /* --- Shadow Hover --- */
-      ${scope}.hover\\:shadow-brand-500\\/50:hover { --tw-shadow-color: ${c500}80 !important; }
+      ${l('.hover\\:shadow-brand-500\\/50:hover')} { --tw-shadow-color: ${c500}80 !important; }
       
       /* --- DARK MODE SPECIFIC --- */
       
-      ${scope}.dark .dark\\:text-brand-200 { color: ${c200} !important; }
-      ${scope}.dark .dark\\:text-brand-400 { color: ${c400} !important; }
-      ${scope}.dark .dark\\:text-brand-500 { color: ${c500} !important; }
-      ${scope}.dark .dark\\:text-brand-600 { color: ${c600} !important; }
+      ${d('.dark\\:text-brand-200')} { color: ${c200} !important; }
+      ${d('.dark\\:text-brand-400')} { color: ${c400} !important; }
+      ${d('.dark\\:text-brand-500')} { color: ${c500} !important; }
+      ${d('.dark\\:text-brand-600')} { color: ${c600} !important; }
 
-      ${scope}.dark .dark\\:bg-brand-500 { background-color: ${c500} !important; }
-      ${scope}.dark .dark\\:bg-brand-500\\/5 { background-color: ${c500}0d !important; }
-      ${scope}.dark .dark\\:bg-brand-500\\/10 { background-color: ${c500}1a !important; }
-      ${scope}.dark .dark\\:bg-brand-900\\/10 { background-color: ${c500}1a !important; } /* Map 900/10 to 500/10 for simplicity or darken c500 */
-      ${scope}.dark .dark\\:bg-brand-900\\/20 { background-color: ${c500}33 !important; }
+      ${d('.dark\\:bg-brand-500')} { background-color: ${c500} !important; }
+      ${d('.dark\\:bg-brand-500\\/5')} { background-color: ${c500}0d !important; }
+      ${d('.dark\\:bg-brand-500\\/10')} { background-color: ${c500}1a !important; }
+      ${d('.dark\\:bg-brand-900\\/10')} { background-color: ${c500}1a !important; } 
+      ${d('.dark\\:bg-brand-900\\/20')} { background-color: ${c500}33 !important; }
       
-      ${scope}.dark .dark\\:border-brand-500 { border-color: ${c500} !important; }
-      ${scope}.dark .dark\\:border-brand-500\\/20 { border-color: ${c500}33 !important; }
-      ${scope}.dark .dark\\:border-brand-500\\/30 { border-color: ${c500}4d !important; }
+      ${d('.dark\\:border-brand-500')} { border-color: ${c500} !important; }
+      ${d('.dark\\:border-brand-500\\/20')} { border-color: ${c500}33 !important; }
+      ${d('.dark\\:border-brand-500\\/30')} { border-color: ${c500}4d !important; }
       
       /* Dark Gradients */
-      ${scope}.dark .dark\\:from-brand-500 { --tw-gradient-from: ${c500} !important; }
-      ${scope}.dark .dark\\:from-brand-400 { --tw-gradient-from: ${c400} !important; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important; }
-      ${scope}.dark .dark\\:to-brand-200 { --tw-gradient-to: ${c200} !important; }
+      ${d('.dark\\:from-brand-500')} { --tw-gradient-from: ${c500} !important; }
+      ${d('.dark\\:from-brand-400')} { --tw-gradient-from: ${c400} !important; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important; }
+      ${d('.dark\\:to-brand-200')} { --tw-gradient-to: ${c200} !important; }
     `;
     
     document.head.appendChild(style);
@@ -264,10 +274,10 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
   const displayHeadline = pageData.text?.headline?.replace('{name}', pageData.name) || `Prepared for ${pageData.name}`;
 
   return (
-    <div className={`custom-theme-scope ${themeMode || ''} w-full isolate`}>
+    <div className={`custom-theme-scope ${themeMode || ''} w-full isolate h-full`}>
         <div className={`
             bg-gray-50 dark:bg-dark-900 text-gray-900 dark:text-white transition-colors duration-300 flex flex-col relative
-            ${previewData ? '' : 'min-h-screen overflow-x-hidden'} 
+            ${previewData ? 'min-h-full' : 'min-h-screen overflow-x-hidden'} 
         `}>
         {/* Background Effects */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">

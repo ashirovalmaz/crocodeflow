@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Header } from './Header';
 import { Link, Copy, Check, ArrowRight, AlertCircle, Settings, ChevronDown, Eye, Moon, Sun } from 'lucide-react';
@@ -331,7 +332,7 @@ export const LoomGenerator: React.FC = () => {
              </div>
              
              {/* Preview Container */}
-             <div className="w-full h-full bg-white dark:bg-dark-900 overflow-y-auto custom-scrollbar relative pb-20">
+             <div className="w-full h-full bg-gray-50 dark:bg-dark-900 overflow-y-auto custom-scrollbar relative pb-20">
                  <LoomPage previewData={previewData} themeMode={previewTheme} />
              </div>
           </div>
