@@ -7,17 +7,22 @@ import { ThemeToggle } from './ThemeToggle';
 interface HeaderProps {
     onNavigate?: (href: string) => void;
     isDetailView?: boolean;
-    customBookingLink?: string;
+    bookingLink?: string; // Changed name for clarity, acts as source of truth
+    ctaLabel?: string; // New Prop for custom button text
     isSharedPage?: boolean;
     position?: 'fixed' | 'absolute';
     hideThemeToggle?: boolean;
-    companyName?: string; // New Optional Prop
+    companyName?: string;
+    // Legacy prop support if needed, but we'll try to use bookingLink
+    customBookingLink?: string; 
 }
 
 export const Header: React.FC<HeaderProps> = ({ 
     onNavigate, 
     isDetailView, 
+    bookingLink,
     customBookingLink,
+    ctaLabel,
     isSharedPage = false,
     position = 'fixed',
     hideThemeToggle = false,
@@ -31,8 +36,24 @@ export const Header: React.FC<HeaderProps> = ({
   const isLoomPage = location.pathname.startsWith('/looms');
   const isProposalPage = location.pathname.startsWith('/proposals');
   
-  // Use custom link if provided, otherwise default constant
-  const activeBookingLink = customBookingLink || CAL_LINK;
+  // Logic: 
+  // 1. If bookingLink is passed (even as empty string), use it. 
+  // 2. Fallback to customBookingLink (legacy)
+  // 3. Fallback to CAL_LINK (global default) ONLY if bookingLink is undefined. 
+  //    If bookingLink is "" (empty string), it means "no link", so we shouldn't fall back to CAL_LINK.
+  
+  let activeBookingLink = CAL_LINK;
+  let showBookingButton = true;
+
+  if (bookingLink !== undefined) {
+      activeBookingLink = bookingLink;
+      showBookingButton = !!bookingLink; // Hide if empty string
+  } else if (customBookingLink !== undefined) {
+      activeBookingLink = customBookingLink;
+      showBookingButton = !!customBookingLink;
+  }
+
+  const buttonText = ctaLabel || "Book Strategy Call";
 
   useEffect(() => {
     if (position === 'absolute') {
@@ -138,14 +159,16 @@ export const Header: React.FC<HeaderProps> = ({
           
           {!hideThemeToggle && <ThemeToggle />}
 
-          <a
-            href={activeBookingLink}
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="px-5 py-2.5 bg-brand-500 hover:bg-brand-400 text-white text-sm font-bold rounded-lg transition-all shadow-[0_0_20px] shadow-brand-500/30 hover:shadow-[0_0_30px] hover:shadow-brand-500/50 border border-brand-500/50"
-          >
-            Book Strategy Call
-          </a>
+          {showBookingButton && (
+            <a
+                href={activeBookingLink}
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="px-5 py-2.5 bg-brand-500 hover:bg-brand-400 text-white text-sm font-bold rounded-lg transition-all shadow-[0_0_20px] shadow-brand-500/30 hover:shadow-[0_0_30px] hover:shadow-brand-500/50 border border-brand-500/50"
+            >
+                {buttonText}
+            </a>
+          )}
         </nav>
 
         {/* Mobile Toggle */}
@@ -173,15 +196,18 @@ export const Header: React.FC<HeaderProps> = ({
               {item.label}
             </a>
           ))}
-          <a
-            href={activeBookingLink}
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="mt-2 w-full py-3 bg-brand-500 text-center text-white font-bold rounded-lg uppercase tracking-wide"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            Book Strategy Call
-          </a>
+          
+          {showBookingButton && (
+            <a
+                href={activeBookingLink}
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="mt-2 w-full py-3 bg-brand-500 text-center text-white font-bold rounded-lg uppercase tracking-wide"
+                onClick={() => setMobileMenuOpen(false)}
+            >
+                {buttonText}
+            </a>
+          )}
         </div>
       )}
     </header>

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useMemo } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { Header } from './Header';
@@ -128,7 +127,8 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
       senderName: searchParams.get('from') || "", 
       videoId: searchParams.get('id') || "d803199dda4449eeaae27cc46d019fae", 
       color: searchParams.get('color'),
-      bookingLink: searchParams.get('booking') || CAL_LINK,
+      // Important: if 'booking' param is missing, we default to empty string so we can hide buttons
+      bookingLink: searchParams.get('booking') ?? "", 
       theme: searchParams.get('theme'), // Extract theme
       text: {
           headline: searchParams.get('h1') || DEFAULTS.headline,
@@ -289,11 +289,12 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
         </div>
 
         <Header 
-            customBookingLink={pageData.bookingLink} 
+            bookingLink={pageData.bookingLink} // Pass the booking link (or empty string)
+            ctaLabel={pageData.text?.ctaButton} // Pass custom button label
             isSharedPage={true}
             position={previewData ? 'absolute' : 'fixed'}
             hideThemeToggle={true}
-            companyName={pageData.senderName} // Pass senderName
+            companyName={pageData.senderName} 
         />
         
         <main className={`flex-grow px-4 md:px-6 relative z-10 flex flex-col items-center ${previewData ? 'pt-24 pb-12' : 'pt-32 pb-24'}`}>
@@ -352,7 +353,8 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 animate-slide-up w-full max-w-5xl mx-auto" style={{ animationDelay: '0.2s' }}>
                     
                     {/* Highlights Card */}
-                    <div className="lg:col-span-7 p-8 bg-white dark:bg-dark-800/50 backdrop-blur-sm rounded-2xl border border-gray-200 dark:border-dark-700 shadow-sm flex flex-col justify-center">
+                    {/* Expand full width if no CTA card */}
+                    <div className={`${pageData.bookingLink ? 'lg:col-span-7' : 'lg:col-span-12'} p-8 bg-white dark:bg-dark-800/50 backdrop-blur-sm rounded-2xl border border-gray-200 dark:border-dark-700 shadow-sm flex flex-col justify-center`}>
                         <h3 className="font-display font-bold text-xl mb-6 text-gray-900 dark:text-white flex items-center gap-2">
                             <ListChecks className="w-5 h-5 text-brand-500" /> {pageData.text?.highlightsTitle}
                         </h3>
@@ -368,27 +370,29 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
                         </ul>
                     </div>
 
-                    {/* CTA Card */}
-                    <div className="lg:col-span-5 p-8 bg-gray-900 dark:bg-gradient-to-br dark:from-dark-800 dark:to-dark-900 rounded-2xl border border-gray-800 dark:border-dark-700 shadow-lg flex flex-col justify-center items-start relative overflow-hidden group">
-                        {/* Ambient Glow */}
-                        <div className="absolute top-0 right-0 w-48 h-48 bg-brand-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-brand-500/20 transition-colors duration-500"></div>
-                        <div className="absolute bottom-0 left-0 w-32 h-32 bg-blue-500/5 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2"></div>
+                    {/* CTA Card - Only show if booking link is present */}
+                    {pageData.bookingLink && (
+                        <div className="lg:col-span-5 p-8 bg-gray-900 dark:bg-gradient-to-br dark:from-dark-800 dark:to-dark-900 rounded-2xl border border-gray-800 dark:border-dark-700 shadow-lg flex flex-col justify-center items-start relative overflow-hidden group">
+                            {/* Ambient Glow */}
+                            <div className="absolute top-0 right-0 w-48 h-48 bg-brand-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-brand-500/20 transition-colors duration-500"></div>
+                            <div className="absolute bottom-0 left-0 w-32 h-32 bg-blue-500/5 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2"></div>
 
-                        <h3 className="font-display font-bold text-2xl mb-3 text-white relative z-10">
-                            {pageData.text?.ctaTitle}
-                        </h3>
-                        <p className="text-gray-400 text-sm mb-8 relative z-10 leading-relaxed">
-                             {pageData.text?.ctaDescription}
-                        </p>
-                        <a 
-                            href={pageData.bookingLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="relative z-10 w-full py-4 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl transition-all shadow-[0_4px_20px_rgba(0,0,0,0.2)] hover:shadow-brand-500/30 flex items-center justify-center gap-2 group/btn border border-transparent hover:border-brand-400/50"
-                        >
-                            {pageData.text?.ctaButton} <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
-                        </a>
-                    </div>
+                            <h3 className="font-display font-bold text-2xl mb-3 text-white relative z-10">
+                                {pageData.text?.ctaTitle}
+                            </h3>
+                            <p className="text-gray-400 text-sm mb-8 relative z-10 leading-relaxed">
+                                {pageData.text?.ctaDescription}
+                            </p>
+                            <a 
+                                href={pageData.bookingLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="relative z-10 w-full py-4 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl transition-all shadow-[0_4px_20px_rgba(0,0,0,0.2)] hover:shadow-brand-500/30 flex items-center justify-center gap-2 group/btn border border-transparent hover:border-brand-400/50"
+                            >
+                                {pageData.text?.ctaButton} <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
+                            </a>
+                        </div>
+                    )}
                 </div>
 
             </div>

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Header } from './Header';
 import { Link, Copy, Check, ArrowRight, AlertCircle, Settings, ChevronDown, Eye, Moon, Sun } from 'lucide-react';
@@ -97,7 +96,7 @@ export const LoomGenerator: React.FC = () => {
       senderName: senderName, // Pass to preview
       videoId: extractLoomId(loomUrl),
       color: themeColor,
-      bookingLink: bookingLink || CAL_LINK,
+      bookingLink: bookingLink, // Pass raw string to let LoomPage handle empty logic
       text: {
           headline,
           description,
@@ -198,19 +197,6 @@ export const LoomGenerator: React.FC = () => {
 
                     <div>
                         <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
-                          Booking Link (Optional)
-                        </label>
-                        <input
-                        type="text"
-                        value={bookingLink}
-                        onChange={(e) => setBookingLink(e.target.value)}
-                        placeholder="e.g. https://cal.com/..."
-                        className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-dark-600 rounded-lg p-3 text-sm focus:ring-2 focus:ring-brand-500 outline-none"
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
                           Loom Video Link
                         </label>
                         <input
@@ -218,6 +204,19 @@ export const LoomGenerator: React.FC = () => {
                         value={loomUrl}
                         onChange={(e) => setLoomUrl(e.target.value)}
                         placeholder="Paste full Loom URL..."
+                        className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-dark-600 rounded-lg p-3 text-sm focus:ring-2 focus:ring-brand-500 outline-none"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
+                          Booking Link (Optional)
+                        </label>
+                        <input
+                        type="text"
+                        value={bookingLink}
+                        onChange={(e) => setBookingLink(e.target.value)}
+                        placeholder="e.g. https://cal.com/..."
                         className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-dark-600 rounded-lg p-3 text-sm focus:ring-2 focus:ring-brand-500 outline-none"
                         />
                     </div>
