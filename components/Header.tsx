@@ -94,18 +94,18 @@ export const Header: React.FC<HeaderProps> = ({
   const showNavLinks = !isLoomPage && !isProposalPage;
 
   // Reusable Logo Component
-  const Logo = ({ className = "" }: { className?: string }) => (
+  const Logo = ({ className = "", simple = false }: { className?: string, simple?: boolean }) => (
     <a 
         href="/" 
         onClick={(e) => handleNavClick(e, '#home')}
         className={`flex items-center gap-2 group ${className}`}
     >
       <div className="relative">
-        <Waypoints className="w-8 h-8 text-brand-500 transition-transform group-hover:rotate-90 duration-500 fill-brand-500/20" />
-        <div className="absolute inset-0 bg-brand-500/20 blur-lg rounded-full animate-pulse-slow"></div>
+        <Waypoints className={`w-8 h-8 text-brand-500 transition-transform group-hover:rotate-90 duration-500 ${simple ? '' : 'fill-brand-500/20'}`} />
+        {!simple && <div className="absolute inset-0 bg-brand-500/20 blur-lg rounded-full animate-pulse-slow"></div>}
       </div>
       <div className="flex flex-col md:flex-row md:items-baseline gap-0 md:gap-1">
-        {isSharedPage && (
+        {isSharedPage && !simple && (
             <span className="text-[10px] uppercase font-bold tracking-wider text-gray-500 dark:text-gray-400">
                 Made with
             </span>
@@ -125,27 +125,34 @@ export const Header: React.FC<HeaderProps> = ({
           : 'bg-transparent border-transparent'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between relative">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between relative min-h-[72px]">
         {/* Left Side: Either Company Name OR Logo */}
-        {companyName ? (
-             <div className="flex items-center gap-3">
-                 <div className="font-display font-bold text-xl md:text-2xl text-gray-900 dark:text-white tracking-tight">
+        <div className="flex items-center gap-3 relative z-20 max-w-[60%] md:max-w-none">
+            {companyName ? (
+                 <div className="font-display font-bold text-lg md:text-2xl text-gray-900 dark:text-white tracking-tight truncate w-full" title={companyName}>
                     {companyName}
                  </div>
-             </div>
-        ) : (
-             <Logo />
-        )}
+            ) : (
+                 <Logo />
+            )}
+        </div>
 
         {/* Center: Logo (Only if companyName is present - Treated as 'Made With' Badge) */}
         {companyName && (
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform scale-[0.65] md:scale-75 opacity-50 hover:opacity-100 transition-all duration-300 grayscale hover:grayscale-0">
-                 <Logo />
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+                 {/* Desktop: Slightly larger, centered */}
+                 <div className="hidden md:block transform scale-75 opacity-40 hover:opacity-100 transition-all duration-300 grayscale hover:grayscale-0">
+                    <Logo />
+                 </div>
+                 {/* Mobile: Smaller, centered, very subtle */}
+                 <div className="md:hidden transform scale-[0.6] opacity-30 grayscale pointer-events-none">
+                    <Logo simple />
+                 </div>
             </div>
         )}
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-6">
+        <nav className="hidden md:flex items-center gap-6 relative z-20">
           {showNavLinks && NAV_ITEMS.map((item) => (
             <a
               key={item.label}
@@ -172,10 +179,10 @@ export const Header: React.FC<HeaderProps> = ({
         </nav>
 
         {/* Mobile Toggle */}
-        <div className="md:hidden flex items-center gap-4">
+        <div className="md:hidden flex items-center gap-4 relative z-20">
           {!hideThemeToggle && <ThemeToggle />}
           <button
-            className="text-gray-900 dark:text-gray-300"
+            className="text-gray-900 dark:text-gray-300 p-1"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X /> : <Menu />}
@@ -185,7 +192,7 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-white dark:bg-dark-900 border-b border-gray-200 dark:border-dark-700 py-4 px-6 flex flex-col gap-4 shadow-2xl">
+        <div className="md:hidden absolute top-full left-0 w-full bg-white dark:bg-dark-900 border-b border-gray-200 dark:border-dark-700 py-4 px-6 flex flex-col gap-4 shadow-2xl animate-fade-in">
           {showNavLinks && NAV_ITEMS.map((item) => (
             <a
               key={item.label}
@@ -202,7 +209,7 @@ export const Header: React.FC<HeaderProps> = ({
                 href={activeBookingLink}
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="mt-2 w-full py-3 bg-brand-500 text-center text-white font-bold rounded-lg uppercase tracking-wide"
+                className="mt-2 w-full py-3 bg-brand-500 text-center text-white font-bold rounded-lg uppercase tracking-wide shadow-lg shadow-brand-500/20"
                 onClick={() => setMobileMenuOpen(false)}
             >
                 {buttonText}
