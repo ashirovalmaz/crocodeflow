@@ -4,6 +4,7 @@ import { LandingPage } from './components/LandingPage';
 import { LoomPage } from './components/LoomPage';
 import { LoomGenerator } from './components/LoomGenerator';
 import { ProposalPage } from './components/ProposalPage';
+import { ClientPlanPage } from './components/ClientPlanPage';
 
 const App: React.FC = () => {
   return (
@@ -13,6 +14,7 @@ const App: React.FC = () => {
       <Route path="/looms/share" element={<LoomPage />} />
       <Route path="/looms/new" element={<LoomGenerator />} />
       <Route path="/proposals/justinhowells" element={<ProposalPage />} />
+      <Route path="/clients/justinhowells/plan" element={<ClientPlanPage />} />
     </Routes>
   );
 };
