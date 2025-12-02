@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Header } from './Header';
-import { Link, Copy, Check, ArrowRight, AlertCircle, Settings, ChevronDown, Eye } from 'lucide-react';
+import { Link, Copy, Check, ArrowRight, AlertCircle, Settings, ChevronDown, Eye, Moon, Sun } from 'lucide-react';
 import { LoomPage } from './LoomPage';
 import { CAL_LINK } from '../constants';
 
@@ -31,23 +31,6 @@ export const LoomGenerator: React.FC = () => {
   
   const [previewTheme, setPreviewTheme] = useState<'dark' | 'light'>('dark');
 
-  // Sync Preview Theme with Global App Theme
-  useEffect(() => {
-    const syncTheme = () => {
-        const isDark = document.documentElement.classList.contains('dark');
-        setPreviewTheme(isDark ? 'dark' : 'light');
-    };
-
-    // Initial sync
-    syncTheme();
-
-    // Observer for changes
-    const observer = new MutationObserver(syncTheme);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-
-    return () => observer.disconnect();
-  }, []);
-
   const extractLoomId = (url: string) => {
     if (!url) return '';
     const match = url.match(/[a-f0-9]{32}/);
@@ -75,6 +58,7 @@ export const LoomGenerator: React.FC = () => {
       name: clientName,
       id: videoId,
       color: themeColor,
+      theme: previewTheme, // Include Theme
     });
 
     if (senderName.trim()) params.append('from', senderName.trim());
@@ -191,17 +175,37 @@ export const LoomGenerator: React.FC = () => {
                             </div>
                         </div>
                         <div>
-                            <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
-                            Booking Link (Optional)
+                             <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
+                             Page Theme
                             </label>
-                            <input
-                            type="text"
-                            value={bookingLink}
-                            onChange={(e) => setBookingLink(e.target.value)}
-                            placeholder="e.g. https://cal.com/..."
-                            className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-dark-600 rounded-lg p-3 text-sm focus:ring-2 focus:ring-brand-500 outline-none"
-                            />
+                            <div className="flex items-center gap-1 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-dark-600 rounded-lg p-1 h-[46px]">
+                                <button 
+                                    onClick={() => setPreviewTheme('light')} 
+                                    className={`flex-1 h-full rounded flex items-center justify-center gap-2 text-xs font-bold transition-all ${previewTheme === 'light' ? 'bg-white shadow text-gray-900' : 'text-gray-400 hover:text-gray-600'}`}
+                                >
+                                    <Sun className="w-4 h-4" /> Light
+                                </button>
+                                <button 
+                                    onClick={() => setPreviewTheme('dark')} 
+                                    className={`flex-1 h-full rounded flex items-center justify-center gap-2 text-xs font-bold transition-all ${previewTheme === 'dark' ? 'bg-dark-700 shadow text-white' : 'text-gray-400 hover:text-gray-200'}`}
+                                >
+                                    <Moon className="w-4 h-4" /> Dark
+                                </button>
+                            </div>
                         </div>
+                    </div>
+
+                    <div>
+                        <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
+                          Booking Link (Optional)
+                        </label>
+                        <input
+                        type="text"
+                        value={bookingLink}
+                        onChange={(e) => setBookingLink(e.target.value)}
+                        placeholder="e.g. https://cal.com/..."
+                        className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-dark-600 rounded-lg p-3 text-sm focus:ring-2 focus:ring-brand-500 outline-none"
+                        />
                     </div>
 
                     <div>

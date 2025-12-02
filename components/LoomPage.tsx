@@ -57,7 +57,7 @@ interface LoomPageProps {
     videoId: string;
     color: string;
     bookingLink: string;
-    senderName?: string; // New
+    senderName?: string;
     text?: {
       headline?: string;
       description?: string;
@@ -89,6 +89,7 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
     if (previewData) {
       return {
           ...previewData,
+          theme: themeMode,
           text: {
               headline: previewData.text?.headline || DEFAULTS.headline,
               description: previewData.text?.description || DEFAULTS.description,
@@ -113,6 +114,7 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
         videoId: "d803199dda4449eeaae27cc46d019fae",
         color: null,
         bookingLink: CAL_LINK,
+        theme: 'dark',
         text: DEFAULTS
       };
     }
@@ -122,10 +124,11 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
     
     return {
       name: searchParams.get('name') || "Valued Partner",
-      senderName: searchParams.get('from') || "", // Extract sender
+      senderName: searchParams.get('from') || "", 
       videoId: searchParams.get('id') || "d803199dda4449eeaae27cc46d019fae", 
       color: searchParams.get('color'),
       bookingLink: searchParams.get('booking') || CAL_LINK,
+      theme: searchParams.get('theme'), // Extract theme
       text: {
           headline: searchParams.get('h1') || DEFAULTS.headline,
           description: searchParams.get('desc') || DEFAULTS.description,
@@ -137,7 +140,19 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
           highlightsTitle: searchParams.get('list_t') || DEFAULTS.highlightsTitle,
       }
     };
-  }, [location, searchParams, previewData]);
+  }, [location, searchParams, previewData, themeMode]);
+
+  // Handle Theme Application (only for live page)
+  useEffect(() => {
+    if (previewData) return; // Do not manipulate global document in preview
+    
+    if (pageData.theme === 'light') {
+        document.documentElement.classList.remove('dark');
+    } else if (pageData.theme === 'dark') {
+        document.documentElement.classList.add('dark');
+    }
+    // If undefined, respect user preference/system default
+  }, [pageData.theme, previewData]);
 
   // Inject Dynamic Color Styles if provided
   useEffect(() => {

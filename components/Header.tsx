@@ -84,7 +84,7 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="absolute inset-0 bg-brand-500/20 blur-lg rounded-full animate-pulse-slow"></div>
       </div>
       <div className="flex flex-col md:flex-row md:items-baseline gap-0 md:gap-1">
-        {isSharedPage && !companyName && (
+        {isSharedPage && (
             <span className="text-[10px] uppercase font-bold tracking-wider text-gray-500 dark:text-gray-400">
                 Made with
             </span>
@@ -111,9 +111,6 @@ export const Header: React.FC<HeaderProps> = ({
                  <div className="font-display font-bold text-xl md:text-2xl text-gray-900 dark:text-white tracking-tight">
                     {companyName}
                  </div>
-                 {isSharedPage && (
-                    <div className="h-4 w-px bg-gray-300 dark:bg-gray-700 mx-1"></div>
-                 )}
              </div>
         ) : (
              <Logo />
@@ -121,7 +118,7 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Center: Logo (Only if companyName is present) */}
         {companyName && (
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform scale-75 hidden md:block">
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform scale-[0.6] md:scale-75">
                  <Logo />
             </div>
         )}
