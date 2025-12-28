@@ -321,8 +321,8 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
                     {displayHeadline.includes(pageData.name) ? (
                         <>
                             {displayHeadline.split(pageData.name)[0]}
-                            {/* Adjusted gradient endpoints for better visibility of the name */}
-                            <span className={`text-transparent bg-clip-text bg-gradient-to-r ${t('from-brand-600 to-brand-700', 'from-brand-400 to-brand-300')}`}>{pageData.name}</span>
+                            {/* Adjusted gradient for visibility: goes to 800 (deep) in light mode, and 100 (bright) in dark mode */}
+                            <span className={`text-transparent bg-clip-text bg-gradient-to-r ${t('from-brand-500 to-brand-800', 'from-brand-400 to-brand-100')}`}>{pageData.name}</span>
                             {displayHeadline.split(pageData.name)[1]}
                         </>
                     ) : (
