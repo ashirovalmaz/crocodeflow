@@ -414,8 +414,8 @@ export const LoomGenerator: React.FC = () => {
                      </div>
                  </div>
                  
-                 {/* The Page Itself */}
-                 <div className="flex-grow overflow-y-auto custom-scrollbar">
+                 {/* The Page Itself - Now with correct scroll container */}
+                 <div className="flex-grow overflow-y-auto custom-scrollbar relative">
                      <LoomPage previewData={previewData} themeMode={previewTheme} />
                  </div>
                  

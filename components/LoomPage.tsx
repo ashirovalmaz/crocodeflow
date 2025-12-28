@@ -234,7 +234,7 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
   const displayHeadline = pageData.text?.headline?.replace('{name}', pageData.name) || `Prepared for ${pageData.name}`;
 
   return (
-    <div className={`custom-theme-scope ${pageData.theme || ''} w-full isolate h-full`}>
+    <div className={`custom-theme-scope ${pageData.theme || ''} w-full isolate ${previewData ? '' : 'h-full'}`}>
         <div className={`
             ${t('bg-gray-50', 'bg-dark-900')} ${t('text-gray-900', 'text-white')} transition-colors duration-300 flex flex-col relative
             ${previewData ? 'min-h-full' : 'min-h-screen overflow-x-hidden'} 
