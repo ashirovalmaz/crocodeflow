@@ -11,6 +11,7 @@ import { Testimonials } from './Testimonials';
 import { Team } from './Team';
 import { Footer } from './Footer';
 import { ProcessRoast } from './ProcessRoast';
+import { BookingSection } from './BookingSection';
 import { CaseStudy } from '../types';
 
 export const LandingPage: React.FC = () => {
@@ -82,6 +83,10 @@ export const LandingPage: React.FC = () => {
 
           <section id="roi" className="py-24 bg-gray-50 dark:bg-dark-900 transition-colors duration-300">
             <ROICalculator />
+          </section>
+
+          <section id="booking" className="py-24 bg-gray-50 dark:bg-dark-900 transition-colors duration-300">
+            <BookingSection />
           </section>
 
           <section id="team" className="py-24 bg-gray-100 dark:bg-dark-800/50 border-t border-gray-200 dark:border-dark-800 transition-colors duration-300">

@@ -3,7 +3,8 @@ import { useLocation, useSearchParams } from 'react-router-dom';
 import { Header } from './Header';
 import { Footer } from './Footer';
 import { CAL_LINK } from '../constants';
-import { CheckCircle2, ArrowRight, PlayCircle, Video, ListChecks } from 'lucide-react';
+import { CheckCircle2, ArrowRight, PlayCircle, Video, ListChecks, Calendar as CalendarIcon } from 'lucide-react';
+import { BookingEmbed } from './BookingEmbed';
 
 // Default Text Constants
 const DEFAULTS = {
@@ -15,7 +16,7 @@ const DEFAULTS = {
     "ROI projection & timeline"
   ],
   ctaTitle: "Ready to execute?",
-  ctaDescription: "Let's discuss the implementation plan and get your automation systems running next week.",
+  ctaDescription: "Select a time below to discuss the implementation plan and get your systems running.",
   ctaButton: "Book Strategy Call",
   badgeText: "Private Video Brief",
   highlightsTitle: "Key Takeaways"
@@ -60,6 +61,7 @@ interface LoomPageProps {
     videoType?: VideoPlatform;
     color: string;
     bookingLink: string;
+    embedBooking?: boolean;
     senderName?: string;
     theme?: 'light' | 'dark';
     text?: {
@@ -92,6 +94,7 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
           ...previewData,
           theme: themeMode || previewData.theme,
           videoType: previewData.videoType || 'loom',
+          embedBooking: previewData.embedBooking ?? true,
           text: {
               headline: previewData.text?.headline || DEFAULTS.headline,
               description: previewData.text?.description || DEFAULTS.description,
@@ -106,28 +109,17 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
     }
 
     const isJustinDemo = location.pathname.includes('justinhowells');
-    if (isJustinDemo) {
-      return {
-        name: "Justin Howells",
-        senderName: "",
-        videoId: "d803199dda4449eeaae27cc46d019fae",
-        videoType: 'loom' as VideoPlatform,
-        color: null,
-        bookingLink: CAL_LINK,
-        theme: 'dark' as const,
-        text: DEFAULTS
-      };
-    }
-
     const highlightsParam = searchParams.get('list');
+    
     return {
-      name: searchParams.get('name') || "Valued Partner",
+      name: searchParams.get('name') || (isJustinDemo ? "Justin Howells" : "Valued Partner"),
       senderName: searchParams.get('from') || "", 
       videoId: searchParams.get('id') || "d803199dda4449eeaae27cc46d019fae", 
       videoType: (searchParams.get('vtype') as VideoPlatform) || 'loom',
       color: searchParams.get('color'),
-      bookingLink: searchParams.get('booking') ?? "", 
-      theme: (searchParams.get('theme') as 'light' | 'dark') || undefined,
+      bookingLink: searchParams.get('booking') || CAL_LINK, 
+      embedBooking: searchParams.get('embed') !== 'false',
+      theme: (searchParams.get('theme') as 'light' | 'dark') || (isJustinDemo ? 'dark' : undefined),
       text: {
           headline: searchParams.get('h1') || DEFAULTS.headline,
           description: searchParams.get('desc') || DEFAULTS.description,
@@ -206,14 +198,6 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
     if (!pageData.color) return;
 
     const color = pageData.color;
-    const c50  = adjustColor(color, 95);
-    const c200 = adjustColor(color, 50);
-    const c300 = adjustColor(color, 30);
-    const c400 = adjustColor(color, 15);
-    const c500 = color;
-    const c600 = adjustColor(color, -10);
-    const c700 = adjustColor(color, -20);
-    
     const styleId = previewData ? 'preview-dynamic-theme-styles' : 'dynamic-theme-styles';
     const existingStyle = document.getElementById(styleId);
     if (existingStyle) existingStyle.remove();
@@ -222,56 +206,25 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
     const l = (sel: string) => p ? `${p} ${sel}` : sel;
     const d = (sel: string) => p ? `${p}.dark ${sel}` : `.dark ${sel}`;
 
+    const c50  = adjustColor(color, 95);
+    const c200 = adjustColor(color, 50);
+    const c300 = adjustColor(color, 30);
+    const c400 = adjustColor(color, 15);
+    const c500 = color;
+    const c600 = adjustColor(color, -10);
+    const c700 = adjustColor(color, -20);
+
     const style = document.createElement('style');
     style.id = styleId;
     style.innerHTML = `
       ${l('.text-brand-500')} { color: ${c500} !important; }
-      ${l('.text-brand-600')} { color: ${c600} !important; }
-      ${l('.text-brand-700')} { color: ${c700} !important; }
-      ${l('.text-brand-400')} { color: ${c400} !important; }
       ${l('.bg-brand-500')} { background-color: ${c500} !important; }
-      ${l('.bg-brand-600')} { background-color: ${c600} !important; }
-      ${l('.bg-brand-400')} { background-color: ${c400} !important; }
-      ${l('.bg-brand-50')} { background-color: ${c50} !important; }
-      ${l('.bg-brand-500\\/5')}  { background-color: ${c500}0d !important; } 
-      ${l('.bg-brand-500\\/10')} { background-color: ${c500}1a !important; } 
-      ${l('.bg-brand-500\\/20')} { background-color: ${c500}33 !important; }
-      ${l('.bg-brand-500\\/30')} { background-color: ${c500}4d !important; }
-      ${l('.border-brand-200')} { border-color: ${c200} !important; }
       ${l('.border-brand-500')} { border-color: ${c500} !important; }
-      ${l('.border-brand-500\\/20')} { border-color: ${c500}33 !important; }
-      ${l('.border-brand-500\\/30')} { border-color: ${c500}4d !important; }
-      ${l('.border-brand-500\\/50')} { border-color: ${c500}80 !important; }
-      ${l('.border-brand-400\\/50')} { border-color: ${c400}80 !important; }
-      ${l('.from-brand-600')} { --tw-gradient-from: ${c600} !important; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important; }
       ${l('.from-brand-500')} { --tw-gradient-from: ${c500} !important; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important; }
       ${l('.to-brand-400')} { --tw-gradient-to: ${c400} !important; }
-      ${l('.to-brand-300')} { --tw-gradient-to: ${c300} !important; }
-      ${l('.to-brand-200')} { --tw-gradient-to: ${c200} !important; }
-      ${l('.shadow-brand-500\\/25')} { --tw-shadow-color: ${c500}40 !important; }
-      ${l('.shadow-brand-500\\/30')} { --tw-shadow-color: ${c500}4d !important; }
-      ${l('.shadow-brand-500\\/50')} { --tw-shadow-color: ${c500}80 !important; }
-      ${l('.fill-brand-500\\/20')} { fill: ${c500}33 !important; }
-      ${l('.hover\\:bg-brand-500:hover')} { background-color: ${c500} !important; }
-      ${l('.hover\\:bg-brand-400:hover')} { background-color: ${c400} !important; }
-      ${l('.hover\\:border-brand-500:hover')} { border-color: ${c500} !important; }
-      ${l('.hover\\:border-brand-400\\/50:hover')} { border-color: ${c400}80 !important; }
-      ${l('.hover\\:shadow-brand-500\\/50:hover')} { --tw-shadow-color: ${c500}80 !important; }
-      ${d('.dark\\:text-brand-200')} { color: ${c200} !important; }
-      ${d('.dark\\:text-brand-400')} { color: ${c400} !important; }
       ${d('.dark\\:text-brand-500')} { color: ${c500} !important; }
-      ${d('.dark\\:text-brand-600')} { color: ${c600} !important; }
       ${d('.dark\\:bg-brand-500')} { background-color: ${c500} !important; }
-      ${d('.dark\\:bg-brand-500\\/5')} { background-color: ${c500}0d !important; }
-      ${d('.dark\\:bg-brand-500\\/10')} { background-color: ${c500}1a !important; }
-      ${d('.dark\\:bg-brand-900\\/10')} { background-color: ${c500}1a !important; } 
-      ${d('.dark\\:bg-brand-900\\/20')} { background-color: ${c500}33 !important; }
       ${d('.dark\\:border-brand-500')} { border-color: ${c500} !important; }
-      ${d('.dark\\:border-brand-500\\/20')} { border-color: ${c500}33 !important; }
-      ${d('.dark\\:border-brand-500\\/30')} { border-color: ${c500}4d !important; }
-      ${d('.dark\\:from-brand-500')} { --tw-gradient-from: ${c500} !important; }
-      ${d('.dark\\:from-brand-400')} { --tw-gradient-from: ${c400} !important; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important; }
-      ${d('.dark\\:to-brand-200')} { --tw-gradient-to: ${c200} !important; }
     `;
     
     document.head.appendChild(style);
@@ -289,11 +242,7 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
             ${t('bg-gray-50', 'bg-dark-900')} ${t('text-gray-900', 'text-white')} transition-colors duration-300 relative
             ${previewData ? 'min-h-full block' : 'min-h-screen flex flex-col overflow-x-hidden'} 
         `}>
-        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-            <div className={`absolute inset-0 bg-[linear-gradient(rgba(100,100,100,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(100,100,100,0.03)_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-60`}></div>
-            <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] ${t('bg-brand-500/5', 'bg-brand-500/10')} rounded-full blur-[100px] opacity-70`}></div>
-        </div>
-
+        
         <Header 
             bookingLink={pageData.bookingLink} 
             ctaLabel={pageData.text?.ctaButton} 
@@ -330,7 +279,8 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
                 </p>
             </div>
 
-            <div className="flex flex-col gap-8 md:gap-12">
+            <div className="flex flex-col gap-12">
+                {/* Video Section */}
                 <div className={`w-full max-w-5xl mx-auto group relative rounded-2xl overflow-hidden border-2 ${t('border-gray-200', 'border-dark-700')} shadow-xl md:shadow-2xl bg-black animate-slide-up`}>
                     <div className="absolute -inset-1 bg-gradient-to-r from-brand-500 to-brand-300 rounded-2xl blur opacity-10 group-hover:opacity-30 transition duration-1000 group-hover:duration-200"></div>
                     <div className="relative bg-black rounded-xl overflow-hidden" style={{ position: 'relative', paddingBottom: '56.25%', height: 0 }}>
@@ -338,47 +288,57 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
                     </div>
                 </div>
                 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 animate-slide-up w-full max-w-5xl mx-auto" style={{ animationDelay: '0.2s' }}>
+                {/* Information & Booking Section */}
+                <div className={`grid grid-cols-1 ${pageData.embedBooking ? 'lg:grid-cols-1' : 'lg:grid-cols-12'} gap-8 animate-slide-up w-full max-w-5xl mx-auto`} style={{ animationDelay: '0.2s' }}>
                     
-                    <div className={`${pageData.bookingLink ? 'lg:col-span-7' : 'lg:col-span-12'} p-6 md:p-8 ${t('bg-white', 'bg-dark-800/50')} backdrop-blur-sm rounded-2xl border ${t('border-gray-200', 'border-dark-700')} shadow-sm flex flex-col justify-center`}>
+                    {/* Takeaways List */}
+                    <div className={`${pageData.embedBooking ? 'w-full' : 'lg:col-span-7'} p-6 md:p-8 ${t('bg-white', 'bg-dark-800/50')} backdrop-blur-sm rounded-2xl border ${t('border-gray-200', 'border-dark-700')} shadow-sm`}>
                         <h3 className={`font-display font-bold text-xl mb-6 ${t('text-gray-900', 'text-white')} flex items-center gap-2`}>
                             <ListChecks className="w-5 h-5 text-brand-500" /> {pageData.text?.highlightsTitle}
                         </h3>
-                        <ul className="space-y-4">
+                        <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {pageData.text?.highlights?.map((item, i) => (
                                 <li key={i} className="flex items-start gap-3 group">
                                     <div className={`mt-0.5 rounded-full ${t('bg-brand-50', 'bg-brand-500/10')} p-1`}>
                                         <CheckCircle2 className={`w-4 h-4 ${t('text-brand-600', 'text-brand-400')} shrink-0`} />
                                     </div>
-                                    <span className={`text-sm md:text-base leading-relaxed ${t('text-gray-700', 'text-gray-300')} ${t('group-hover:text-gray-900', 'group-hover:text-white')} transition-colors`}>{item}</span>
+                                    <span className={`text-sm md:text-base leading-relaxed ${t('text-gray-700', 'text-gray-300')} transition-colors`}>{item}</span>
                                 </li>
                             ))}
                         </ul>
                     </div>
 
+                    {/* Booking Area */}
                     {pageData.bookingLink && (
-                        <div className={`lg:col-span-5 p-6 md:p-8 ${t('bg-gray-900', 'bg-gradient-to-br from-dark-800 to-dark-900')} rounded-2xl border ${t('border-gray-800', 'border-dark-700')} shadow-lg flex flex-col justify-center items-start relative overflow-hidden group`}>
-                            <div className="absolute top-0 right-0 w-48 h-48 bg-brand-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-brand-500/20 transition-colors duration-500"></div>
-                            <div className="absolute bottom-0 left-0 w-32 h-32 bg-blue-500/5 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2"></div>
-
-                            <h3 className="font-display font-bold text-xl md:text-2xl mb-3 text-white relative z-10">
-                                {pageData.text?.ctaTitle}
-                            </h3>
-                            <p className="text-gray-400 text-sm mb-8 relative z-10 leading-relaxed">
-                                {pageData.text?.ctaDescription}
-                            </p>
-                            <a 
-                                href={pageData.bookingLink}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="relative z-10 w-full py-3.5 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl transition-all shadow-[0_4px_20px_rgba(0,0,0,0.2)] hover:shadow-brand-500/30 flex items-center justify-center gap-2 group/btn border border-transparent hover:border-brand-400/50"
-                            >
-                                {pageData.text?.ctaButton} <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
-                            </a>
-                        </div>
+                        pageData.embedBooking ? (
+                            <div className="w-full space-y-8 mt-4">
+                                <div className="text-center max-w-2xl mx-auto">
+                                    <h2 className={`text-3xl font-display font-bold mb-3 ${t('text-gray-900', 'text-white')}`}>{pageData.text?.ctaTitle}</h2>
+                                    <p className={`text-sm ${t('text-gray-600', 'text-gray-400')}`}>{pageData.text?.ctaDescription}</p>
+                                </div>
+                                <BookingEmbed url={pageData.bookingLink} height="700px" />
+                            </div>
+                        ) : (
+                            <div className={`lg:col-span-5 p-6 md:p-8 ${t('bg-gray-900', 'bg-gradient-to-br from-dark-800 to-dark-900')} rounded-2xl border ${t('border-gray-800', 'border-dark-700')} shadow-lg flex flex-col justify-center items-start relative overflow-hidden group`}>
+                                <div className="absolute top-0 right-0 w-48 h-48 bg-brand-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-brand-500/20 transition-colors duration-500"></div>
+                                <h3 className="font-display font-bold text-xl md:text-2xl mb-3 text-white relative z-10">
+                                    {pageData.text?.ctaTitle}
+                                </h3>
+                                <p className="text-gray-400 text-sm mb-8 relative z-10 leading-relaxed">
+                                    {pageData.text?.ctaDescription}
+                                </p>
+                                <a 
+                                    href={pageData.bookingLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="relative z-10 w-full py-3.5 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl transition-all shadow-[0_4px_20px_rgba(0,0,0,0.2)] hover:shadow-brand-500/30 flex items-center justify-center gap-2 group/btn border border-transparent hover:border-brand-400/50"
+                                >
+                                    {pageData.text?.ctaButton} <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
+                                </a>
+                            </div>
+                        )
                     )}
                 </div>
-
             </div>
 
             </div>

@@ -3,7 +3,7 @@ import { Header } from './Header';
 import { 
   Link, Copy, Check, ArrowRight, AlertCircle, Settings, Eye, Moon, Sun,
   User, Building2, Palette, Video, Calendar, Sparkles, Wand2, ExternalLink, 
-  Type, MessageSquare, Layout, FileText, MousePointer2
+  Type, MessageSquare, Layout, FileText, MousePointer2, Smartphone
 } from 'lucide-react';
 import { LoomPage } from './LoomPage';
 
@@ -21,6 +21,7 @@ export const LoomGenerator: React.FC = () => {
   const [videoUrl, setVideoUrl] = useState('');
   const [themeColor, setThemeColor] = useState('#22c55e');
   const [bookingLink, setBookingLink] = useState('');
+  const [embedBooking, setEmbedBooking] = useState(true);
   
   // Messaging State
   const [headline, setHeadline] = useState("Prepared for {name}");
@@ -31,7 +32,7 @@ export const LoomGenerator: React.FC = () => {
   
   // CTA State
   const [ctaTitle, setCtaTitle] = useState("Ready to execute?");
-  const [ctaDesc, setCtaDesc] = useState("Let's discuss the implementation plan and get your automation systems running next week.");
+  const [ctaDesc, setCtaDesc] = useState("Select a time below to discuss the implementation plan and get your systems running.");
   const [ctaBtn, setCtaBtn] = useState("Book Strategy Call");
   
   // Meta State
@@ -82,7 +83,7 @@ export const LoomGenerator: React.FC = () => {
 
     const { id, type } = detectVideoData(videoUrl);
     if (!id || type === 'unknown') {
-      setError('Unsupported or invalid Video URL. Check if it is a share link.');
+      setError('Unsupported or invalid Video URL.');
       setActiveTab('setup');
       return;
     }
@@ -94,6 +95,7 @@ export const LoomGenerator: React.FC = () => {
       vtype: type,
       color: themeColor,
       theme: previewTheme,
+      embed: embedBooking.toString()
     });
 
     if (senderName.trim()) params.append('from', senderName.trim());
@@ -102,7 +104,7 @@ export const LoomGenerator: React.FC = () => {
     if (description !== "We analyzed your current workflow. Here is the blueprint to automate it and scale.") params.append('desc', description);
     if (highlights !== DEFAULT_HIGHLIGHTS) params.append('list', highlights.split('\n').join('|'));
     if (ctaTitle !== "Ready to execute?") params.append('cta_t', ctaTitle);
-    if (ctaDesc !== "Let's discuss the implementation plan and get your automation systems running next week.") params.append('cta_d', ctaDesc);
+    if (ctaDesc !== "Select a time below to discuss the implementation plan and get your systems running.") params.append('cta_d', ctaDesc);
     if (ctaBtn !== "Book Strategy Call") params.append('cta_b', ctaBtn);
     if (badgeText !== "Private Video Brief") params.append('badge', badgeText);
     if (highlightsTitle !== "Key Takeaways") params.append('list_t', highlightsTitle);
@@ -125,6 +127,7 @@ export const LoomGenerator: React.FC = () => {
       videoType: previewType,
       color: themeColor,
       bookingLink: bookingLink,
+      embedBooking: embedBooking,
       text: {
           headline,
           description,
@@ -219,7 +222,6 @@ export const LoomGenerator: React.FC = () => {
                           className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-200 dark:border-dark-700 rounded-xl pl-10 pr-4 py-3 text-sm focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none transition-all"
                         />
                       </div>
-                      <p className="mt-2 text-[10px] text-gray-500">Supports: Loom, YouTube, Vimeo, Wistia, Vidyard, Google Drive.</p>
                       {previewType !== 'unknown' && videoUrl && (
                         <div className="mt-2 flex items-center gap-1.5">
                             <Check className="w-3 h-3 text-green-500" />
@@ -252,7 +254,6 @@ export const LoomGenerator: React.FC = () => {
                         onChange={e => setHeadline(e.target.value)} 
                         className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-200 dark:border-dark-700 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500 outline-none" 
                       />
-                      <p className="text-[10px] text-gray-400 italic">Use {"{name}"} to auto-inject the client name.</p>
                     </div>
 
                     <div className="space-y-1.5">
@@ -279,7 +280,6 @@ export const LoomGenerator: React.FC = () => {
                         value={highlights} 
                         onChange={e => setHighlights(e.target.value)} 
                         className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-200 dark:border-dark-700 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500 outline-none resize-none" 
-                        placeholder="Items (One per line)"
                       />
                     </div>
                   </div>
@@ -349,6 +349,20 @@ export const LoomGenerator: React.FC = () => {
                       </div>
                     </div>
 
+                    <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-dark-900/50 rounded-xl border border-gray-200 dark:border-dark-700">
+                        <div className="flex items-center gap-2">
+                            {/* Updated smartphone icon from correctly imported Smartphone name */}
+                            <Smartphone className="w-4 h-4 text-gray-400" />
+                            <span className="text-xs font-bold uppercase text-gray-600 dark:text-gray-300">Embed Calendar</span>
+                        </div>
+                        <button 
+                            onClick={() => setEmbedBooking(!embedBooking)}
+                            className={`w-10 h-5 rounded-full transition-colors relative ${embedBooking ? 'bg-brand-500' : 'bg-gray-300 dark:bg-dark-700'}`}
+                        >
+                            <div className={`absolute top-1 w-3 h-3 rounded-full bg-white transition-all ${embedBooking ? 'left-6' : 'left-1'}`}></div>
+                        </button>
+                    </div>
+
                     <div className="pt-4 border-t border-gray-100 dark:border-dark-700 space-y-4">
                       <div className="space-y-1.5">
                         <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest block">Card Title</label>
@@ -368,15 +382,17 @@ export const LoomGenerator: React.FC = () => {
                           className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-200 dark:border-dark-700 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500 outline-none resize-none" 
                         />
                       </div>
-                      <div className="space-y-1.5">
-                        <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest block">Button Label</label>
-                        <input 
-                          type="text" 
-                          value={ctaBtn} 
-                          onChange={e => setCtaBtn(e.target.value)} 
-                          className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-200 dark:border-dark-700 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500 outline-none" 
-                        />
-                      </div>
+                      {!embedBooking && (
+                        <div className="space-y-1.5">
+                            <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest block">Button Label</label>
+                            <input 
+                            type="text" 
+                            value={ctaBtn} 
+                            onChange={e => setCtaBtn(e.target.value)} 
+                            className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-200 dark:border-dark-700 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500 outline-none" 
+                            />
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -402,9 +418,6 @@ export const LoomGenerator: React.FC = () => {
                   <div className="mt-4 animate-slide-up space-y-3">
                       <div className="bg-white dark:bg-dark-950 border border-gray-200 dark:border-dark-800 rounded-xl p-3 text-[10px] font-mono text-gray-500 break-all select-all shadow-inner relative group">
                           {generatedLink}
-                          <div className="absolute inset-0 bg-white/10 dark:bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                             <span className="text-[8px] uppercase tracking-widest bg-black text-white px-2 py-1 rounded">Triple click to select all</span>
-                          </div>
                       </div>
                       <div className="flex gap-2">
                           <button
@@ -450,16 +463,9 @@ export const LoomGenerator: React.FC = () => {
                      </div>
                  </div>
                  
-                 {/* The Page Itself - Now with correct scroll container and min-h-0 */}
+                 {/* The Page Itself */}
                  <div className="flex-grow overflow-y-auto custom-scrollbar relative min-h-0">
                      <LoomPage previewData={previewData} themeMode={previewTheme} />
-                 </div>
-                 
-                 {/* Mobile Toggle Hint (Overlay) */}
-                 <div className="absolute bottom-4 right-4 z-30 lg:hidden">
-                    <button className="p-3 bg-brand-600 text-white rounded-full shadow-2xl">
-                        <Eye className="w-5 h-5" />
-                    </button>
                  </div>
               </div>
           </div>
@@ -468,22 +474,11 @@ export const LoomGenerator: React.FC = () => {
       </main>
 
       <style>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 5px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(0,0,0,0.1);
-          border-radius: 10px;
-        }
-        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(255,255,255,0.05);
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: #22c55e;
-        }
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 10px; }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.05); }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #22c55e; }
       `}</style>
     </div>
   );
