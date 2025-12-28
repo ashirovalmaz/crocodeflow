@@ -34,10 +34,11 @@ const adjustColor = (hex: string, percent: number) => {
     let b = parseInt(hex.substr(4, 2), 16);
 
     if (percent > 0) {
-        // Lighten (Mix with White)
-        r = Math.round(r + (255 - r) * (percent / 100));
-        g = Math.round(g + (255 - g) * (percent / 100));
-        b = Math.round(b + (255 - b) * (percent / 100));
+        // Lighten (Mix with White) - Reduced intensity for lighter shades to keep visibility
+        const factor = percent / 100;
+        r = Math.round(r + (255 - r) * factor);
+        g = Math.round(g + (255 - g) * factor);
+        b = Math.round(b + (255 - b) * factor);
     } else {
         // Darken (Mix with Black)
         const factor = 1 + (percent / 100); // e.g. -20% -> 0.8
@@ -206,18 +207,18 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
     const l = (sel: string) => p ? `${p} ${sel}` : sel;
     const d = (sel: string) => p ? `${p}.dark ${sel}` : `.dark ${sel}`;
 
-    // Full Palette Generation
+    // Full Palette Generation - adjusted percentages for better visibility of light shades
     const palette = {
-        50: adjustColor(color, 92),
-        100: adjustColor(color, 85),
-        200: adjustColor(color, 65),
-        300: adjustColor(color, 45),
-        400: adjustColor(color, 25),
+        50: adjustColor(color, 94),
+        100: adjustColor(color, 88),
+        200: adjustColor(color, 75), // Was 65
+        300: adjustColor(color, 55), // Was 45
+        400: adjustColor(color, 35), // Was 25
         500: color,
         600: adjustColor(color, -10),
         700: adjustColor(color, -20),
-        800: adjustColor(color, -30),
-        900: adjustColor(color, -45)
+        800: adjustColor(color, -35),
+        900: adjustColor(color, -50)
     };
 
     const style = document.createElement('style');
@@ -225,8 +226,19 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
     
     let css = ``;
     
+    // RGB for opacity calculations
+    const hexToRgb = (hex: string) => {
+        const r = parseInt(hex.slice(1, 3), 16);
+        const g = parseInt(hex.slice(3, 5), 16);
+        const b = parseInt(hex.slice(5, 7), 16);
+        return `${r}, ${g}, ${b}`;
+    };
+    const rgb = hexToRgb(color);
+
     // Generate rules for all shades (50 - 900)
     Object.entries(palette).forEach(([shade, hex]) => {
+        const shadeRgb = hexToRgb(hex);
+
         // Text
         css += `${l(`.text-brand-${shade}`)} { color: ${hex} !important; }\n`;
         css += `${d(`.dark\\:text-brand-${shade}`)} { color: ${hex} !important; }\n`;
@@ -248,23 +260,24 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
         
         // Gradients (To)
         css += `${l(`.to-brand-${shade}`)} { --tw-gradient-to: ${hex} !important; }\n`;
+
+        // Shadow colors (fix green glow)
+        css += `${l(`.shadow-brand-${shade}\\/20`)} { --tw-shadow-color: rgba(${shadeRgb}, 0.2) !important; }\n`;
+        css += `${l(`.shadow-brand-${shade}\\/30`)} { --tw-shadow-color: rgba(${shadeRgb}, 0.3) !important; }\n`;
+        css += `${l(`.shadow-brand-${shade}\\/50`)} { --tw-shadow-color: rgba(${shadeRgb}, 0.5) !important; }\n`;
+        css += `${d(`.dark\\:shadow-brand-${shade}\\/20`)} { --tw-shadow-color: rgba(${shadeRgb}, 0.2) !important; }\n`;
+        css += `${d(`.dark\\:shadow-brand-${shade}\\/30`)} { --tw-shadow-color: rgba(${shadeRgb}, 0.3) !important; }\n`;
+        css += `${d(`.dark\\:shadow-brand-${shade}\\/50`)} { --tw-shadow-color: rgba(${shadeRgb}, 0.5) !important; }\n`;
     });
 
-    // Special handling for opacity (using a trick to apply opacity to hex)
-    // We target common background opacities like bg-brand-500/10
-    const hexToRgb = (hex: string) => {
-        const r = parseInt(hex.slice(1, 3), 16);
-        const g = parseInt(hex.slice(3, 5), 16);
-        const b = parseInt(hex.slice(5, 7), 16);
-        return `${r}, ${g}, ${b}`;
-    };
-
-    const rgb = hexToRgb(color);
+    // Special handling for opacity utilities
     css += `
         ${l('.bg-brand-500\\/5')} { background-color: rgba(${rgb}, 0.05) !important; }
         ${l('.bg-brand-500\\/10')} { background-color: rgba(${rgb}, 0.1) !important; }
+        ${l('.bg-brand-500\\/20')} { background-color: rgba(${rgb}, 0.2) !important; }
         ${d('.dark\\:bg-brand-500\\/5')} { background-color: rgba(${rgb}, 0.05) !important; }
         ${d('.dark\\:bg-brand-500\\/10')} { background-color: rgba(${rgb}, 0.1) !important; }
+        ${d('.dark\\:bg-brand-500\\/20')} { background-color: rgba(${rgb}, 0.2) !important; }
     `;
     
     style.innerHTML = css;
@@ -308,7 +321,8 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
                     {displayHeadline.includes(pageData.name) ? (
                         <>
                             {displayHeadline.split(pageData.name)[0]}
-                            <span className={`text-transparent bg-clip-text bg-gradient-to-r ${t('from-brand-600 to-brand-400', 'from-brand-400 to-brand-200')}`}>{pageData.name}</span>
+                            {/* Adjusted gradient endpoints for better visibility of the name */}
+                            <span className={`text-transparent bg-clip-text bg-gradient-to-r ${t('from-brand-600 to-brand-700', 'from-brand-400 to-brand-300')}`}>{pageData.name}</span>
                             {displayHeadline.split(pageData.name)[1]}
                         </>
                     ) : (
