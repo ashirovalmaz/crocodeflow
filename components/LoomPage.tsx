@@ -211,9 +211,9 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
     const palette = {
         50: adjustColor(color, 94),
         100: adjustColor(color, 88),
-        200: adjustColor(color, 75), // Was 65
-        300: adjustColor(color, 55), // Was 45
-        400: adjustColor(color, 35), // Was 25
+        200: adjustColor(color, 75), 
+        300: adjustColor(color, 55), 
+        400: adjustColor(color, 35), 
         500: color,
         600: adjustColor(color, -10),
         700: adjustColor(color, -20),
@@ -321,8 +321,15 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
                     {displayHeadline.includes(pageData.name) ? (
                         <>
                             {displayHeadline.split(pageData.name)[0]}
-                            {/* Adjusted gradient for visibility: goes to 800 (deep) in light mode, and 100 (bright) in dark mode */}
-                            <span className={`text-transparent bg-clip-text bg-gradient-to-r ${t('from-brand-500 to-brand-800', 'from-brand-400 to-brand-100')}`}>{pageData.name}</span>
+                            {/* Adjusted gradient for visibility: goes to 800 (deep) in light mode, and pure white with glow in dark mode */}
+                            <span 
+                                className={`text-transparent bg-clip-text bg-gradient-to-r ${t('from-brand-500 to-brand-800', 'from-brand-300 via-brand-100 to-white')}`}
+                                style={{
+                                    filter: pageData.theme === 'dark' ? 'drop-shadow(0 0 8px rgba(255,255,255,0.3))' : 'none'
+                                }}
+                            >
+                                {pageData.name}
+                            </span>
                             {displayHeadline.split(pageData.name)[1]}
                         </>
                     ) : (

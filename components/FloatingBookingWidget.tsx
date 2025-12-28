@@ -40,27 +40,28 @@ export const FloatingBookingWidget: React.FC = () => {
   const title = searchParams.get('cta_t') || "Ready to execute?";
   const description = searchParams.get('cta_d') || "Select a time below to discuss the implementation plan and get your systems running.";
 
-  // Function to play an ASCENDING notification sound (positive mood)
+  // Function to play an ASCENDING two-note notification sound (snappy and positive)
   const playNotificationSound = () => {
     try {
       const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
-      const oscillator = audioCtx.createOscillator();
-      const gainNode = audioCtx.createGain();
+      
+      const playNote = (freq: number, start: number, duration: number) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime + start);
+        gain.gain.setValueAtTime(0, audioCtx.currentTime + start);
+        gain.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + start + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + start + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(audioCtx.currentTime + start);
+        osc.stop(audioCtx.currentTime + start + duration);
+      };
 
-      oscillator.connect(gainNode);
-      gainNode.connect(audioCtx.destination);
-
-      oscillator.type = 'sine';
-      // Go from 440 (A4) to 880 (A5) for ascending/positive vibe
-      oscillator.frequency.setValueAtTime(440, audioCtx.currentTime); 
-      oscillator.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.5); 
-
-      gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
-      gainNode.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + 0.05);
-      gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
-
-      oscillator.start(audioCtx.currentTime);
-      oscillator.stop(audioCtx.currentTime + 0.5);
+      // Play two ascending notes (C5 to E5)
+      playNote(523.25, 0, 0.2); // C5
+      playNote(659.25, 0.15, 0.3); // E5
     } catch (e) {
       console.log("Audio playback failed (interaction required)");
     }
