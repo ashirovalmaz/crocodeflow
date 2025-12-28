@@ -11,8 +11,8 @@ export const FloatingBookingWidget: React.FC = () => {
   const hasPlayedSound = useRef(false);
 
   // Get dynamic text from URL or use defaults
-  const title = searchParams.get('cta_t') || "AI Growth Audit";
-  const description = searchParams.get('cta_d') || "Ready to find your first $10k in automation? Let's chat.";
+  const title = searchParams.get('cta_t') || "Ready to execute?";
+  const description = searchParams.get('cta_d') || "Select a time below to discuss the implementation plan and get your systems running.";
 
   // Function to play a clean notification sound
   const playNotificationSound = () => {

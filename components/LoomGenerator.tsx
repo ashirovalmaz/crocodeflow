@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Header } from './Header';
 import { 
   Link, Copy, Check, ArrowRight, AlertCircle, Settings, Eye, Moon, Sun,
   User, Building2, Palette, Video, Calendar, Sparkles, Wand2, ExternalLink, 
-  Type, MessageSquare, Layout, FileText, MousePointer2, Smartphone
+  Type, MessageSquare, Layout, FileText, MousePointer2, Smartphone,
+  Save, Download, Upload
 } from 'lucide-react';
 import { LoomPage } from './LoomPage';
 
@@ -14,6 +15,7 @@ type VideoPlatform = 'loom' | 'youtube' | 'vimeo' | 'drive' | 'vidyard' | 'wisti
 
 export const LoomGenerator: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('setup');
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
   // State
   const [clientName, setClientName] = useState('');
@@ -110,6 +112,56 @@ export const LoomGenerator: React.FC = () => {
     if (highlightsTitle !== "Key Takeaways") params.append('list_t', highlightsTitle);
 
     setGeneratedLink(`${baseUrl}/looms/share?${params.toString()}`);
+  };
+
+  const saveConfig = () => {
+    const configData = {
+      clientName, senderName, videoUrl, themeColor, bookingLink, embedBooking,
+      headline, description, highlights, badgeText, highlightsTitle,
+      ctaTitle, ctaDesc, ctaBtn, previewTheme
+    };
+    const blob = new Blob([JSON.stringify(configData, null, 2)], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `crocodeflow-${clientName || 'config'}.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  const loadConfig = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const data = JSON.parse(event.target?.result as string);
+        if (data.clientName !== undefined) setClientName(data.clientName);
+        if (data.senderName !== undefined) setSenderName(data.senderName);
+        if (data.videoUrl !== undefined) setVideoUrl(data.videoUrl);
+        if (data.themeColor !== undefined) setThemeColor(data.themeColor);
+        if (data.bookingLink !== undefined) setBookingLink(data.bookingLink);
+        if (data.embedBooking !== undefined) setEmbedBooking(data.embedBooking);
+        if (data.headline !== undefined) setHeadline(data.headline);
+        if (data.description !== undefined) setDescription(data.description);
+        if (data.highlights !== undefined) setHighlights(data.highlights);
+        if (data.badgeText !== undefined) setBadgeText(data.badgeText);
+        if (data.highlightsTitle !== undefined) setHighlightsTitle(data.highlightsTitle);
+        if (data.ctaTitle !== undefined) setCtaTitle(data.ctaTitle);
+        if (data.ctaDesc !== undefined) setCtaDesc(data.ctaDesc);
+        if (data.ctaBtn !== undefined) setCtaBtn(data.ctaBtn);
+        if (data.previewTheme !== undefined) setPreviewTheme(data.previewTheme);
+        setError('');
+      } catch (err) {
+        setError('Invalid configuration file.');
+      }
+    };
+    reader.readAsText(file);
+    // Reset input
+    e.target.value = '';
   };
 
   const copyToClipboard = () => {
@@ -400,16 +452,39 @@ export const LoomGenerator: React.FC = () => {
             </div>
 
             {/* Footer Actions */}
-            <div className="p-6 bg-gray-50 dark:bg-dark-900/50 border-t border-gray-100 dark:border-dark-700">
+            <div className="p-6 bg-gray-50 dark:bg-dark-900/50 border-t border-gray-100 dark:border-dark-700 space-y-3">
+              <input 
+                type="file" 
+                ref={fileInputRef} 
+                onChange={loadConfig} 
+                accept=".txt" 
+                className="hidden" 
+              />
+              
+              <div className="flex gap-2">
+                <button
+                  onClick={saveConfig}
+                  className="flex-1 py-3 bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 hover:border-brand-500 text-gray-700 dark:text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2 text-xs shadow-sm"
+                >
+                  <Save className="w-3.5 h-3.5" /> Save
+                </button>
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  className="flex-1 py-3 bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 hover:border-brand-500 text-gray-700 dark:text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2 text-xs shadow-sm"
+                >
+                  <Upload className="w-3.5 h-3.5" /> Load
+                </button>
+              </div>
+
                {error && (
-                  <div className="flex items-center gap-2 text-red-500 text-[11px] font-bold bg-red-50 dark:bg-red-900/20 p-2.5 rounded-lg border border-red-200 dark:border-red-500/20 mb-4">
+                  <div className="flex items-center gap-2 text-red-500 text-[11px] font-bold bg-red-50 dark:bg-red-900/20 p-2.5 rounded-lg border border-red-200 dark:border-red-500/20">
                       <AlertCircle className="w-3.5 h-3.5" /> {error}
                   </div>
               )}
 
               <button
                 onClick={handleGenerate}
-                className="w-full py-3.5 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-brand-500/30 flex items-center justify-center gap-2 group"
+                className="w-full py-4 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-brand-500/30 flex items-center justify-center gap-2 group"
               >
                 Generate Link <Sparkles className="w-4 h-4 group-hover:rotate-12 transition-transform" />
               </button>
