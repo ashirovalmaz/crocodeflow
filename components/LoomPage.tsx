@@ -206,24 +206,44 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
     const l = (sel: string) => p ? `${p} ${sel}` : sel;
     const d = (sel: string) => p ? `${p}.dark ${sel}` : `.dark ${sel}`;
 
-    const c50  = adjustColor(color, 95);
+    // Generate accurate palette
     const c200 = adjustColor(color, 50);
-    const c300 = adjustColor(color, 30);
     const c400 = adjustColor(color, 15);
     const c500 = color;
     const c600 = adjustColor(color, -10);
-    const c700 = adjustColor(color, -20);
 
     const style = document.createElement('style');
     style.id = styleId;
     style.innerHTML = `
-      ${l('.text-brand-500')} { color: ${c500} !important; }
-      ${l('.bg-brand-500')} { background-color: ${c500} !important; }
-      ${l('.border-brand-500')} { border-color: ${c500} !important; }
-      ${l('.from-brand-500')} { --tw-gradient-from: ${c500} !important; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important; }
+      /* Standard colors */
+      ${l('.text-brand-500')}, ${l('.text-brand-600')}, ${l('.text-brand-400')} { color: ${c500} !important; }
+      ${l('.bg-brand-500')}, ${l('.bg-brand-600')}, ${l('.bg-brand-400')} { background-color: ${c500} !important; }
+      ${l('.border-brand-500')}, ${l('.border-brand-600')}, ${l('.border-brand-400')} { border-color: ${c500} !important; }
+      
+      /* Gradients: Override the "from" part and ensure stops are clean */
+      ${l('.from-brand-600')} { 
+        --tw-gradient-from: ${c600} !important; 
+        --tw-gradient-to: ${c600}00 !important;
+        --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important; 
+      }
+      ${l('.from-brand-500')} { 
+        --tw-gradient-from: ${c500} !important; 
+        --tw-gradient-to: ${c500}00 !important;
+        --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important; 
+      }
+      ${l('.from-brand-400')} { 
+        --tw-gradient-from: ${c400} !important; 
+        --tw-gradient-to: ${c400}00 !important;
+        --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important; 
+      }
+
+      /* Gradients: Override the "to" part */
       ${l('.to-brand-400')} { --tw-gradient-to: ${c400} !important; }
-      ${d('.dark\\:text-brand-500')} { color: ${c500} !important; }
-      ${d('.dark\\:bg-brand-500')} { background-color: ${c500} !important; }
+      ${l('.to-brand-200')} { --tw-gradient-to: ${c200} !important; }
+
+      /* Dark mode overrides (same logic) */
+      ${d('.dark\\:text-brand-500')}, ${d('.dark\\:text-brand-400')} { color: ${c500} !important; }
+      ${d('.dark\\:bg-brand-500')}, ${d('.dark\\:bg-brand-600')} { background-color: ${c500} !important; }
       ${d('.dark\\:border-brand-500')} { border-color: ${c500} !important; }
     `;
     
