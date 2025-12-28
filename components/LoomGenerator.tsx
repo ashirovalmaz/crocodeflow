@@ -393,8 +393,8 @@ export const LoomGenerator: React.FC = () => {
           </div>
 
           {/* Preview Canvas */}
-          <div className="lg:col-span-8 flex flex-col h-full">
-             <div className="flex-grow bg-gray-100 dark:bg-dark-950 rounded-2xl border-4 border-gray-200 dark:border-dark-800 shadow-2xl overflow-hidden flex flex-col relative">
+          <div className="lg:col-span-8 flex flex-col h-full min-h-0">
+             <div className="flex-grow bg-gray-100 dark:bg-dark-950 rounded-2xl border-4 border-gray-200 dark:border-dark-800 shadow-2xl overflow-hidden flex flex-col relative min-h-0">
                  
                  {/* Browser Chrome UI */}
                  <div className="bg-white dark:bg-dark-900 border-b border-gray-200 dark:border-dark-800 flex items-center justify-between px-4 py-2.5 z-20 shrink-0">
@@ -414,8 +414,8 @@ export const LoomGenerator: React.FC = () => {
                      </div>
                  </div>
                  
-                 {/* The Page Itself - Now with correct scroll container */}
-                 <div className="flex-grow overflow-y-auto custom-scrollbar relative">
+                 {/* The Page Itself - Now with correct scroll container and min-h-0 */}
+                 <div className="flex-grow overflow-y-auto custom-scrollbar relative min-h-0">
                      <LoomPage previewData={previewData} themeMode={previewTheme} />
                  </div>
                  
