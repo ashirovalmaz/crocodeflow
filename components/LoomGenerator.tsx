@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Header } from './Header';
 import { 
   Link, Copy, Check, ArrowRight, AlertCircle, Settings, Eye, Moon, Sun,
@@ -10,6 +10,7 @@ import { LoomPage } from './LoomPage';
 const DEFAULT_HIGHLIGHTS = "Current bottlenecks analysis\nProposed AI architecture\nROI projection & timeline";
 
 type TabType = 'setup' | 'messaging' | 'design' | 'action';
+type VideoPlatform = 'loom' | 'youtube' | 'vimeo' | 'drive' | 'vidyard' | 'wistia' | 'unknown';
 
 export const LoomGenerator: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('setup');
@@ -17,7 +18,7 @@ export const LoomGenerator: React.FC = () => {
   // State
   const [clientName, setClientName] = useState('');
   const [senderName, setSenderName] = useState('');
-  const [loomUrl, setLoomUrl] = useState('');
+  const [videoUrl, setVideoUrl] = useState('');
   const [themeColor, setThemeColor] = useState('#22c55e');
   const [bookingLink, setBookingLink] = useState('');
   
@@ -39,25 +40,49 @@ export const LoomGenerator: React.FC = () => {
   const [error, setError] = useState('');
   const [previewTheme, setPreviewTheme] = useState<'dark' | 'light'>('dark');
 
-  const extractLoomId = (url: string) => {
-    if (!url) return '';
-    const match = url.match(/[a-f0-9]{32}/);
-    return match ? match[0] : '';
+  const detectVideoData = (url: string): { id: string; type: VideoPlatform } => {
+    if (!url) return { id: '', type: 'unknown' };
+
+    // Loom
+    const loomMatch = url.match(/(?:loom\.com\/share\/|loom\.com\/embed\/)([a-f0-9]{32})/);
+    if (loomMatch) return { id: loomMatch[1], type: 'loom' };
+
+    // YouTube
+    const ytMatch = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
+    if (ytMatch) return { id: ytMatch[1], type: 'youtube' };
+
+    // Vimeo
+    const vimeoMatch = url.match(/(?:vimeo\.com\/|player\.vimeo\.com\/video\/)(\d+)/);
+    if (vimeoMatch) return { id: vimeoMatch[1], type: 'vimeo' };
+
+    // Google Drive
+    const driveMatch = url.match(/(?:drive\.google\.com\/file\/d\/|drive\.google\.com\/open\?id=)([a-zA-Z0-9_-]+)/);
+    if (driveMatch) return { id: driveMatch[1], type: 'drive' };
+
+    // Vidyard
+    const vidyardMatch = url.match(/(?:vidyard\.com\/(?:watch|share)\/|play\.vidyard\.com\/)([a-zA-Z0-9_-]+)/);
+    if (vidyardMatch) return { id: vidyardMatch[1], type: 'vidyard' };
+
+    // Wistia
+    const wistiaMatch = url.match(/(?:wistia\.com\/medias\/|fast\.wistia\.net\/embed\/iframe\/)([a-z0-9]+)/);
+    if (wistiaMatch) return { id: wistiaMatch[1], type: 'wistia' };
+
+    return { id: '', type: 'unknown' };
   };
 
   const handleGenerate = () => {
     setError('');
     setGeneratedLink('');
 
-    if (!clientName.trim() || !loomUrl.trim()) {
-      setError('Missing Name or Loom URL.');
+    if (!clientName.trim() || !videoUrl.trim()) {
+      setError('Please fill in Client Name and Video URL.');
       setActiveTab('setup');
       return;
     }
 
-    const videoId = extractLoomId(loomUrl);
-    if (!videoId) {
-      setError('Invalid Loom URL.');
+    const { id, type } = detectVideoData(videoUrl);
+    if (!id || type === 'unknown') {
+      setError('Unsupported or invalid Video URL. Check if it is a share link.');
       setActiveTab('setup');
       return;
     }
@@ -65,7 +90,8 @@ export const LoomGenerator: React.FC = () => {
     const baseUrl = window.location.origin;
     const params = new URLSearchParams({
       name: clientName,
-      id: videoId,
+      id: id,
+      vtype: type,
       color: themeColor,
       theme: previewTheme,
     });
@@ -90,10 +116,13 @@ export const LoomGenerator: React.FC = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const { id: previewId, type: previewType } = detectVideoData(videoUrl);
+
   const previewData = {
       name: clientName || "Client Name",
       senderName: senderName,
-      videoId: extractLoomId(loomUrl),
+      videoId: previewId,
+      videoType: previewType,
       color: themeColor,
       bookingLink: bookingLink,
       text: {
@@ -179,17 +208,24 @@ export const LoomGenerator: React.FC = () => {
                     </div>
 
                     <div className="relative group">
-                      <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1.5 block">Loom Video URL</label>
+                      <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1.5 block">Video URL</label>
                       <div className="relative">
                         <Video className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-brand-500 transition-colors" />
                         <input
                           type="text"
-                          value={loomUrl}
-                          onChange={(e) => setLoomUrl(e.target.value)}
-                          placeholder="https://www.loom.com/share/..."
+                          value={videoUrl}
+                          onChange={(e) => setVideoUrl(e.target.value)}
+                          placeholder="YouTube, Loom, Vimeo, Drive..."
                           className="w-full bg-gray-50 dark:bg-dark-900 border border-gray-200 dark:border-dark-700 rounded-xl pl-10 pr-4 py-3 text-sm focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none transition-all"
                         />
                       </div>
+                      <p className="mt-2 text-[10px] text-gray-500">Supports: Loom, YouTube, Vimeo, Wistia, Vidyard, Google Drive.</p>
+                      {previewType !== 'unknown' && videoUrl && (
+                        <div className="mt-2 flex items-center gap-1.5">
+                            <Check className="w-3 h-3 text-green-500" />
+                            <span className="text-[10px] font-bold uppercase text-green-600">{previewType} detected</span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -405,7 +441,7 @@ export const LoomGenerator: React.FC = () => {
                      </div>
                      <div className="flex-grow max-w-md bg-gray-50 dark:bg-dark-800 border border-gray-200 dark:border-dark-700 rounded px-3 py-1 text-[10px] font-mono text-gray-400 flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full bg-brand-500/20 border border-brand-500/30"></div>
-                        crocodeflow.ai/looms/share?v={extractLoomId(loomUrl) || '...'}
+                        crocodeflow.ai/preview
                      </div>
                      <div className="flex justify-end gap-3 w-20">
                          <div className="flex items-center gap-1.5 text-[9px] font-bold text-gray-400 uppercase tracking-widest">

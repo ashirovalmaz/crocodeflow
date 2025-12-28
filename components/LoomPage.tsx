@@ -21,6 +21,8 @@ const DEFAULTS = {
   highlightsTitle: "Key Takeaways"
 };
 
+type VideoPlatform = 'loom' | 'youtube' | 'vimeo' | 'drive' | 'vidyard' | 'wistia' | 'unknown';
+
 // Robust color adjustment (Tint/Shade)
 const adjustColor = (hex: string, percent: number) => {
     hex = hex.replace(/^\s*#|\s*$/g, '');
@@ -55,6 +57,7 @@ interface LoomPageProps {
   previewData?: {
     name: string;
     videoId: string;
+    videoType?: VideoPlatform;
     color: string;
     bookingLink: string;
     senderName?: string;
@@ -88,6 +91,7 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
       return {
           ...previewData,
           theme: themeMode || previewData.theme,
+          videoType: previewData.videoType || 'loom',
           text: {
               headline: previewData.text?.headline || DEFAULTS.headline,
               description: previewData.text?.description || DEFAULTS.description,
@@ -107,6 +111,7 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
         name: "Justin Howells",
         senderName: "",
         videoId: "d803199dda4449eeaae27cc46d019fae",
+        videoType: 'loom' as VideoPlatform,
         color: null,
         bookingLink: CAL_LINK,
         theme: 'dark' as const,
@@ -119,6 +124,7 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
       name: searchParams.get('name') || "Valued Partner",
       senderName: searchParams.get('from') || "", 
       videoId: searchParams.get('id') || "d803199dda4449eeaae27cc46d019fae", 
+      videoType: (searchParams.get('vtype') as VideoPlatform) || 'loom',
       color: searchParams.get('color'),
       bookingLink: searchParams.get('booking') ?? "", 
       theme: (searchParams.get('theme') as 'light' | 'dark') || undefined,
@@ -134,6 +140,50 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
       }
     };
   }, [location, searchParams, previewData, themeMode]);
+
+  const renderVideoEmbed = () => {
+    const { videoId, videoType } = pageData;
+    if (!videoId) return (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-900 text-gray-500 flex-col gap-2">
+            <PlayCircle className="w-12 h-12 opacity-50" />
+            <p className="font-medium text-sm">Video Preview Unavailable</p>
+        </div>
+    );
+
+    let src = '';
+    switch (videoType) {
+        case 'loom':
+            src = `https://www.loom.com/embed/${videoId}?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=true`;
+            break;
+        case 'youtube':
+            src = `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&autoplay=0`;
+            break;
+        case 'vimeo':
+            src = `https://player.vimeo.com/video/${videoId}?badge=0&autopause=0&player_id=0&app_id=58479`;
+            break;
+        case 'drive':
+            src = `https://drive.google.com/file/d/${videoId}/preview`;
+            break;
+        case 'vidyard':
+            src = `https://play.vidyard.com/${videoId}?disable_popouts=1&v=4.3.9`;
+            break;
+        case 'wistia':
+            src = `https://fast.wistia.net/embed/iframe/${videoId}`;
+            break;
+        default:
+            return <div className="absolute inset-0 flex items-center justify-center text-white">Unsupported platform</div>;
+    }
+
+    return (
+        <iframe 
+            src={src} 
+            frameBorder="0" 
+            allowFullScreen 
+            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+            title="Project Video"
+        ></iframe>
+    );
+  };
 
   // Theme-aware class helper
   const t = (light: string, dark: string) => {
@@ -284,19 +334,7 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
                 <div className={`w-full max-w-5xl mx-auto group relative rounded-2xl overflow-hidden border-2 ${t('border-gray-200', 'border-dark-700')} shadow-xl md:shadow-2xl bg-black animate-slide-up`}>
                     <div className="absolute -inset-1 bg-gradient-to-r from-brand-500 to-brand-300 rounded-2xl blur opacity-10 group-hover:opacity-30 transition duration-1000 group-hover:duration-200"></div>
                     <div className="relative bg-black rounded-xl overflow-hidden" style={{ position: 'relative', paddingBottom: '56.25%', height: 0 }}>
-                        {pageData.videoId ? (
-                            <iframe 
-                            src={`https://www.loom.com/embed/${pageData.videoId}?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=true`} 
-                            frameBorder="0" 
-                            allowFullScreen 
-                            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-                            ></iframe>
-                        ) : (
-                            <div className="absolute inset-0 flex items-center justify-center bg-gray-900 text-gray-500 flex-col gap-2">
-                                <PlayCircle className="w-12 h-12 opacity-50" />
-                                <p className="font-medium">Video Preview</p>
-                            </div>
-                        )}
+                        {renderVideoEmbed()}
                     </div>
                 </div>
                 
