@@ -7,14 +7,14 @@ import { ThemeToggle } from './ThemeToggle';
 interface HeaderProps {
     onNavigate?: (href: string) => void;
     isDetailView?: boolean;
-    bookingLink?: string; // Changed name for clarity, acts as source of truth
-    ctaLabel?: string; // New Prop for custom button text
+    bookingLink?: string; 
+    ctaLabel?: string; 
     isSharedPage?: boolean;
     position?: 'fixed' | 'absolute';
     hideThemeToggle?: boolean;
     companyName?: string;
-    // Legacy prop support if needed, but we'll try to use bookingLink
     customBookingLink?: string; 
+    forcedTheme?: 'light' | 'dark';
 }
 
 export const Header: React.FC<HeaderProps> = ({ 
@@ -26,7 +26,8 @@ export const Header: React.FC<HeaderProps> = ({
     isSharedPage = false,
     position = 'fixed',
     hideThemeToggle = false,
-    companyName
+    companyName,
+    forcedTheme
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -36,18 +37,19 @@ export const Header: React.FC<HeaderProps> = ({
   const isLoomPage = location.pathname.startsWith('/looms');
   const isProposalPage = location.pathname.startsWith('/proposals');
   
-  // Logic: 
-  // 1. If bookingLink is passed (even as empty string), use it. 
-  // 2. Fallback to customBookingLink (legacy)
-  // 3. Fallback to CAL_LINK (global default) ONLY if bookingLink is undefined. 
-  //    If bookingLink is "" (empty string), it means "no link", so we shouldn't fall back to CAL_LINK.
-  
+  // Theme-aware class helper
+  const t = (light: string, dark: string) => {
+    if (forcedTheme === 'light') return light;
+    if (forcedTheme === 'dark') return dark;
+    return `${light} dark:${dark}`;
+  };
+
   let activeBookingLink = CAL_LINK;
   let showBookingButton = true;
 
   if (bookingLink !== undefined) {
       activeBookingLink = bookingLink;
-      showBookingButton = !!bookingLink; // Hide if empty string
+      showBookingButton = !!bookingLink; 
   } else if (customBookingLink !== undefined) {
       activeBookingLink = customBookingLink;
       showBookingButton = !!customBookingLink;
@@ -93,7 +95,6 @@ export const Header: React.FC<HeaderProps> = ({
 
   const showNavLinks = !isLoomPage && !isProposalPage;
 
-  // Reusable Logo Component
   const Logo = ({ className = "", simple = false }: { className?: string, simple?: boolean }) => (
     <a 
         href="/" 
@@ -102,15 +103,15 @@ export const Header: React.FC<HeaderProps> = ({
     >
       <div className="relative">
         <Waypoints className={`w-8 h-8 text-brand-500 transition-transform group-hover:rotate-90 duration-500 ${simple ? '' : 'fill-brand-500/20'}`} />
-        {!simple && <div className="absolute inset-0 bg-brand-500/20 blur-lg rounded-full animate-pulse-slow"></div>}
+        {!simple && <div className={`absolute inset-0 bg-brand-500/20 blur-lg rounded-full animate-pulse-slow`}></div>}
       </div>
       <div className="flex flex-col md:flex-row md:items-baseline gap-0 md:gap-1">
         {isSharedPage && !simple && (
-            <span className="text-[10px] uppercase font-bold tracking-wider text-gray-500 dark:text-gray-400">
+            <span className={`text-[10px] uppercase font-bold tracking-wider ${t('text-gray-500', 'text-gray-400')}`}>
                 Made with
             </span>
         )}
-        <span className="text-2xl font-display font-bold tracking-tight text-gray-900 dark:text-white transition-colors leading-none">
+        <span className={`text-2xl font-display font-bold tracking-tight ${t('text-gray-900', 'text-white')} transition-colors leading-none`}>
             Crocode<span className="text-brand-500">Flow</span>
         </span>
       </div>
@@ -121,15 +122,14 @@ export const Header: React.FC<HeaderProps> = ({
     <header
       className={`${position} top-0 left-0 right-0 z-50 border-b transition-all duration-300 ${
         isScrolled || mobileMenuOpen || isDetailView
-          ? 'bg-white/95 dark:bg-dark-900/95 backdrop-blur-md border-gray-200 dark:border-dark-700 shadow-sm'
+          ? `${t('bg-white/95', 'bg-dark-900/95')} backdrop-blur-md ${t('border-gray-200', 'border-dark-700')} shadow-sm`
           : 'bg-transparent border-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between relative min-h-[72px]">
-        {/* Left Side: Either Company Name OR Logo */}
         <div className="flex items-center gap-3 relative z-20 max-w-[70%] md:max-w-none">
             {companyName ? (
-                 <div className="font-display font-bold text-lg md:text-2xl text-gray-900 dark:text-white tracking-tight truncate w-full" title={companyName}>
+                 <div className={`font-display font-bold text-lg md:text-2xl ${t('text-gray-900', 'text-white')} tracking-tight truncate w-full`} title={companyName}>
                     {companyName}
                  </div>
             ) : (
@@ -137,8 +137,6 @@ export const Header: React.FC<HeaderProps> = ({
             )}
         </div>
 
-        {/* Center: Logo (Only if companyName is present - Treated as 'Made With' Badge) */}
-        {/* Hidden on Mobile to prevent overlap, moved to Mobile Menu */}
         {companyName && (
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 hidden md:block">
                  <div className="transform scale-75 opacity-40 hover:opacity-100 transition-all duration-300 grayscale hover:grayscale-0">
@@ -147,14 +145,13 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
         )}
 
-        {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-6 relative z-20">
           {showNavLinks && NAV_ITEMS.map((item) => (
             <a
               key={item.label}
               href={item.href}
               onClick={(e) => handleNavClick(e, item.href)}
-              className="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-brand-600 dark:hover:text-white transition-colors"
+              className={`text-sm font-medium ${t('text-gray-600', 'text-gray-300')} hover:text-brand-600 dark:hover:text-white transition-colors`}
             >
               {item.label}
             </a>
@@ -174,11 +171,10 @@ export const Header: React.FC<HeaderProps> = ({
           )}
         </nav>
 
-        {/* Mobile Toggle */}
         <div className="md:hidden flex items-center gap-4 relative z-20">
           {!hideThemeToggle && <ThemeToggle />}
           <button
-            className="text-gray-900 dark:text-gray-300 p-1"
+            className={`${t('text-gray-900', 'text-gray-300')} p-1`}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X /> : <Menu />}
@@ -186,15 +182,14 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-white dark:bg-dark-900 border-b border-gray-200 dark:border-dark-700 py-4 px-6 flex flex-col gap-4 shadow-2xl animate-fade-in max-h-[85vh] overflow-y-auto">
+        <div className={`md:hidden absolute top-full left-0 w-full ${t('bg-white', 'bg-dark-900')} border-b ${t('border-gray-200', 'border-dark-700')} py-4 px-6 flex flex-col gap-4 shadow-2xl animate-fade-in max-h-[85vh] overflow-y-auto`}>
           {showNavLinks && NAV_ITEMS.map((item) => (
             <a
               key={item.label}
               href={item.href}
               onClick={(e) => handleNavClick(e, item.href)}
-              className="text-base font-medium text-gray-800 dark:text-gray-300 py-2 border-b border-gray-100 dark:border-dark-800"
+              className={`text-base font-medium ${t('text-gray-800', 'text-gray-300')} py-2 border-b ${t('border-gray-100', 'border-dark-800')}`}
             >
               {item.label}
             </a>
@@ -212,9 +207,8 @@ export const Header: React.FC<HeaderProps> = ({
             </a>
           )}
 
-          {/* Made With Logo (Mobile Only - moved from header bar) */}
           {companyName && (
-             <div className="mt-4 pt-6 border-t border-gray-100 dark:border-dark-800 flex justify-center pb-2">
+             <div className={`mt-4 pt-6 border-t ${t('border-gray-100', 'border-dark-800')} flex justify-center pb-2`}>
                  <div className="opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300 transform scale-90">
                     <Logo />
                  </div>

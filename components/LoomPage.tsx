@@ -58,6 +58,7 @@ interface LoomPageProps {
     color: string;
     bookingLink: string;
     senderName?: string;
+    theme?: 'light' | 'dark';
     text?: {
       headline?: string;
       description?: string;
@@ -77,19 +78,16 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
   const location = useLocation();
 
   useEffect(() => {
-    // Scroll to top on load only if not in preview mode
     if (!previewData) {
       window.scrollTo(0, 0);
     }
   }, [previewData]);
 
-  // Determine Data Source
   const pageData = useMemo(() => {
-    // 1. Priority: Preview Data (Real-time generation)
     if (previewData) {
       return {
           ...previewData,
-          theme: themeMode,
+          theme: themeMode || previewData.theme,
           text: {
               headline: previewData.text?.headline || DEFAULTS.headline,
               description: previewData.text?.description || DEFAULTS.description,
@@ -103,10 +101,7 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
       };
     }
 
-    // 2. Secondary: URL Params
     const isJustinDemo = location.pathname.includes('justinhowells');
-    
-    // Justin Demo Defaults
     if (isJustinDemo) {
       return {
         name: "Justin Howells",
@@ -114,22 +109,19 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
         videoId: "d803199dda4449eeaae27cc46d019fae",
         color: null,
         bookingLink: CAL_LINK,
-        theme: 'dark',
+        theme: 'dark' as const,
         text: DEFAULTS
       };
     }
 
-    // Dynamic Data from URL Query Params
     const highlightsParam = searchParams.get('list');
-    
     return {
       name: searchParams.get('name') || "Valued Partner",
       senderName: searchParams.get('from') || "", 
       videoId: searchParams.get('id') || "d803199dda4449eeaae27cc46d019fae", 
       color: searchParams.get('color'),
-      // Important: if 'booking' param is missing, we default to empty string so we can hide buttons
       bookingLink: searchParams.get('booking') ?? "", 
-      theme: searchParams.get('theme'), // Extract theme
+      theme: (searchParams.get('theme') as 'light' | 'dark') || undefined,
       text: {
           headline: searchParams.get('h1') || DEFAULTS.headline,
           description: searchParams.get('desc') || DEFAULTS.description,
@@ -143,25 +135,27 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
     };
   }, [location, searchParams, previewData, themeMode]);
 
-  // Handle Theme Application (only for live page)
+  // Theme-aware class helper
+  const t = (light: string, dark: string) => {
+    if (pageData.theme === 'light') return light;
+    if (pageData.theme === 'dark') return dark;
+    return `${light} dark:${dark}`;
+  };
+
   useEffect(() => {
-    if (previewData) return; // Do not manipulate global document in preview
+    if (previewData) return; 
     
     if (pageData.theme === 'light') {
         document.documentElement.classList.remove('dark');
     } else if (pageData.theme === 'dark') {
         document.documentElement.classList.add('dark');
     }
-    // If undefined, respect user preference/system default
   }, [pageData.theme, previewData]);
 
-  // Inject Dynamic Color Styles if provided
   useEffect(() => {
     if (!pageData.color) return;
 
     const color = pageData.color;
-    
-    // Generate Palette Variations
     const c50  = adjustColor(color, 95);
     const c200 = adjustColor(color, 50);
     const c300 = adjustColor(color, 30);
@@ -171,148 +165,109 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
     const c700 = adjustColor(color, -20);
     
     const styleId = previewData ? 'preview-dynamic-theme-styles' : 'dynamic-theme-styles';
-    // Remove existing if any (cleanup)
     const existingStyle = document.getElementById(styleId);
     if (existingStyle) existingStyle.remove();
     
-    // Scope Logic:
-    // If preview: .custom-theme-scope .class (Light) OR .custom-theme-scope.dark .class (Dark)
-    // If live: .class (Light) OR .dark .class (Dark)
     const p = previewData ? '.custom-theme-scope' : '';
-    
-    // Helper for Light Mode Selectors (Space required if scope exists)
     const l = (sel: string) => p ? `${p} ${sel}` : sel;
-    
-    // Helper for Dark Mode Selectors (No space between scope and .dark if scope exists)
     const d = (sel: string) => p ? `${p}.dark ${sel}` : `.dark ${sel}`;
 
     const style = document.createElement('style');
     style.id = styleId;
     style.innerHTML = `
-      /* --- Text Colors --- */
       ${l('.text-brand-500')} { color: ${c500} !important; }
       ${l('.text-brand-600')} { color: ${c600} !important; }
       ${l('.text-brand-700')} { color: ${c700} !important; }
       ${l('.text-brand-400')} { color: ${c400} !important; }
-
-      /* --- Background Colors --- */
       ${l('.bg-brand-500')} { background-color: ${c500} !important; }
       ${l('.bg-brand-600')} { background-color: ${c600} !important; }
       ${l('.bg-brand-400')} { background-color: ${c400} !important; }
       ${l('.bg-brand-50')} { background-color: ${c50} !important; }
-      
-      /* --- Background Opacities --- */
       ${l('.bg-brand-500\\/5')}  { background-color: ${c500}0d !important; } 
       ${l('.bg-brand-500\\/10')} { background-color: ${c500}1a !important; } 
       ${l('.bg-brand-500\\/20')} { background-color: ${c500}33 !important; }
       ${l('.bg-brand-500\\/30')} { background-color: ${c500}4d !important; }
-      
-      /* --- Borders --- */
       ${l('.border-brand-200')} { border-color: ${c200} !important; }
       ${l('.border-brand-500')} { border-color: ${c500} !important; }
       ${l('.border-brand-500\\/20')} { border-color: ${c500}33 !important; }
       ${l('.border-brand-500\\/30')} { border-color: ${c500}4d !important; }
       ${l('.border-brand-500\\/50')} { border-color: ${c500}80 !important; }
       ${l('.border-brand-400\\/50')} { border-color: ${c400}80 !important; }
-      
-      /* --- Gradients --- */
       ${l('.from-brand-600')} { --tw-gradient-from: ${c600} !important; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important; }
       ${l('.from-brand-500')} { --tw-gradient-from: ${c500} !important; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important; }
       ${l('.to-brand-400')} { --tw-gradient-to: ${c400} !important; }
       ${l('.to-brand-300')} { --tw-gradient-to: ${c300} !important; }
       ${l('.to-brand-200')} { --tw-gradient-to: ${c200} !important; }
-      
-      /* --- Shadows --- */
       ${l('.shadow-brand-500\\/25')} { --tw-shadow-color: ${c500}40 !important; }
       ${l('.shadow-brand-500\\/30')} { --tw-shadow-color: ${c500}4d !important; }
       ${l('.shadow-brand-500\\/50')} { --tw-shadow-color: ${c500}80 !important; }
-      
-      /* --- Fill --- */
       ${l('.fill-brand-500\\/20')} { fill: ${c500}33 !important; }
-      
-      /* --- Hover States --- */
       ${l('.hover\\:bg-brand-500:hover')} { background-color: ${c500} !important; }
       ${l('.hover\\:bg-brand-400:hover')} { background-color: ${c400} !important; }
       ${l('.hover\\:border-brand-500:hover')} { border-color: ${c500} !important; }
       ${l('.hover\\:border-brand-400\\/50:hover')} { border-color: ${c400}80 !important; }
-      
-      /* --- Shadow Hover --- */
       ${l('.hover\\:shadow-brand-500\\/50:hover')} { --tw-shadow-color: ${c500}80 !important; }
-      
-      /* --- DARK MODE SPECIFIC --- */
-      
       ${d('.dark\\:text-brand-200')} { color: ${c200} !important; }
       ${d('.dark\\:text-brand-400')} { color: ${c400} !important; }
       ${d('.dark\\:text-brand-500')} { color: ${c500} !important; }
       ${d('.dark\\:text-brand-600')} { color: ${c600} !important; }
-
       ${d('.dark\\:bg-brand-500')} { background-color: ${c500} !important; }
       ${d('.dark\\:bg-brand-500\\/5')} { background-color: ${c500}0d !important; }
       ${d('.dark\\:bg-brand-500\\/10')} { background-color: ${c500}1a !important; }
       ${d('.dark\\:bg-brand-900\\/10')} { background-color: ${c500}1a !important; } 
       ${d('.dark\\:bg-brand-900\\/20')} { background-color: ${c500}33 !important; }
-      
       ${d('.dark\\:border-brand-500')} { border-color: ${c500} !important; }
       ${d('.dark\\:border-brand-500\\/20')} { border-color: ${c500}33 !important; }
       ${d('.dark\\:border-brand-500\\/30')} { border-color: ${c500}4d !important; }
-      
-      /* Dark Gradients */
       ${d('.dark\\:from-brand-500')} { --tw-gradient-from: ${c500} !important; }
       ${d('.dark\\:from-brand-400')} { --tw-gradient-from: ${c400} !important; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important; }
       ${d('.dark\\:to-brand-200')} { --tw-gradient-to: ${c200} !important; }
     `;
     
     document.head.appendChild(style);
-
     return () => {
       const s = document.getElementById(styleId);
       if (s) s.remove();
     };
   }, [pageData.color, previewData]);
 
-  // Handle Headline Replacement
   const displayHeadline = pageData.text?.headline?.replace('{name}', pageData.name) || `Prepared for ${pageData.name}`;
 
   return (
-    <div className={`custom-theme-scope ${themeMode || ''} w-full isolate h-full`}>
+    <div className={`custom-theme-scope ${pageData.theme || ''} w-full isolate h-full`}>
         <div className={`
-            bg-gray-50 dark:bg-dark-900 text-gray-900 dark:text-white transition-colors duration-300 flex flex-col relative
+            ${t('bg-gray-50', 'bg-dark-900')} ${t('text-gray-900', 'text-white')} transition-colors duration-300 flex flex-col relative
             ${previewData ? 'min-h-full' : 'min-h-screen overflow-x-hidden'} 
         `}>
-        {/* Background Effects */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-             {/* Grid */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(100,100,100,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(100,100,100,0.03)_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-60"></div>
-            
-            {/* Top Glow */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-brand-500/5 dark:bg-brand-500/10 rounded-full blur-[100px] opacity-70"></div>
+            <div className={`absolute inset-0 bg-[linear-gradient(rgba(100,100,100,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(100,100,100,0.03)_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-60`}></div>
+            <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] ${t('bg-brand-500/5', 'bg-brand-500/10')} rounded-full blur-[100px] opacity-70`}></div>
         </div>
 
         <Header 
-            bookingLink={pageData.bookingLink} // Pass the booking link (or empty string)
-            ctaLabel={pageData.text?.ctaButton} // Pass custom button label
+            bookingLink={pageData.bookingLink} 
+            ctaLabel={pageData.text?.ctaButton} 
             isSharedPage={true}
             position={previewData ? 'absolute' : 'fixed'}
             hideThemeToggle={true}
             companyName={pageData.senderName} 
+            forcedTheme={pageData.theme}
         />
         
         <main className={`flex-grow px-4 md:px-6 relative z-10 flex flex-col items-center ${previewData ? 'pt-24 pb-12' : 'pt-28 pb-16 md:pt-32 md:pb-24'}`}>
             <div className="max-w-6xl w-full mx-auto">
             
-            {/* Header Section */}
             <div className="mb-8 md:mb-12 text-center animate-fade-in">
-                <div className="inline-flex items-center gap-2 px-3 py-1 mb-6 rounded-full bg-white dark:bg-brand-500/5 border border-brand-200 dark:border-brand-500/20 text-brand-700 dark:text-brand-400 text-xs font-bold uppercase tracking-widest backdrop-blur-sm shadow-sm">
+                <div className={`inline-flex items-center gap-2 px-3 py-1 mb-6 rounded-full ${t('bg-white', 'bg-brand-500/5')} border ${t('border-brand-200', 'border-brand-500/20')} ${t('text-brand-700', 'text-brand-400')} text-xs font-bold uppercase tracking-widest backdrop-blur-sm shadow-sm`}>
                   <Video className="w-3 h-3 text-brand-500" />
                   {pageData.text?.badgeText}
                 </div>
                 
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-display font-bold text-gray-900 dark:text-white mb-4 md:mb-6 tracking-tight leading-tight">
-                    {/* Render with gradient on the name part if possible, otherwise full text */}
+                <h1 className={`text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-display font-bold ${t('text-gray-900', 'text-white')} mb-4 md:mb-6 tracking-tight leading-tight`}>
                     {displayHeadline.includes(pageData.name) ? (
                         <>
                             {displayHeadline.split(pageData.name)[0]}
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-brand-400 dark:from-brand-400 dark:to-brand-200">{pageData.name}</span>
+                            <span className={`text-transparent bg-clip-text bg-gradient-to-r ${t('from-brand-600 to-brand-400', 'from-brand-400 to-brand-200')}`}>{pageData.name}</span>
                             {displayHeadline.split(pageData.name)[1]}
                         </>
                     ) : (
@@ -320,18 +275,14 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
                     )}
                 </h1>
                 
-                <p className="text-gray-600 dark:text-gray-400 text-base md:text-xl max-w-2xl mx-auto leading-relaxed font-light px-2">
+                <p className={`text-base md:text-xl max-w-2xl mx-auto leading-relaxed font-light px-2 ${t('text-gray-600', 'text-gray-400')}`}>
                     {pageData.text?.description}
                 </p>
             </div>
 
             <div className="flex flex-col gap-8 md:gap-12">
-                {/* Loom Video Container */}
-                <div className="w-full max-w-5xl mx-auto group relative rounded-2xl overflow-hidden border-2 border-gray-200 dark:border-dark-700 shadow-xl md:shadow-2xl bg-black animate-slide-up">
-                    {/* Glow Effect */}
+                <div className={`w-full max-w-5xl mx-auto group relative rounded-2xl overflow-hidden border-2 ${t('border-gray-200', 'border-dark-700')} shadow-xl md:shadow-2xl bg-black animate-slide-up`}>
                     <div className="absolute -inset-1 bg-gradient-to-r from-brand-500 to-brand-300 rounded-2xl blur opacity-10 group-hover:opacity-30 transition duration-1000 group-hover:duration-200"></div>
-                    
-                    {/* 16:9 Aspect Ratio Container */}
                     <div className="relative bg-black rounded-xl overflow-hidden" style={{ position: 'relative', paddingBottom: '56.25%', height: 0 }}>
                         {pageData.videoId ? (
                             <iframe 
@@ -349,31 +300,26 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
                     </div>
                 </div>
                 
-                {/* Highlights & CTA Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 animate-slide-up w-full max-w-5xl mx-auto" style={{ animationDelay: '0.2s' }}>
                     
-                    {/* Highlights Card */}
-                    {/* Expand full width if no CTA card */}
-                    <div className={`${pageData.bookingLink ? 'lg:col-span-7' : 'lg:col-span-12'} p-6 md:p-8 bg-white dark:bg-dark-800/50 backdrop-blur-sm rounded-2xl border border-gray-200 dark:border-dark-700 shadow-sm flex flex-col justify-center`}>
-                        <h3 className="font-display font-bold text-xl mb-6 text-gray-900 dark:text-white flex items-center gap-2">
+                    <div className={`${pageData.bookingLink ? 'lg:col-span-7' : 'lg:col-span-12'} p-6 md:p-8 ${t('bg-white', 'bg-dark-800/50')} backdrop-blur-sm rounded-2xl border ${t('border-gray-200', 'border-dark-700')} shadow-sm flex flex-col justify-center`}>
+                        <h3 className={`font-display font-bold text-xl mb-6 ${t('text-gray-900', 'text-white')} flex items-center gap-2`}>
                             <ListChecks className="w-5 h-5 text-brand-500" /> {pageData.text?.highlightsTitle}
                         </h3>
                         <ul className="space-y-4">
                             {pageData.text?.highlights?.map((item, i) => (
                                 <li key={i} className="flex items-start gap-3 group">
-                                    <div className="mt-0.5 rounded-full bg-brand-50 dark:bg-brand-500/10 p-1">
-                                        <CheckCircle2 className="w-4 h-4 text-brand-600 dark:text-brand-400 shrink-0" />
+                                    <div className={`mt-0.5 rounded-full ${t('bg-brand-50', 'bg-brand-500/10')} p-1`}>
+                                        <CheckCircle2 className={`w-4 h-4 ${t('text-brand-600', 'text-brand-400')} shrink-0`} />
                                     </div>
-                                    <span className="text-gray-700 dark:text-gray-300 text-sm md:text-base leading-relaxed group-hover:text-gray-900 dark:group-hover:text-white transition-colors">{item}</span>
+                                    <span className={`text-sm md:text-base leading-relaxed ${t('text-gray-700', 'text-gray-300')} ${t('group-hover:text-gray-900', 'group-hover:text-white')} transition-colors`}>{item}</span>
                                 </li>
                             ))}
                         </ul>
                     </div>
 
-                    {/* CTA Card - Only show if booking link is present */}
                     {pageData.bookingLink && (
-                        <div className="lg:col-span-5 p-6 md:p-8 bg-gray-900 dark:bg-gradient-to-br dark:from-dark-800 dark:to-dark-900 rounded-2xl border border-gray-800 dark:border-dark-700 shadow-lg flex flex-col justify-center items-start relative overflow-hidden group">
-                            {/* Ambient Glow */}
+                        <div className={`lg:col-span-5 p-6 md:p-8 ${t('bg-gray-900', 'bg-gradient-to-br from-dark-800 to-dark-900')} rounded-2xl border ${t('border-gray-800', 'border-dark-700')} shadow-lg flex flex-col justify-center items-start relative overflow-hidden group`}>
                             <div className="absolute top-0 right-0 w-48 h-48 bg-brand-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-brand-500/20 transition-colors duration-500"></div>
                             <div className="absolute bottom-0 left-0 w-32 h-32 bg-blue-500/5 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2"></div>
 
