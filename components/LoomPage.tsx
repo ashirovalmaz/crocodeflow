@@ -206,48 +206,70 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
     const l = (sel: string) => p ? `${p} ${sel}` : sel;
     const d = (sel: string) => p ? `${p}.dark ${sel}` : `.dark ${sel}`;
 
-    // Generate accurate palette
-    const c200 = adjustColor(color, 50);
-    const c400 = adjustColor(color, 15);
-    const c500 = color;
-    const c600 = adjustColor(color, -10);
+    // Full Palette Generation
+    const palette = {
+        50: adjustColor(color, 92),
+        100: adjustColor(color, 85),
+        200: adjustColor(color, 65),
+        300: adjustColor(color, 45),
+        400: adjustColor(color, 25),
+        500: color,
+        600: adjustColor(color, -10),
+        700: adjustColor(color, -20),
+        800: adjustColor(color, -30),
+        900: adjustColor(color, -45)
+    };
 
     const style = document.createElement('style');
     style.id = styleId;
-    style.innerHTML = `
-      /* Standard colors */
-      ${l('.text-brand-500')}, ${l('.text-brand-600')}, ${l('.text-brand-400')} { color: ${c500} !important; }
-      ${l('.bg-brand-500')}, ${l('.bg-brand-600')}, ${l('.bg-brand-400')} { background-color: ${c500} !important; }
-      ${l('.border-brand-500')}, ${l('.border-brand-600')}, ${l('.border-brand-400')} { border-color: ${c500} !important; }
-      
-      /* Gradients: Override the "from" part and ensure stops are clean */
-      ${l('.from-brand-600')} { 
-        --tw-gradient-from: ${c600} !important; 
-        --tw-gradient-to: ${c600}00 !important;
-        --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important; 
-      }
-      ${l('.from-brand-500')} { 
-        --tw-gradient-from: ${c500} !important; 
-        --tw-gradient-to: ${c500}00 !important;
-        --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important; 
-      }
-      ${l('.from-brand-400')} { 
-        --tw-gradient-from: ${c400} !important; 
-        --tw-gradient-to: ${c400}00 !important;
-        --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important; 
-      }
+    
+    let css = ``;
+    
+    // Generate rules for all shades (50 - 900)
+    Object.entries(palette).forEach(([shade, hex]) => {
+        // Text
+        css += `${l(`.text-brand-${shade}`)} { color: ${hex} !important; }\n`;
+        css += `${d(`.dark\\:text-brand-${shade}`)} { color: ${hex} !important; }\n`;
+        
+        // Background
+        css += `${l(`.bg-brand-${shade}`)} { background-color: ${hex} !important; }\n`;
+        css += `${d(`.dark\\:bg-brand-${shade}`)} { background-color: ${hex} !important; }\n`;
+        
+        // Border
+        css += `${l(`.border-brand-${shade}`)} { border-color: ${hex} !important; }\n`;
+        css += `${d(`.dark\\:border-brand-${shade}`)} { border-color: ${hex} !important; }\n`;
+        
+        // Gradients (From)
+        css += `${l(`.from-brand-${shade}`)} { 
+            --tw-gradient-from: ${hex} !important; 
+            --tw-gradient-to: ${hex}00 !important;
+            --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important; 
+        }\n`;
+        
+        // Gradients (To)
+        css += `${l(`.to-brand-${shade}`)} { --tw-gradient-to: ${hex} !important; }\n`;
+    });
 
-      /* Gradients: Override the "to" part */
-      ${l('.to-brand-400')} { --tw-gradient-to: ${c400} !important; }
-      ${l('.to-brand-200')} { --tw-gradient-to: ${c200} !important; }
+    // Special handling for opacity (using a trick to apply opacity to hex)
+    // We target common background opacities like bg-brand-500/10
+    const hexToRgb = (hex: string) => {
+        const r = parseInt(hex.slice(1, 3), 16);
+        const g = parseInt(hex.slice(3, 5), 16);
+        const b = parseInt(hex.slice(5, 7), 16);
+        return `${r}, ${g}, ${b}`;
+    };
 
-      /* Dark mode overrides (same logic) */
-      ${d('.dark\\:text-brand-500')}, ${d('.dark\\:text-brand-400')} { color: ${c500} !important; }
-      ${d('.dark\\:bg-brand-500')}, ${d('.dark\\:bg-brand-600')} { background-color: ${c500} !important; }
-      ${d('.dark\\:border-brand-500')} { border-color: ${c500} !important; }
+    const rgb = hexToRgb(color);
+    css += `
+        ${l('.bg-brand-500\\/5')} { background-color: rgba(${rgb}, 0.05) !important; }
+        ${l('.bg-brand-500\\/10')} { background-color: rgba(${rgb}, 0.1) !important; }
+        ${d('.dark\\:bg-brand-500\\/5')} { background-color: rgba(${rgb}, 0.05) !important; }
+        ${d('.dark\\:bg-brand-500\\/10')} { background-color: rgba(${rgb}, 0.1) !important; }
     `;
     
+    style.innerHTML = css;
     document.head.appendChild(style);
+    
     return () => {
       const s = document.getElementById(styleId);
       if (s) s.remove();
@@ -277,7 +299,7 @@ export const LoomPage: React.FC<LoomPageProps> = ({ previewData, themeMode }) =>
             <div className="max-w-6xl w-full mx-auto">
             
             <div className="mb-8 md:mb-12 text-center animate-fade-in">
-                <div className={`inline-flex items-center gap-2 px-3 py-1 mb-6 rounded-full ${t('bg-white', 'bg-brand-500/5')} border ${t('border-brand-200', 'border-brand-500/20')} ${t('text-brand-700', 'text-brand-400')} text-xs font-bold uppercase tracking-widest backdrop-blur-sm shadow-sm`}>
+                <div className={`inline-flex items-center gap-2 px-3 py-1 mb-6 rounded-full ${t('bg-brand-50', 'bg-brand-500/5')} border ${t('border-brand-200', 'border-brand-500/20')} ${t('text-brand-700', 'text-brand-400')} text-xs font-bold uppercase tracking-widest backdrop-blur-sm shadow-sm`}>
                   <Video className="w-3 h-3 text-brand-500" />
                   {pageData.text?.badgeText}
                 </div>
