@@ -3,12 +3,11 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { Header } from './Header';
 import { 
-    ArrowRight, ArrowLeft, CheckCircle2, AlertTriangle, Calculator, 
-    Check, Target, Gift, FileSignature, Handshake, ChevronDown, 
-    Clock, TrendingUp, Zap, User
+    ArrowRight, ArrowLeft, CheckCircle2, Calculator, 
+    Check, Target
 } from 'lucide-react';
 import { CAL_LINK } from '../constants';
-import { PROPOSALS, ProposalData, ProposalSystem } from '../data/proposals';
+import { PROPOSALS, ProposalData } from '../data/proposals';
 
 // --- Internal Components ---
 
@@ -37,11 +36,7 @@ const TermsSlideContent: React.FC<{ data: ProposalData }> = ({ data }) => {
     const finalSetup = baseSetup - discountAmount;
 
     const firstYearValue = finalSetup + (totalMonthly * 12);
-    // Rob Jessen specific annual price is hardcoded in the offer, but let's make it calculate close to it or use factor
-    const annualPrice = data.id === 'robjessen' && selected.length === 1 && selected[0] === 'sys1' 
-        ? 6000 
-        : Math.floor((firstYearValue * data.annualFactor) / 100) * 100;
-    
+    const annualPrice = Math.floor((firstYearValue * data.annualFactor) / 100) * 100;
     const annualSavings = firstYearValue - annualPrice;
 
     return (
@@ -138,203 +133,17 @@ export const ProposalPage: React.FC = () => {
   const proposalContent = useMemo(() => {
     if (!data) return [];
     
-    if (data.id === 'robjessen') {
-        return [
-          {
-            id: 'exec-summary',
-            title: "Executive Summary",
-            subtitle: "Building a system that works without relying on you",
-            content: (
-              <div className="space-y-8 animate-fade-in">
-                <p className="text-xl text-gray-700 dark:text-gray-300 leading-relaxed font-light">
-                  Based on our conversation and a deeper look at how your business operates, we’re confident that your next stage of growth isn’t about more demand — <strong className="text-brand-500">it’s about leverage.</strong>
-                </p>
-                <div className="bg-white dark:bg-dark-800 rounded-2xl p-8 border border-gray-200 dark:border-dark-700 shadow-sm">
-                  <h3 className="text-lg font-bold uppercase tracking-wider text-gray-500 mb-6 flex items-center gap-2">You already have:</h3>
-                  <ul className="space-y-4">
-                    {["A proven service with real results", "A steady flow of inbound leads", "A strong reputation built over 15 years"].map((item, i) => (
-                      <li key={i} className="flex gap-3 items-center">
-                        <CheckCircle2 className="w-5 h-5 text-brand-500" />
-                        <span className="text-gray-700 dark:text-gray-300 font-medium">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <p className="text-gray-600 dark:text-gray-400 italic">
-                  This proposal outlines how we move you from a founder-dependent setup to a system-driven business — step by step, without breaking what already works.
-                </p>
-              </div>
-            )
-          },
-          {
-            id: 'goals',
-            title: "Your Goals",
-            subtitle: "What we heard between the lines",
-            content: (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in">
-                {[
-                  "Spend far less time in DMs and manual sales conversations",
-                  "Respond to leads instantly without being tied to your phone",
-                  "Increase conversion from the attention you already generate",
-                  "Scale without chaos, burnout, or loss of control",
-                  "Build systems that support growth long-term"
-                ].map((goal, i) => (
-                  <div key={i} className="bg-gray-50 dark:bg-dark-800/50 p-6 rounded-xl border border-gray-200 dark:border-dark-700 flex items-start gap-3">
-                    <Target className="w-5 h-5 text-brand-500 shrink-0 mt-0.5" />
-                    <span className="text-gray-800 dark:text-gray-200 font-medium text-sm">{goal}</span>
-                  </div>
-                ))}
-              </div>
-            )
-          },
-          {
-            id: 'economics',
-            title: "Time Economics",
-            subtitle: "The hidden cost of the current setup",
-            content: (
-              <div className="space-y-8 animate-fade-in">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div className="bg-white dark:bg-dark-800 p-6 rounded-xl border border-gray-200 dark:border-dark-700 text-center">
-                        <div className="text-3xl font-bold text-gray-900 dark:text-white mb-1">20-30</div>
-                        <div className="text-xs text-gray-500 uppercase font-bold">DMs / Day</div>
-                    </div>
-                    <div className="bg-white dark:bg-dark-800 p-6 rounded-xl border border-gray-200 dark:border-dark-700 text-center">
-                        <div className="text-3xl font-bold text-gray-900 dark:text-white mb-1">60-120</div>
-                        <div className="text-xs text-gray-500 uppercase font-bold">Mins / Day</div>
-                    </div>
-                    <div className="bg-white dark:bg-dark-800 p-6 rounded-xl border border-gray-200 dark:border-dark-700 text-center">
-                        <div className="text-3xl font-bold text-brand-500 mb-1">20-40</div>
-                        <div className="text-xs text-gray-500 uppercase font-bold">Hrs / Month</div>
-                    </div>
-                </div>
-                <div className="bg-brand-50 dark:bg-brand-900/10 p-6 rounded-xl border border-brand-200 dark:border-brand-500/20 text-center">
-                    <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                        That’s nearly a <span className="font-bold text-brand-600 dark:text-brand-400">full work week every month</span> spent on low-leverage tasks that don’t require your 15 years of expertise.
-                    </p>
-                </div>
-              </div>
-            )
-          },
-          {
-            id: 'bottlenecks',
-            title: "The Bottlenecks",
-            subtitle: "Why the current setup limits growth",
-            content: (
-              <div className="space-y-6 animate-fade-in">
-                {[
-                  { icon: User, title: "Founder Dependency", desc: "Sales depend on your availability. When you’re busy, leads wait." },
-                  { icon: Zap, title: "Inconsistent Speed-to-Lead", desc: "Even small delays in DMs reduce prospect intent and trust." },
-                  { icon: Clock, title: "Time Spent on Non-Buyers", desc: "You invest attention into conversations that never have a chance to convert." },
-                  { icon: TrendingUp, title: "Workload Scales with Growth", desc: "More attention currently means more manual work — not more leverage." }
-                ].map((item, i) => (
-                  <div key={i} className="flex gap-4 p-4 rounded-xl border border-gray-100 dark:border-dark-800">
-                    <div className="p-2 bg-red-500/10 rounded-lg h-fit"><item.icon className="w-5 h-5 text-red-500" /></div>
-                    <div>
-                      <h4 className="font-bold text-gray-900 dark:text-white">{item.title}</h4>
-                      <p className="text-sm text-gray-500">{item.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )
-          },
-          {
-            id: 'path',
-            title: "The Path Forward",
-            subtitle: "Point A ➔ Point B ➔ Point C",
-            content: (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 animate-fade-in">
-                <div className="p-6 rounded-xl bg-gray-50 dark:bg-dark-800 border border-gray-200 dark:border-dark-700">
-                  <div className="text-xs font-bold text-gray-400 uppercase mb-4">Point A</div>
-                  <h4 className="font-bold mb-2">Founder-Led</h4>
-                  <p className="text-xs text-gray-500">Rob does everything. DMs, qualification, sales. Growth is capped by Rob's time.</p>
-                </div>
-                <div className="p-6 rounded-xl bg-brand-500/5 border-2 border-brand-500">
-                  <div className="text-xs font-bold text-brand-500 uppercase mb-4">Point B</div>
-                  <h4 className="font-bold mb-2">System-Assisted</h4>
-                  <p className="text-xs text-gray-600 dark:text-gray-300">Automated DMs & qualification. Rob only closes. High leverage achieved.</p>
-                </div>
-                <div className="p-6 rounded-xl bg-gray-50 dark:bg-dark-800 border border-gray-200 dark:border-dark-700">
-                  <div className="text-xs font-bold text-gray-400 uppercase mb-4">Point C</div>
-                  <h4 className="font-bold mb-2">System-Driven</h4>
-                  <p className="text-xs text-gray-500">AI/Assistant DMs + Dedicated Closer. Scaling runs on autopilot without Rob.</p>
-                </div>
-              </div>
-            )
-          },
-          {
-            id: 'phase1',
-            title: "Phase 1: ManyChat AI Funnel",
-            subtitle: "High-Leverage Implementation",
-            content: (
-              <div className="space-y-6 animate-fade-in">
-                <div className="p-6 bg-white dark:bg-dark-800 rounded-xl border border-gray-200 dark:border-dark-700">
-                    <h4 className="font-bold mb-4 flex items-center gap-2"><Zap className="w-5 h-5 text-brand-500" /> How it works:</h4>
-                    <ul className="space-y-3 text-sm text-gray-600 dark:text-gray-400">
-                        <li className="flex gap-2"><div className="w-1.5 h-1.5 rounded-full bg-brand-500 mt-1.5 shrink-0"/> Prospect comments a trigger word</li>
-                        <li className="flex gap-2"><div className="w-1.5 h-1.5 rounded-full bg-brand-500 mt-1.5 shrink-0"/> DM conversation opens automatically</li>
-                        <li className="flex gap-2"><div className="w-1.5 h-1.5 rounded-full bg-brand-500 mt-1.5 shrink-0"/> Structured questions capture goals and intent</li>
-                        <li className="flex gap-2"><div className="w-1.5 h-1.5 rounded-full bg-brand-500 mt-1.5 shrink-0"/> Personalized private page generated instantly</li>
-                        <li className="flex gap-2"><div className="w-1.5 h-1.5 rounded-full bg-brand-500 mt-1.5 shrink-0"/> Prospect books call from their private page</li>
-                    </ul>
-                </div>
-              </div>
-            )
-          },
-          {
-            id: 'terms',
-            title: "Implementation Package",
-            subtitle: "Standard & Annual Options",
-            content: <TermsSlideContent data={data} />
-          },
-          {
-            id: 'bonus',
-            title: "Fast-Action Bonus",
-            subtitle: "Valid for 24 Hours",
-            content: (
-                <div className="text-center space-y-8 animate-fade-in">
-                    <div className="w-20 h-20 bg-brand-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <Gift className="w-10 h-10 text-brand-500 animate-pulse" />
-                    </div>
-                    <h3 className="text-3xl font-display font-bold">One Additional System <span className="text-brand-500">FREE</span></h3>
-                    <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-                        Decide within 24 hours and we will implement one additional system of your choice (Newsletter, Reactivation, or Content Intel) with <strong className="text-white">zero setup fee.</strong>
-                    </p>
-                </div>
-            )
-          },
-          {
-            id: 'closing',
-            title: "Next Steps",
-            subtitle: "Why we see this as a partnership",
-            content: (
-              <div className="text-center space-y-12 animate-fade-in">
-                <p className="text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">
-                    We’re not interested in short-term automations. Our goal is to become the team responsible for building the systems that let your business grow without relying on you.
-                </p>
-                <div className="flex flex-col items-center gap-6">
-                    <a href={CAL_LINK} target="_blank" className="px-10 py-5 bg-brand-600 hover:bg-brand-500 text-white text-xl font-bold rounded-xl shadow-xl transition-all flex items-center gap-3">
-                        Let's Get Started <ArrowRight className="w-6 h-6" />
-                    </a>
-                    <p className="text-xs text-gray-500">Proceed with your chosen option to begin implementation immediately.</p>
-                </div>
-              </div>
-            )
-          }
-        ];
-    }
-    
-    // Default fallback to original Justin Howells content
+    // Return original Justin Howells structure for both (duplicate)
     return [
       {
         id: 'executive-summary',
         title: "Executive Summary",
-        subtitle: "Scaling to $80–100k/mo",
+        subtitle: `Scaling ${data.clientName} to $80–100k/mo`,
         content: (
           <div className="space-y-8 animate-fade-in">
             <div className="prose dark:prose-invert max-w-none">
               <p className="text-xl text-gray-700 dark:text-gray-300 leading-relaxed font-light">
-                With the context from our recent project, we strongly believe your coaching business could be an <strong className="text-brand-600 dark:text-brand-500 font-bold">$80–100k/mo business</strong> with a few focused changes—primarily around how you convert existing attention and leads into booked calls.
+                Based on our analysis, we strongly believe your business could be an <strong className="text-brand-600 dark:text-brand-500 font-bold">$80–100k/mo business</strong> with a few focused changes—primarily around how you convert existing attention and leads into booked calls.
               </p>
             </div>
     
@@ -345,10 +154,10 @@ export const ProposalPage: React.FC = () => {
               <ul className="space-y-6">
                 {[
                   { title: "High Quality Service", text: "Your clients tend to stay, resign for another term, and see a strong ROI from working with you." },
-                  { title: "Deep Market Understanding", text: "You know the language they use, the offers that resonate, and you consistently generate 100–150 warm leads per week when you push." },
-                  { title: "Massive Audience Reach", text: "Combined audience of ~500K followers on Instagram. The opportunity is already there." },
+                  { title: "Deep Market Understanding", text: "You know the language they use and you consistently generate a significant volume of warm leads." },
+                  { title: "Massive Audience Reach", text: "With an audience of ~500K followers on Instagram, the opportunity for scale is already there." },
                   { title: "Ethical Approach", text: "You genuinely care about your clients and your team. You’re not trying to “replace humans”, but to give your team leverage." },
-                  { title: "Founder Bottleneck", text: "Charismatic, intelligent, and—unfortunately—the bottleneck. When you personally jump in, things close." }
+                  { title: "Founder Bottleneck", text: "Charismatic and intelligent, but currently the bottleneck. When systems take over the front-end, things scale." }
                 ].map((item, i) => (
                   <li key={i} className="flex gap-4">
                     <div className="mt-1 min-w-[24px]">
