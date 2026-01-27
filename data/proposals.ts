@@ -10,10 +10,17 @@ export interface ProposalSystem {
   priority: string;
 }
 
+export interface ProposalSlide {
+  id: string;
+  title: string;
+  subtitle: string;
+  content: React.ReactNode;
+}
+
 export interface ProposalData {
   id: string;
   clientName: string;
-  annualFactor: number;
+  annualFactor: number; // Factor to calculate annual price from 1st year value
   systems: ProposalSystem[];
 }
 

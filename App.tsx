@@ -20,7 +20,7 @@ const App: React.FC = () => {
         <Route path="/looms/share" element={<LoomPage />} />
         <Route path="/looms/new" element={<LoomGenerator />} />
         <Route path="/proposals/:slug" element={<ProposalPage />} />
-        <Route path="/clients/:slug/plan" element={<ClientPlanPage />} />
+        <Route path="/clients/justinhowells/plan" element={<ClientPlanPage />} />
       </Routes>
       {!hideWidget && <FloatingBookingWidget />}
     </>
