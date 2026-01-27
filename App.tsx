@@ -1,9 +1,11 @@
+
 import React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { LandingPage } from './components/LandingPage';
 import { LoomPage } from './components/LoomPage';
 import { LoomGenerator } from './components/LoomGenerator';
 import { ProposalPage } from './components/ProposalPage';
+import { RobProposalPage } from './components/RobProposalPage';
 import { ClientPlanPage } from './components/ClientPlanPage';
 import { FloatingBookingWidget } from './components/FloatingBookingWidget';
 
@@ -19,6 +21,7 @@ const App: React.FC = () => {
         <Route path="/looms/share" element={<LoomPage />} />
         <Route path="/looms/new" element={<LoomGenerator />} />
         <Route path="/proposals/justinhowells" element={<ProposalPage />} />
+        <Route path="/proposals/robjessen" element={<RobProposalPage />} />
         <Route path="/clients/justinhowells/plan" element={<ClientPlanPage />} />
       </Routes>
       {!hideWidget && <FloatingBookingWidget />}
