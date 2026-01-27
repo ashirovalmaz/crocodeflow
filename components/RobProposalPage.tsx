@@ -75,6 +75,15 @@ export const RobProposalPage: React.FC = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    // Force light mode for this specific page
+    document.documentElement.classList.remove('dark');
+    
+    // Cleanup function: Restore theme preference when leaving the page
+    return () => {
+      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      }
+    };
   }, [currentSlide]);
 
   const nextSlide = () => {
@@ -92,8 +101,8 @@ export const RobProposalPage: React.FC = () => {
   const progress = ((currentSlide + 1) / PROPOSAL_CONTENT.length) * 100;
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-dark-900 text-gray-900 dark:text-white transition-colors duration-300 flex flex-col">
-      <Header isSharedPage={true} hideThemeToggle={false} />
+    <div className="min-h-screen bg-gray-50 text-gray-900 transition-colors duration-300 flex flex-col">
+      <Header isSharedPage={true} hideThemeToggle={true} forcedTheme="light" />
       
       <main className="flex-grow pt-24 pb-12 px-4 md:px-6 flex flex-col items-center">
         <div className="w-full max-w-5xl">
@@ -101,7 +110,7 @@ export const RobProposalPage: React.FC = () => {
                 <span className="text-xs font-mono text-gray-400 w-12 text-right">
                     {currentSlide + 1} / {PROPOSAL_CONTENT.length}
                 </span>
-                <div className="h-1.5 flex-grow bg-gray-200 dark:bg-dark-700 rounded-full overflow-hidden">
+                <div className="h-1.5 flex-grow bg-gray-200 rounded-full overflow-hidden">
                     <div 
                         className="h-full bg-brand-500 transition-all duration-500 ease-out"
                         style={{ width: `${progress}%` }}
@@ -109,12 +118,12 @@ export const RobProposalPage: React.FC = () => {
                 </div>
             </div>
 
-            <div className="bg-white dark:bg-dark-950 rounded-2xl shadow-xl border border-gray-200 dark:border-dark-700 overflow-hidden min-h-[600px] flex flex-col relative">
-                <div className="p-8 border-b border-gray-100 dark:border-dark-800 bg-gray-50/50 dark:bg-dark-900/50 backdrop-blur-sm">
-                    <h1 className="text-3xl md:text-4xl font-display font-bold text-gray-900 dark:text-white mb-2">
+            <div className="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden min-h-[600px] flex flex-col relative">
+                <div className="p-8 border-b border-gray-100 bg-gray-50/50 backdrop-blur-sm">
+                    <h1 className="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-2">
                         {PROPOSAL_CONTENT[currentSlide].title}
                     </h1>
-                    <p className="text-lg text-brand-600 dark:text-brand-500 font-medium">
+                    <p className="text-lg text-brand-600 font-medium">
                         {PROPOSAL_CONTENT[currentSlide].subtitle}
                     </p>
                 </div>
@@ -123,14 +132,14 @@ export const RobProposalPage: React.FC = () => {
                     {PROPOSAL_CONTENT[currentSlide].content}
                 </div>
 
-                <div className="p-6 border-t border-gray-100 dark:border-dark-800 bg-gray-50 dark:bg-dark-900 flex justify-between items-center">
+                <div className="p-6 border-t border-gray-100 bg-gray-50 flex justify-between items-center">
                     <button
                         onClick={prevSlide}
                         disabled={currentSlide === 0}
                         className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all ${
                             currentSlide === 0 
                                 ? 'opacity-0 pointer-events-none' 
-                                : 'bg-white dark:bg-dark-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 border border-gray-200 dark:border-dark-700'
+                                : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
                         }`}
                     >
                         <ArrowLeft className="w-4 h-4" /> Previous
