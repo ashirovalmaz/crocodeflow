@@ -1,8 +1,8 @@
 
-import React, { useState } from 'react';
-import { Calculator, Check, Zap, Sparkles, TrendingDown } from 'lucide-react';
+import React from 'react';
+import { Calculator, Check, Zap, TrendingDown } from 'lucide-react';
 
-const ROB_SYSTEMS = [
+export const ROB_SYSTEMS = [
   { id: 'sys1', title: 'AI DM Foundation + Presentations', desc: 'Core conversion engine & custom asset generator', setup: 2900, monthly: 790, priority: 'Core P1' },
   { id: 'sys2', title: 'Automated Newsletter', desc: 'Highly personalized emails using CRM data', setup: 2400, monthly: 650, priority: 'High P2' },
   { id: 'sys3', title: 'Personalized Reactivation', desc: 'Monetizes non-buyers and no-shows automatically', setup: 1900, monthly: 550, priority: 'High P2' },
@@ -10,9 +10,12 @@ const ROB_SYSTEMS = [
   { id: 'sys5', title: 'Client App / Dashboard', desc: 'LTV, Retention & Engagement tracking', setup: 4500, monthly: 850, priority: 'Premium P4' }
 ];
 
-export const TermsSlide: React.FC = () => {
-    const [selected, setSelected] = useState<string[]>(['sys1']);
+interface TermsSlideProps {
+    selected: string[];
+    setSelected: (ids: string[]) => void;
+}
 
+export const TermsSlide: React.FC<TermsSlideProps> = ({ selected, setSelected }) => {
     const toggle = (id: string) => {
         if (selected.includes(id)) {
             if (selected.length === 1) return; 

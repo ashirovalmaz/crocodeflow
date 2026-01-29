@@ -15,90 +15,89 @@ import { TermsSlide } from './proposal_rob/TermsSlide';
 import { BonusSlide } from './proposal_rob/BonusSlide';
 import { ClosingSlide } from './proposal_rob/ClosingSlide';
 
-const PROPOSAL_CONTENT = [
-  {
-    id: 'executive-summary',
-    title: "Executive summary",
-    subtitle: "Building a system that works without relying on you",
-    content: <ExecutiveSummarySlide />
-  },
-  {
-    id: 'goals',
-    title: "Your goals",
-    subtitle: "What we heard between the lines",
-    content: <GoalsSlide />
-  },
-  {
-    id: 'time-economics',
-    title: "Time economics",
-    subtitle: "The hidden cost of the current setup",
-    content: <TimeEconomicsSlide />
-  },
-  {
-    id: 'problems-1',
-    title: "The bottlenecks (1/2)",
-    subtitle: "Why the current setup limits growth",
-    content: <BottlenecksOneSlide />
-  },
-  {
-    id: 'problems-2',
-    title: "The bottlenecks (2/2)",
-    subtitle: "Why the current setup limits growth",
-    content: <BottlenecksTwoSlide />
-  },
-  {
-    id: 'path-forward',
-    title: "The path forward",
-    subtitle: "Point A → Point B → Point C",
-    content: <PathForwardSlide />
-  },
-  {
-    id: 'solutions',
-    title: "Proposed systems",
-    subtitle: "AI Architecture",
-    content: <SolutionsSlide />
-  },
-  {
-    id: 'pitch',
-    title: "Our pitch",
-    subtitle: "The Partnership Model",
-    content: <PitchSlide />
-  },
-  {
-    id: 'terms',
-    title: "Pricing & terms",
-    subtitle: "Investment Details",
-    content: <TermsSlide />
-  },
-  {
-    id: 'bonus',
-    title: "Fast-action bonus",
-    subtitle: "24-Hour Opportunity",
-    content: <BonusSlide />
-  },
-  {
-    id: 'closing',
-    title: "Next steps",
-    subtitle: "Let's Get Started",
-    content: <ClosingSlide />
-  }
-];
-
 export const RobProposalPage: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [selectedSystems, setSelectedSystems] = useState<string[]>(['sys1']);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    // Force light mode for this specific page
     document.documentElement.classList.remove('dark');
     
-    // Cleanup function: Restore theme preference when leaving the page
     return () => {
       if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         document.documentElement.classList.add('dark');
       }
     };
   }, [currentSlide]);
+
+  const PROPOSAL_CONTENT = [
+    {
+      id: 'executive-summary',
+      title: "Executive summary",
+      subtitle: "Building a system that works without relying on you",
+      content: <ExecutiveSummarySlide />
+    },
+    {
+      id: 'goals',
+      title: "Your goals",
+      subtitle: "What we heard between the lines",
+      content: <GoalsSlide />
+    },
+    {
+      id: 'time-economics',
+      title: "Time economics",
+      subtitle: "The hidden cost of the current setup",
+      content: <TimeEconomicsSlide />
+    },
+    {
+      id: 'problems-1',
+      title: "The bottlenecks (1/2)",
+      subtitle: "Why the current setup limits growth",
+      content: <BottlenecksOneSlide />
+    },
+    {
+      id: 'problems-2',
+      title: "The bottlenecks (2/2)",
+      subtitle: "Why the current setup limits growth",
+      content: <BottlenecksTwoSlide />
+    },
+    {
+      id: 'path-forward',
+      title: "The path forward",
+      subtitle: "Point A → Point B → Point C",
+      content: <PathForwardSlide />
+    },
+    {
+      id: 'solutions',
+      title: "Proposed systems",
+      subtitle: "AI Architecture",
+      content: <SolutionsSlide />
+    },
+    {
+      id: 'pitch',
+      title: "Our pitch",
+      subtitle: "The Partnership Model",
+      content: <PitchSlide />
+    },
+    {
+      id: 'terms',
+      title: "Pricing & terms",
+      subtitle: "Investment Details",
+      content: <TermsSlide selected={selectedSystems} setSelected={setSelectedSystems} />
+    },
+    {
+      id: 'bonus',
+      title: "Fast-action bonus",
+      subtitle: "24-Hour Opportunity",
+      content: <BonusSlide />
+    },
+    {
+      id: 'closing',
+      title: "Next steps",
+      subtitle: "Let's Get Started",
+      content: <ClosingSlide selected={selectedSystems} />
+    }
+  ];
 
   const nextSlide = () => {
     if (currentSlide < PROPOSAL_CONTENT.length - 1) {
