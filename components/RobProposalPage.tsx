@@ -17,7 +17,7 @@ const PROPOSAL_CONTENT = [
   {
     id: 'executive-summary',
     title: "Executive Summary",
-    subtitle: "Revenue Roadmap for Rob Jessen",
+    subtitle: "Building a system that works without relying on you",
     content: <ExecutiveSummarySlide />
   },
   {

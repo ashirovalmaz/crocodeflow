@@ -1,44 +1,43 @@
-
 import React from 'react';
-import { Target } from 'lucide-react';
+import { Target, CheckCircle2 } from 'lucide-react';
 
 export const ExecutiveSummarySlide: React.FC = () => (
   <div className="space-y-8 animate-fade-in">
-    <div className="prose dark:prose-invert max-w-none">
-      <p className="text-xl text-gray-700 dark:text-gray-300 leading-relaxed font-light">
-        Based on our initial audit of your current infrastructure, we strongly believe your business could be a <strong className="text-brand-600 dark:text-brand-500 font-bold">$100k+/mo engine</strong> with specialized AI automation—primarily by removing the manual friction between lead acquisition and booked calls.
+    <div className="prose max-w-none">
+      <p className="text-xl text-gray-700 leading-relaxed font-light mb-6">
+        Based on our conversation and a deeper look at how your business currently operates, we’re
+        confident that your next stage of growth isn’t about more demand — it’s about <strong className="text-brand-600 font-bold">leverage</strong>.
       </p>
     </div>
 
-    <div className="bg-white dark:bg-dark-800 rounded-2xl p-8 border border-gray-200 dark:border-dark-700 shadow-sm">
-      <h3 className="text-lg font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-6 flex items-center gap-2">
-        <Target className="w-5 h-5 text-brand-500" /> Strategic Indicators
+    <div className="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
+      <h3 className="text-lg font-bold uppercase tracking-wider text-gray-500 mb-6 flex items-center gap-2">
+        <Target className="w-5 h-5 text-brand-500" /> You already have:
       </h3>
-      <ul className="space-y-6">
+      <ul className="space-y-4">
         {[
-          { title: "High-Value Offer", text: "Your current market positioning is strong, and your results for existing clients prove the model works." },
-          { title: "Consistent Lead Flow", text: "You are already generating significant volume, but the manual handling of these leads is creating a growth ceiling." },
-          { title: "Conversion Friction", text: "The gap between a 'warm lead' and a 'booked call' is currently dependent on manual follow-up, which is inherently slow and inconsistent." },
-          { title: "Scalability Potential", text: "Your delivery is excellent, meaning the only thing holding you back from 2-3x growth is the acquisition systems." },
-          { title: "Operational Drag", text: "As the founder, you are likely still too involved in the day-to-day conversion tasks that AI can now handle 100x faster." }
+          "A proven service",
+          "A steady flow of inbound leads",
+          "A strong reputation built over 15 years"
         ].map((item, i) => (
-          <li key={i} className="flex gap-4">
-            <div className="mt-1 min-w-[24px]">
-                <div className="w-6 h-6 rounded-full bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center text-brand-600 dark:text-brand-500 font-bold text-xs">
-                    {i + 1}
-                </div>
-            </div>
-            <div>
-              <h4 className="font-bold text-gray-900 dark:text-white mb-1">{item.title}</h4>
-              <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">{item.text}</p>
-            </div>
+          <li key={i} className="flex items-center gap-3">
+            <CheckCircle2 className="w-5 h-5 text-brand-500 shrink-0" />
+            <span className="text-gray-700 font-medium">{item}</span>
           </li>
         ))}
       </ul>
     </div>
     
-    <p className="text-gray-600 dark:text-gray-400 italic">
-        The following proposal outlines the roadmap to professionalizing your acquisition engine and reclaiming your time as a founder.
-    </p>
+    <div className="space-y-6 text-gray-700 leading-relaxed">
+      <p>
+        What’s limiting scale right now is <strong className="text-gray-900 font-semibold">how much of the operation still depends on you personally</strong> —
+        especially in DMs, qualification, and early sales conversations.
+      </p>
+      
+      <p className="bg-brand-50 p-6 rounded-xl border-l-4 border-brand-500 font-medium italic">
+        This proposal outlines how we move you from a founder-dependent setup to a system-driven
+        business — step by step, without breaking what already works.
+      </p>
+    </div>
   </div>
 );
