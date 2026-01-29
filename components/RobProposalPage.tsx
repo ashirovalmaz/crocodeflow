@@ -16,61 +16,61 @@ import { ClosingSlide } from './proposal_rob/ClosingSlide';
 const PROPOSAL_CONTENT = [
   {
     id: 'executive-summary',
-    title: "Executive Summary",
+    title: "Executive summary",
     subtitle: "Building a system that works without relying on you",
     content: <ExecutiveSummarySlide />
   },
   {
     id: 'goals',
-    title: "YOUR GOALS",
+    title: "Your goals",
     subtitle: "What we heard between the lines",
     content: <GoalsSlide />
   },
   {
     id: 'time-economics',
-    title: "TIME ECONOMICS",
+    title: "Time economics",
     subtitle: "The hidden cost of the current setup",
     content: <TimeEconomicsSlide />
   },
   {
     id: 'problems-1',
-    title: "THE BOTTLENECKS (1/2)",
+    title: "The bottlenecks (1/2)",
     subtitle: "Why the current setup limits growth",
     content: <BottlenecksOneSlide />
   },
   {
     id: 'problems-2',
-    title: "THE BOTTLENECKS (2/2)",
+    title: "The bottlenecks (2/2)",
     subtitle: "Why the current setup limits growth",
     content: <BottlenecksTwoSlide />
   },
   {
     id: 'solutions',
-    title: "Proposed Systems",
+    title: "Proposed systems",
     subtitle: "AI Architecture",
     content: <SolutionsSlide />
   },
   {
     id: 'pitch',
-    title: "Our Pitch",
+    title: "Our pitch",
     subtitle: "The Partnership Model",
     content: <PitchSlide />
   },
   {
     id: 'terms',
-    title: "Pricing & Terms",
+    title: "Pricing & terms",
     subtitle: "Investment Details",
     content: <TermsSlide />
   },
   {
     id: 'bonus',
-    title: "Fast-Action Bonus",
+    title: "Fast-action bonus",
     subtitle: "24-Hour Opportunity",
     content: <BonusSlide />
   },
   {
     id: 'closing',
-    title: "Next Steps",
+    title: "Next steps",
     subtitle: "Let's Get Started",
     content: <ClosingSlide />
   }

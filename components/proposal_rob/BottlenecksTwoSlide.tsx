@@ -28,7 +28,7 @@ export const BottlenecksTwoSlide: React.FC = () => (
                 <div>
                     <h3 className="text-xl font-bold text-gray-900 mb-2">4. Growth increases workload</h3>
                     <p className="text-gray-600 leading-relaxed">
-                        More attention currently means <span className="text-gray-900 font-semibold">more manual work</span> — not leverage. Under the current setup, scaling the business to $100k/mo would require doubling your personal hours, which is a recipe for burnout.
+                        More attention currently means <span className="text-gray-900 font-semibold">more manual work</span> — not leverage. Under the current setup, scaling the business would require doubling your personal hours, which is a recipe for burnout.
                     </p>
                 </div>
             </div>
