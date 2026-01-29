@@ -11,6 +11,7 @@ import { PathForwardSlide } from './proposal_rob/PathForwardSlide';
 import { SolutionsSlide } from './proposal_rob/SolutionsSlide';
 import { PitchSlide } from './proposal_rob/PitchSlide';
 import { TermsSlide } from './proposal_rob/TermsSlide';
+import { PremiumInvestmentSlide } from './proposal_rob/PremiumInvestmentSlide';
 import { BonusSlide } from './proposal_rob/BonusSlide';
 import { ClosingSlide } from './proposal_rob/ClosingSlide';
 
@@ -68,6 +69,12 @@ const PROPOSAL_CONTENT = [
     title: "Pricing & terms",
     subtitle: "Investment Details",
     content: <TermsSlide />
+  },
+  {
+    id: 'premium-investment',
+    title: "Investment Summary",
+    subtitle: "The Final Choice",
+    content: <PremiumInvestmentSlide />
   },
   {
     id: 'bonus',
