@@ -107,7 +107,10 @@ export const TermsSlide: React.FC<TermsSlideProps> = ({ selected, setSelected })
                                 <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest">
                                     <Zap className="w-3 h-3 fill-white" /> Bundle Discount Applied
                                 </div>
-                                <div className="text-lg font-bold">Save ${discountAmount.toLocaleString()}</div>
+                                <div className="text-lg font-bold flex items-center gap-2">
+                                    Save ${discountAmount.toLocaleString()}
+                                    <span className="text-[11px] bg-white/20 px-2 py-0.5 rounded-full font-black">-{Math.round(discountPercent * 100)}%</span>
+                                </div>
                             </div>
                         </div>
                     )}
