@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ShieldCheck, TrendingUp, Target, Briefcase, Zap, UserCheck } from 'lucide-react';
 
@@ -6,10 +5,6 @@ export const PitchSlide: React.FC = () => (
   <div className="space-y-12 animate-fade-in max-w-5xl mx-auto py-4">
     {/* Refined Header Section */}
     <div className="border-b border-gray-100 pb-12">
-      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 text-gray-500 text-[10px] font-bold uppercase tracking-widest mb-6">
-        <Briefcase className="w-3 h-3" /> The Partnership Model
-      </div>
-      
       <h3 className="text-4xl md:text-5xl font-display font-bold text-gray-900 mb-6 leading-tight max-w-3xl">
         We aren't here for <span className="text-brand-600">short-term hacks.</span>
       </h3>
@@ -34,7 +29,7 @@ export const PitchSlide: React.FC = () => (
         },
         {
           title: "Long-Term ROI",
-          desc: "Our architecture is built to support you from $50k/mo to $500k/mo and beyond. We build for where you are going, not just where you are.",
+          desc: "Our architecture is built to support you up to $500k/mo and beyond. We build for where you are going, not just where you are.",
           icon: TrendingUp
         }
       ].map((item, i) => (
