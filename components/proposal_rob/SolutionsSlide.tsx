@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { ChevronDown, MessageSquare, Mail, Zap, Target, Layout, Rocket, Calendar, Bell, Database } from 'lucide-react';
 
@@ -110,10 +111,10 @@ export const SolutionsSlide: React.FC = () => (
                 <div>
                     <h4 className="text-sm font-bold uppercase text-gray-900 mb-2">Why this matters</h4>
                     <p className="text-xs text-gray-600 leading-relaxed mb-2">
-                        This system solves your biggest bottleneck: <span className="font-bold">DM → booked call → showed-up call</span>.
+                        This system solves your primary bottleneck: <span className="font-bold">Founder Dependency in the DMs.</span>
                     </p>
                     <p className="text-xs text-gray-600 leading-relaxed">
-                        It’s essentially two systems combined: <strong>Acquisition & DM conversion engine</strong> + <strong>Show-up maximization engine</strong>. We intentionally merged them because they rely on the same personalized data.
+                        It’s essentially a 24/7 filter and conversion engine that <span className="font-bold">removes you from the manual grind</span>. By automating qualification and pre-call value delivery, your time is only spent on high-intent sales conversations, while simultaneously increasing lead quality and show-up rates as a secondary (but critical) win.
                     </p>
                 </div>
             </div>
