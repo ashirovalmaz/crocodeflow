@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Calculator, Check } from 'lucide-react';
+import { Calculator, Check, Zap, Sparkles, TrendingDown } from 'lucide-react';
 import { SYSTEMS } from '../../data/proposals';
 
 export const TermsSlide: React.FC = () => {
@@ -80,21 +80,31 @@ export const TermsSlide: React.FC = () => {
             {/* Pricing Options */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
                 {/* Standard Option */}
-                <div className="bg-white dark:bg-dark-800 p-8 rounded-2xl border border-gray-200 dark:border-dark-700 flex flex-col shadow-sm">
+                <div className="bg-white dark:bg-dark-800 p-8 rounded-2xl border border-gray-200 dark:border-dark-700 flex flex-col shadow-sm relative">
                     <h3 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">Option 1</h3>
                     <h4 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Standard Engagement</h4>
                     
-                    <div className="flex items-baseline gap-2 mb-1">
+                    <div className="flex items-baseline gap-2 mb-4">
                         <div className="text-4xl font-display font-bold text-brand-600 dark:text-brand-500">
                             ${finalSetup.toLocaleString()}
                         </div>
                         <span className="text-lg font-normal text-gray-500">setup</span>
                     </div>
+
                     {discountAmount > 0 && (
-                        <div className="text-xs text-brand-600 dark:text-brand-400 font-bold mb-2">
-                            Includes ${discountAmount.toLocaleString()} Bundle Discount
+                        <div className="mb-6 animate-slide-up">
+                            <div className="inline-flex flex-col gap-1 px-4 py-2.5 rounded-xl bg-brand-500 text-white shadow-[0_4px_20px_rgba(34,197,94,0.3)] border border-brand-400/50">
+                                <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.1em] opacity-90">
+                                    <Sparkles className="w-3 h-3 fill-white" /> Bundle Savings Applied
+                                </div>
+                                <div className="text-lg font-bold flex items-center gap-1.5">
+                                    Save ${discountAmount.toLocaleString()}
+                                    <span className="text-xs font-medium bg-white/20 px-1.5 py-0.5 rounded">-{Math.round(discountPercent * 100)}%</span>
+                                </div>
+                            </div>
                         </div>
                     )}
+
                     <div className="text-xl text-gray-600 dark:text-gray-400 mb-8">+ ${totalMonthly.toLocaleString()} / month</div>
 
                     <ul className="space-y-3 mb-8 flex-grow">
@@ -121,27 +131,27 @@ export const TermsSlide: React.FC = () => {
                         </div>
                         <span className="text-lg font-normal text-gray-400">upfront</span>
                     </div>
-                    <div className="text-sm text-brand-400 font-bold mb-8 uppercase tracking-wide">
-                        ~45% Total Savings
+                    <div className="text-sm text-brand-400 font-bold mb-8 uppercase tracking-wide flex items-center gap-2">
+                        <TrendingDown className="w-4 h-4" /> ~45% Total Savings Included
                     </div>
 
                     <div className="space-y-4 mb-8 flex-grow">
-                         <div className="flex justify-between items-center text-sm border-b border-gray-800 pb-2">
+                         <div className="flex justify-between items-center text-sm border-b border-white/10 pb-2">
                             <span className="text-gray-400">Standard 12-Mo Cost</span>
                             <span className="text-gray-500 line-through">${firstYearValue.toLocaleString()}</span>
                         </div>
-                        <div className="flex justify-between items-center text-sm border-b border-gray-800 pb-2">
+                        <div className="flex justify-between items-center text-sm border-b border-white/10 pb-2">
                             <span className="text-gray-400">Annual Plan Cost</span>
                             <span className="text-white font-bold">${annualPrice.toLocaleString()}</span>
                         </div>
-                        <div className="flex justify-between items-center text-sm bg-brand-500/10 p-2 rounded">
-                            <span className="text-brand-400 font-bold">Total Savings</span>
-                            <span className="text-brand-400 font-bold">${annualSavings.toLocaleString()}</span>
+                        <div className="flex justify-between items-center text-sm bg-brand-500/20 p-3 rounded-xl border border-brand-500/30">
+                            <span className="text-brand-300 font-bold uppercase text-[10px] tracking-widest">Total Value Saved</span>
+                            <span className="text-white font-bold text-xl">${annualSavings.toLocaleString()}</span>
                         </div>
                     </div>
                     
-                    <p className="text-xs text-gray-500 text-center">
-                        One-time payment. No monthly fees for 12 months.
+                    <p className="text-xs text-gray-500 text-center font-bold">
+                        ONE-TIME PAYMENT. NO MONTHLY FEES FOR 12 MONTHS.
                     </p>
                 </div>
             </div>
