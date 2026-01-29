@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChevronDown, MessageSquare, Mail, Zap, Target, Layout } from 'lucide-react';
+import { ChevronDown, MessageSquare, Mail, Zap, Target, Layout, Rocket, Calendar, Bell } from 'lucide-react';
 
 export const SolutionsSlide: React.FC = () => (
   <div className="space-y-6 animate-fade-in">
@@ -8,9 +8,9 @@ export const SolutionsSlide: React.FC = () => (
     </p>
     
     <div className="flex flex-col gap-4">
-        {/* System 1 - Core Anchor (Same as Justin's) */}
+        {/* System 1 - Full Detailed Content from Justin Howells */}
         <div className="bg-white rounded-xl border-2 border-brand-500 shadow-xl p-6 relative flex flex-col">
-            <div className="absolute top-0 right-0 bg-brand-500 text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg uppercase tracking-widest">Core P1</div>
+            <div className="absolute top-0 right-0 bg-brand-500 text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg uppercase tracking-widest shadow-lg">Core P1</div>
             <h3 className="font-bold text-lg text-gray-900 mb-1">System 1: AI-powered DM foundation + Custom presentations</h3>
             <div className="text-sm text-brand-600 font-bold mb-4">Timeframe: 25–30 days</div>
             
@@ -34,10 +34,11 @@ export const SolutionsSlide: React.FC = () => (
                                 The system instantly interacts with potential clients triggered by:
                             </p>
                             <ul className="text-xs text-gray-600 list-disc pl-4 space-y-0.5">
-                                <li>Incoming DM</li>
-                                <li>Comment with a keyword</li>
-                                <li>Reply to your CTA</li>
-                                <li>New follower</li>
+                                <li>incoming DM</li>
+                                <li>comment with a keyword</li>
+                                <li>reply to your CTA</li>
+                                <li>new follower</li>
+                                <li>response to your lead magnet</li>
                             </ul>
                             <p className="text-xs font-medium text-brand-600 mt-1">This ensures zero lost leads and perfect speed-to-lead, even at 2am.</p>
                          </div>
@@ -50,9 +51,10 @@ export const SolutionsSlide: React.FC = () => (
                                 It asks personalized follow-up questions to understand:
                             </p>
                             <ul className="text-xs text-gray-600 list-disc pl-4 space-y-0.5">
-                                <li>Their goals & struggles</li>
-                                <li>Lifestyle constraints</li>
-                                <li>Urgency & timeline</li>
+                                <li>their goals & struggles</li>
+                                <li>lifestyle constraints</li>
+                                <li>urgency & timeline</li>
+                                <li>past attempts & emotional drivers</li>
                             </ul>
                             <p className="text-xs text-gray-500 italic mt-1">This creates a natural “brain dump” dynamic — not a scripted chatbot.</p>
                          </div>
@@ -62,7 +64,7 @@ export const SolutionsSlide: React.FC = () => (
                             <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-gray-200 text-[10px] flex items-center justify-center font-bold text-gray-500">3</div>
                             <h5 className="text-sm font-bold text-gray-900">Extracts key variables for personalization</h5>
                             <p className="text-xs text-gray-600 mt-1">
-                                Every important detail is stored and used dynamically in later steps. This allows the next interactions to feel deeply personal and relevant.
+                                Every important detail (goal, obstacles, schedule, motivation) is stored and used dynamically in later steps. This allows the next steps to feel deeply personal and relevant.
                             </p>
                          </div>
 
@@ -71,13 +73,44 @@ export const SolutionsSlide: React.FC = () => (
                             <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-gray-200 text-[10px] flex items-center justify-center font-bold text-gray-500">4</div>
                             <h5 className="text-sm font-bold text-gray-900">Generates a custom mini-presentation or plan</h5>
                             <p className="text-xs text-gray-600 mt-1 mb-2">
-                                For each qualified lead, the system produces a fully customized PDF or private page containing their specific goals and your specific path for them.
+                                For each qualified lead, the system produces a fully customized PDF, mini-deck, or carousel containing their goals (in their words), blockers, and your specific path for them.
                             </p>
                             <p className="text-xs font-medium text-gray-800 italic mt-1">
-                                This is the moment where prospects feel: “Damn… they actually prepared something for me.”
+                                This is the first moment where prospects feel: “Damn… these guys actually prepared something for me.”
+                            </p>
+                         </div>
+
+                         {/* Step 5 */}
+                         <div className="relative pl-6 border-l-2 border-gray-200">
+                            <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-gray-200 text-[10px] flex items-center justify-center font-bold text-gray-500">5</div>
+                            <h5 className="text-sm font-bold text-gray-900">Drives the lead toward booking a call</h5>
+                            <p className="text-xs text-gray-600 mt-1">
+                                The system transitions smoothly from qualification → value → booking. It offers the call only when intent is clear and gives a reason to book (“we prepared your plan… let’s walk through it together”).
+                            </p>
+                         </div>
+
+                         {/* Step 6 */}
+                         <div className="relative pl-6 border-l-2 border-gray-200">
+                            <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-gray-200 text-[10px] flex items-center justify-center font-bold text-gray-500">6</div>
+                            <h5 className="text-sm font-bold text-gray-900">Sends automated, contextual reminders</h5>
+                            <p className="text-xs text-gray-600 mt-1 mb-2">
+                                Sends reminders 3 days before, 24h before (with plan), 3h before, and 30m before.
+                            </p>
+                            <p className="text-xs text-brand-600 font-medium mt-1">
+                                This dramatically improves show-up rate because it feels human.
                             </p>
                          </div>
                     </div>
+                </div>
+
+                <div>
+                    <h4 className="text-sm font-bold uppercase text-gray-900 mb-2">Why this matters</h4>
+                    <p className="text-xs text-gray-600 leading-relaxed mb-2">
+                        This system solves your biggest bottleneck: <span className="font-bold">DM → booked call → showed-up call</span>.
+                    </p>
+                    <p className="text-xs text-gray-600 leading-relaxed">
+                        It’s essentially two systems combined: <strong>Acquisition & DM conversion engine</strong> + <strong>Show-up maximization engine</strong>. We intentionally merged them because they rely on the same personalized data, and splitting them would reduce both effectiveness and clarity.
+                    </p>
                 </div>
             </div>
 
@@ -89,7 +122,7 @@ export const SolutionsSlide: React.FC = () => (
             </div>
         </div>
 
-        {/* Other Systems - Replaced with specific requested list */}
+        {/* Other Systems */}
         <div className="space-y-3">
             {[
                 {
