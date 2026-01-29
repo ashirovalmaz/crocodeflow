@@ -42,7 +42,7 @@ export const PremiumInvestmentSlide: React.FC = () => {
             {/* Context Header */}
             <div className="text-center space-y-4">
                 <p className="text-gray-600 max-w-2xl mx-auto leading-relaxed">
-                    Масштабирование на следующий уровень требует перехода от ручного управления к структурированному автоматизированному двигателю. Выберите ваш пакет внедрения ниже.
+                    Scaling to the next level requires shifting from founder-led DMs to a structured, automated acquisition engine. Select your starting implementation package below.
                 </p>
             </div>
 
@@ -54,13 +54,13 @@ export const PremiumInvestmentSlide: React.FC = () => {
                             <Calculator className="w-5 h-5" />
                         </div>
                         <div>
-                            <h4 className="font-display font-bold text-xl text-gray-900 leading-none">Объем внедрения</h4>
-                            <p className="text-xs text-gray-500 mt-1">Выберите системы для включения в Фазу 1</p>
+                            <h4 className="font-display font-bold text-xl text-gray-900 leading-none">Implementation Scope</h4>
+                            <p className="text-xs text-gray-500 mt-1">Select systems to include in Phase 1</p>
                         </div>
                     </div>
                     {discountAmount > 0 && (
                         <div className="flex items-center gap-2 bg-brand-600 text-white px-4 py-2 rounded-full text-xs font-bold animate-pulse shadow-lg shadow-brand-500/20 uppercase tracking-widest border border-brand-400">
-                           <Sparkles className="w-3.5 h-3.5" /> Скидка за пакет: {Math.round(discountPercent * 100)}% на внедрение
+                           <Sparkles className="w-3.5 h-3.5" /> Bundle Discount: {Math.round(discountPercent * 100)}% Off Setup
                         </div>
                     )}
                 </div>
@@ -106,26 +106,26 @@ export const PremiumInvestmentSlide: React.FC = () => {
                     <div className="absolute top-0 right-0 w-32 h-32 bg-gray-50 rounded-bl-[100px] -mr-16 -mt-16 -z-10"></div>
                     
                     <div className="mb-10">
-                        <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-gray-400 mb-2">Вариант 01</h4>
-                        <h3 className="text-2xl font-display font-bold text-gray-900">Стандартный план</h3>
-                        <p className="text-sm text-gray-500 mt-2 italic">Ежемесячная гибкость после внедрения</p>
+                        <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-gray-400 mb-2">Option 01</h4>
+                        <h3 className="text-2xl font-display font-bold text-gray-900">Standard Plan</h3>
+                        <p className="text-sm text-gray-500 mt-2 italic">Month-to-month flexibility after setup</p>
                     </div>
 
                     <div className="space-y-6 mb-10">
                         <div className="flex items-baseline gap-2">
                             <span className="text-5xl font-display font-bold text-brand-600">${finalSetup.toLocaleString()}</span>
-                            <span className="text-gray-500 font-medium">внедрение</span>
+                            <span className="text-gray-500 font-medium">setup</span>
                         </div>
                         {discountAmount > 0 && (
                              <div className="text-xs font-bold text-brand-600 flex items-center gap-1.5 uppercase tracking-wider">
-                                <TrendingDown className="w-4 h-4" /> Экономия ${discountAmount.toLocaleString()} на внедрении
+                                <TrendingDown className="w-4 h-4" /> Save ${discountAmount.toLocaleString()} on setup fees
                              </div>
                         )}
-                        <div className="text-2xl text-gray-700 font-medium">+ ${totalMonthly.toLocaleString()} / мес.</div>
+                        <div className="text-2xl text-gray-700 font-medium">+ ${totalMonthly.toLocaleString()} / mo.</div>
                     </div>
 
                     <div className="flex-grow space-y-4 border-t border-gray-100 pt-8 mb-8">
-                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Включенные системы:</p>
+                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Included Systems:</p>
                         <div className="grid grid-cols-1 gap-3">
                             {ROB_SYSTEMS.filter(s => selected.includes(s.id)).map(s => (
                                 <div key={s.id} className="flex items-center gap-3 text-sm text-gray-700 font-medium">
@@ -137,45 +137,45 @@ export const PremiumInvestmentSlide: React.FC = () => {
 
                     <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-2xl border border-gray-100">
                         <ShieldCheck className="w-5 h-5 text-brand-500" />
-                        <span className="text-[10px] text-gray-600 font-bold uppercase tracking-wider">Гарантия внедрения за 30 дней</span>
+                        <span className="text-[10px] text-gray-600 font-bold uppercase tracking-wider">30-Day Implementation Guarantee</span>
                     </div>
                 </div>
 
                 {/* Annual Plan (Premium) */}
                 <div className="bg-gradient-to-br from-brand-900 to-emerald-950 p-10 rounded-3xl border border-brand-500/50 shadow-2xl flex flex-col relative overflow-hidden">
                     <div className="absolute top-0 right-0 bg-brand-600 text-white text-[10px] font-bold px-6 py-2 rounded-bl-2xl uppercase tracking-[0.2em] shadow-lg">
-                        Лучшая цена
+                        Best Value
                     </div>
                     
                     <div className="mb-10">
-                        <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-brand-400 mb-2">Вариант 02</h4>
-                        <h3 className="text-2xl font-display font-bold text-white">Годовой контракт</h3>
-                        <p className="text-sm text-brand-300/60 mt-2 italic">Максимальный ROI и план на 12 месяцев</p>
+                        <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-brand-400 mb-2">Option 02</h4>
+                        <h3 className="text-2xl font-display font-bold text-white">Annual Engagement</h3>
+                        <p className="text-sm text-brand-300/60 mt-2 italic">Maximized ROI & 12-month roadmap</p>
                     </div>
 
                     <div className="space-y-6 mb-10">
                         <div className="flex items-baseline gap-2">
                             <span className="text-5xl font-display font-bold text-white">${annualPrice.toLocaleString()}</span>
-                            <span className="text-gray-400 font-medium">разово</span>
+                            <span className="text-gray-400 font-medium">upfront</span>
                         </div>
                         <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-brand-500/10 border border-brand-500/30 rounded-lg text-brand-400 text-xs font-bold uppercase tracking-widest">
-                            <Zap className="w-3.5 h-3.5 fill-brand-400" /> Скидка ~45% уже включена
+                            <Zap className="w-3.5 h-3.5 fill-brand-400" /> ~45% Total Savings Included
                         </div>
-                        <div className="text-xl text-gray-400 font-medium">Без ежемесячных оплат на год</div>
+                        <div className="text-xl text-gray-400 font-medium">No monthly fees for 12 months</div>
                     </div>
 
                     <div className="flex-grow space-y-4 bg-white/5 border border-white/10 rounded-2xl p-6 mb-8">
                         <div className="flex justify-between items-center text-sm border-b border-white/10 pb-3">
-                            <span className="text-gray-400">Стоимость за 12 мес. (стандарт)</span>
+                            <span className="text-gray-400">Standard 12-Month Total</span>
                             <span className="text-gray-500 line-through">${firstYearValue.toLocaleString()}</span>
                         </div>
                         <div className="flex justify-between items-center text-sm border-b border-white/10 pb-3">
-                            <span className="text-gray-400">Стоимость годового плана</span>
+                            <span className="text-gray-400">Annual Plan Investment</span>
                             <span className="text-white font-bold">${annualPrice.toLocaleString()}</span>
                         </div>
                         <div className="flex justify-between items-center pt-2">
                             <div className="flex flex-col">
-                                <span className="text-[10px] text-brand-400 font-bold uppercase tracking-widest">Итоговая выгода</span>
+                                <span className="text-[10px] text-brand-400 font-bold uppercase tracking-widest">Total Value Saved</span>
                                 <span className="text-2xl font-display font-bold text-white">${annualSavings.toLocaleString()}</span>
                             </div>
                             <div className="w-12 h-12 bg-brand-500 rounded-xl flex items-center justify-center shadow-lg shadow-brand-500/40">
@@ -186,9 +186,9 @@ export const PremiumInvestmentSlide: React.FC = () => {
 
                     <div className="space-y-4">
                          <button className="w-full py-4 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-2xl transition-all shadow-xl hover:shadow-brand-500/40 flex items-center justify-center gap-3 group">
-                            Выбрать годовую стратегию <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                            Select Annual Roadmap <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                          </button>
-                         <p className="text-[10px] text-brand-400/50 text-center uppercase tracking-widest font-bold italic">Приоритетная поддержка включена</p>
+                         <p className="text-[10px] text-brand-400/50 text-center uppercase tracking-widest font-bold italic">Priority Support Included</p>
                     </div>
                 </div>
             </div>
@@ -200,8 +200,8 @@ export const PremiumInvestmentSlide: React.FC = () => {
                         <Target className="w-5 h-5" />
                     </div>
                     <div>
-                        <p className="text-[10px] font-bold text-gray-900 uppercase">Фокус на выручке</p>
-                        <p className="text-[10px] text-gray-500">Каждая система приносит деньги</p>
+                        <p className="text-[10px] font-bold text-gray-900 uppercase">Revenue Focused</p>
+                        <p className="text-[10px] text-gray-500">Every system prints money</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -209,8 +209,8 @@ export const PremiumInvestmentSlide: React.FC = () => {
                         <Zap className="w-5 h-5" />
                     </div>
                     <div>
-                        <p className="text-[10px] font-bold text-gray-900 uppercase">Быстрое развертывание</p>
-                        <p className="text-[10px] text-gray-500">Запуск от 14 дней</p>
+                        <p className="text-[10px] font-bold text-gray-900 uppercase">Fast Deployment</p>
+                        <p className="text-[10px] text-gray-500">Live in ~14 days</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -218,8 +218,8 @@ export const PremiumInvestmentSlide: React.FC = () => {
                         <ShieldCheck className="w-5 h-5" />
                     </div>
                     <div>
-                        <p className="text-[10px] font-bold text-gray-900 uppercase">Масштабируемые технологии</p>
-                        <p className="text-[10px] text-gray-500">Готовы к 10-кратному росту</p>
+                        <p className="text-[10px] font-bold text-gray-900 uppercase">Scalable Tech</p>
+                        <p className="text-[10px] text-gray-500">Built for 10x volume</p>
                     </div>
                 </div>
             </div>
