@@ -5,6 +5,7 @@ import { ArrowRight, ArrowLeft } from 'lucide-react';
 import { CAL_LINK } from '../constants';
 import { ExecutiveSummarySlide } from './proposal_rob/ExecutiveSummarySlide';
 import { GoalsSlide } from './proposal_rob/GoalsSlide';
+import { TimeEconomicsSlide } from './proposal_rob/TimeEconomicsSlide';
 import { BottlenecksOneSlide } from './proposal_rob/BottlenecksOneSlide';
 import { BottlenecksTwoSlide } from './proposal_rob/BottlenecksTwoSlide';
 import { SolutionsSlide } from './proposal_rob/SolutionsSlide';
@@ -22,9 +23,15 @@ const PROPOSAL_CONTENT = [
   },
   {
     id: 'goals',
-    title: "Project Goals",
-    subtitle: "KPIs for Growth",
+    title: "YOUR GOALS",
+    subtitle: "What we heard between the lines",
     content: <GoalsSlide />
+  },
+  {
+    id: 'time-economics',
+    title: "TIME ECONOMICS",
+    subtitle: "The hidden cost of the current setup",
+    content: <TimeEconomicsSlide />
   },
   {
     id: 'problems-1',
