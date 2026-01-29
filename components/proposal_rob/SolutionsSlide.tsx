@@ -1,18 +1,17 @@
 import React from 'react';
-import { ChevronDown } from 'lucide-react';
-import { SYSTEMS } from '../../data/proposals';
+import { ChevronDown, MessageSquare, Mail, Zap, Target, Layout } from 'lucide-react';
 
 export const SolutionsSlide: React.FC = () => (
   <div className="space-y-6 animate-fade-in">
     <p className="text-gray-600 mb-4">
-        These phases are prioritized around three things: Increasing booked calls & show-up rates, Improving ROI from leads you already generate, and Freeing your time from the DMs. Each system can be added modularly.
+        These phases are prioritized around three things: Increasing booked calls & show-up rates, Improving ROI from leads you already generate, and freeing your time from the DMs. Each system can be added modularly.
     </p>
     
     <div className="flex flex-col gap-4">
-        {/* System 1 - Always Expanded & Prominent */}
+        {/* System 1 - Core Anchor (Same as Justin's) */}
         <div className="bg-white rounded-xl border-2 border-brand-500 shadow-xl p-6 relative flex flex-col">
-            <div className="absolute top-0 right-0 bg-brand-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">Core P1</div>
-            <h3 className="font-bold text-lg text-gray-900 mb-1">System 1: AI-Powered DM Foundation + Custom Presentations</h3>
+            <div className="absolute top-0 right-0 bg-brand-500 text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg uppercase tracking-widest">Core P1</div>
+            <h3 className="font-bold text-lg text-gray-900 mb-1">System 1: AI-powered DM foundation + Custom presentations</h3>
             <div className="text-sm text-brand-600 font-bold mb-4">Timeframe: 25–30 days</div>
             
             <div className="flex-grow space-y-6 mb-4">
@@ -35,11 +34,10 @@ export const SolutionsSlide: React.FC = () => (
                                 The system instantly interacts with potential clients triggered by:
                             </p>
                             <ul className="text-xs text-gray-600 list-disc pl-4 space-y-0.5">
-                                <li>incoming DM</li>
-                                <li>comment with a keyword</li>
-                                <li>reply to your CTA</li>
-                                <li>new follower</li>
-                                <li>response to your lead magnet or macro calculator</li>
+                                <li>Incoming DM</li>
+                                <li>Comment with a keyword</li>
+                                <li>Reply to your CTA</li>
+                                <li>New follower</li>
                             </ul>
                             <p className="text-xs font-medium text-brand-600 mt-1">This ensures zero lost leads and perfect speed-to-lead, even at 2am.</p>
                          </div>
@@ -52,10 +50,9 @@ export const SolutionsSlide: React.FC = () => (
                                 It asks personalized follow-up questions to understand:
                             </p>
                             <ul className="text-xs text-gray-600 list-disc pl-4 space-y-0.5">
-                                <li>their goals & struggles</li>
-                                <li>lifestyle constraints</li>
-                                <li>urgency & timeline</li>
-                                <li>past attempts & emotional drivers</li>
+                                <li>Their goals & struggles</li>
+                                <li>Lifestyle constraints</li>
+                                <li>Urgency & timeline</li>
                             </ul>
                             <p className="text-xs text-gray-500 italic mt-1">This creates a natural “brain dump” dynamic — not a scripted chatbot.</p>
                          </div>
@@ -65,7 +62,7 @@ export const SolutionsSlide: React.FC = () => (
                             <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-gray-200 text-[10px] flex items-center justify-center font-bold text-gray-500">3</div>
                             <h5 className="text-sm font-bold text-gray-900">Extracts key variables for personalization</h5>
                             <p className="text-xs text-gray-600 mt-1">
-                                Every important detail (goal, obstacles, schedule, motivation) is stored and used dynamically in later steps. This allows the next steps to feel deeply personal and relevant.
+                                Every important detail is stored and used dynamically in later steps. This allows the next interactions to feel deeply personal and relevant.
                             </p>
                          </div>
 
@@ -74,119 +71,105 @@ export const SolutionsSlide: React.FC = () => (
                             <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-gray-200 text-[10px] flex items-center justify-center font-bold text-gray-500">4</div>
                             <h5 className="text-sm font-bold text-gray-900">Generates a custom mini-presentation or plan</h5>
                             <p className="text-xs text-gray-600 mt-1 mb-2">
-                                For each qualified lead, the system produces a fully customized PDF, mini-deck, or carousel containing their goals (in their words), blockers, and your specific path for them.
+                                For each qualified lead, the system produces a fully customized PDF or private page containing their specific goals and your specific path for them.
                             </p>
                             <p className="text-xs font-medium text-gray-800 italic mt-1">
-                                This is the first moment where prospects feel: “Damn… these guys actually prepared something for me.”
-                            </p>
-                         </div>
-
-                         {/* Step 5 */}
-                         <div className="relative pl-6 border-l-2 border-gray-200">
-                            <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-gray-200 text-[10px] flex items-center justify-center font-bold text-gray-500">5</div>
-                            <h5 className="text-sm font-bold text-gray-900">Drives the lead toward booking a call</h5>
-                            <p className="text-xs text-gray-600 mt-1">
-                                The system transitions smoothly from qualification → value → booking. It offers the call only when intent is clear and gives a reason to book (“we prepared your plan… let’s walk through it together”).
-                            </p>
-                         </div>
-
-                         {/* Step 6 */}
-                         <div className="relative pl-6 border-l-2 border-gray-200">
-                            <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-gray-200 text-[10px] flex items-center justify-center font-bold text-gray-500">6</div>
-                            <h5 className="text-sm font-bold text-gray-900">Sends automated, contextual reminders</h5>
-                            <p className="text-xs text-gray-600 mt-1 mb-2">
-                                Sends reminders 3 days before, 24h before (with plan), 3h before, and 30m before.
-                            </p>
-                            <div className="bg-gray-50 p-2 rounded text-[10px] text-gray-500 italic border border-gray-100">
-                                Example: “Hey — since you mentioned that energy is a big issue for you, I want to make sure you take a quick look at the sleep section of your plan before the call tomorrow.”
-                            </div>
-                            <p className="text-xs text-brand-600 font-medium mt-1">
-                                This dramatically improves show-up rate because it feels human.
+                                This is the moment where prospects feel: “Damn… they actually prepared something for me.”
                             </p>
                          </div>
                     </div>
                 </div>
-
-                <div>
-                    <h4 className="text-sm font-bold uppercase text-gray-900 mb-2">Why this matters</h4>
-                    <p className="text-xs text-gray-600 leading-relaxed mb-2">
-                        This system solves your biggest bottleneck: <span className="font-bold">DM → booked call → showed-up call</span>.
-                    </p>
-                    <p className="text-xs text-gray-600 leading-relaxed">
-                        It’s essentially two systems combined: <strong>Acquisition & DM conversion engine</strong> + <strong>Show-up maximization engine</strong>. We intentionally merged them because they rely on the same personalized data, and splitting them would reduce both effectiveness and clarity.
-                    </p>
-                </div>
             </div>
 
             <div className="pt-4 border-t border-gray-100 flex justify-between items-center text-xs">
-               <span className="text-gray-500">Setup: $2,500</span>
-               <span className="font-bold text-gray-900">$690/mo</span>
+               <span className="text-gray-500 font-medium">Setup: $2,900</span>
+               <div className="flex items-center gap-1">
+                   <span className="text-brand-600 font-bold">$790/mo</span>
+               </div>
             </div>
         </div>
 
-        {/* Other Systems - Collapsible Accordions */}
+        {/* Other Systems - Replaced with specific requested list */}
         <div className="space-y-3">
             {[
                 {
-                    sys: SYSTEMS[1],
-                    what: ["Gives setters AI-powered suggested replies", "Alerts them to hot signals", "Prevents over-following up or missing messages", "Ensures consistency across all 3 setters"],
-                    why: "Setters are your weakest operational link today. This system dramatically reduces human error.",
+                    title: "Automated newsletter",
+                    icon: Mail,
+                    setup: 2400,
+                    monthly: 650,
+                    priority: "P2",
+                    what: ["Highly personalized emails using CRM data", "Automated segmentation based on user goals", "Consistent nurture without founder involvement", "Direct call-to-action integration"],
+                    why: "Scales your authority and keeps you top-of-mind across your entire database without manual writing."
                 },
                 {
-                    sys: SYSTEMS[2],
-                    what: ["Pulls client data from CRM (goals, pain points)", "Builds personal strategy for reactivation", "Sends \"personally written\" messages based on context", "Recovers lost revenue automatically"],
-                    why: "Turns \"cold storage\" leads into high-ROI booked calls without your involvement.",
+                    title: "Personalized reactivation",
+                    icon: Zap,
+                    setup: 1900,
+                    monthly: 550,
+                    priority: "P2",
+                    what: ["Monetizes non-buyers and no-shows automatically", "Context-aware outreach based on previous chats", "Intent-triggered recovery sequences", "Automated calendar clean-up"],
+                    why: "Recovers lost revenue sitting in your CRM from people who were 'almost' ready but fell off."
                 },
                 {
-                    sys: SYSTEMS[3],
-                    what: ["Ingests and transcribes call recordings", "Extracts goals, objections, budget clues", "Auto-populates CRM & generates follow-ups"],
-                    why: "Prevents \"lost leads\" post-call and strengthens show-up → close rate.",
+                    title: "Content intelligence",
+                    icon: Target,
+                    setup: 1500,
+                    monthly: 450,
+                    priority: "P3",
+                    what: ["Competitor analysis and trend spotting", "Content scripting engine in your unique voice", "Viral hook library and performance tracking", "Automated content scheduling"],
+                    why: "Cuts content creation time by 80% while ensuring every post is engineered to convert."
                 },
                 {
-                    sys: SYSTEMS[4],
-                    what: ["Analyzes viral competitor posts & structure", "Generates scripts in your voice", "Recommends weekly topics & CTAs"],
-                    why: "Ensures you never run out of proven content ideas and maintains consistency.",
+                    title: "Client app / Dashboard",
+                    icon: Layout,
+                    setup: 4500,
+                    monthly: 850,
+                    priority: "P4",
+                    what: ["Branded hub for client engagement", "Automated progress and retention tracking", "Milestone notifications and LTV growth tools", "Centralized client communication"],
+                    why: "Elevates the client experience to premium levels, increasing retention and lifetime value."
                 },
-                {
-                    sys: SYSTEMS[5],
-                    what: ["Branded client app with progress tracking", "Personalized AI recommendations", "Daily check-ins and milestone nudges"],
-                    why: "Increases stickiness, engagement, and retention — raising LTV.",
-                },
-            ].map(({ sys, what, why }) => (
-                 <details key={sys.id} className="group bg-white rounded-xl border border-gray-200 overflow-hidden">
+            ].map((sys, i) => (
+                 <details key={i} className="group bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
                     <summary className="flex items-center justify-between p-4 cursor-pointer hover:bg-gray-50 transition-colors">
-                        <div className="flex flex-col">
-                            <div className="flex items-center gap-2">
-                                <h3 className="font-bold text-sm text-gray-900">{sys.title}</h3>
-                                <span className="text-[10px] font-bold px-2 py-0.5 bg-gray-100 rounded text-gray-500">{sys.priority}</span>
+                        <div className="flex items-center gap-4">
+                            <div className="w-8 h-8 rounded-lg bg-brand-50 flex items-center justify-center text-brand-600">
+                                <sys.icon className="w-4 h-4" />
+                            </div>
+                            <div className="flex flex-col">
+                                <div className="flex items-center gap-2">
+                                    <h3 className="font-bold text-sm text-gray-900">{sys.title}</h3>
+                                    <span className="text-[9px] font-bold px-1.5 py-0.5 bg-gray-100 rounded text-gray-500 uppercase tracking-tighter">{sys.priority}</span>
+                                </div>
                             </div>
                         </div>
-                         <div className="flex items-center gap-3">
+                         <div className="flex items-center gap-4">
                              <div className="text-xs text-right hidden sm:block">
-                                <div className="text-gray-500">Setup: ${sys.setup.toLocaleString()}</div>
-                                <div className="font-bold text-gray-900">${sys.monthly.toLocaleString()}/mo</div>
+                                <div className="text-gray-400 font-medium">Setup: ${sys.setup.toLocaleString()}</div>
+                                <div className="font-bold text-brand-600">${sys.monthly.toLocaleString()}/mo</div>
                              </div>
                              <ChevronDown className="w-4 h-4 text-gray-400 group-open:rotate-180 transition-transform" />
                          </div>
                     </summary>
                     
-                    <div className="px-4 pb-4 pt-0 border-t border-gray-100">
-                         <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="px-4 pb-4 pt-0 border-t border-gray-100 bg-gray-50/30">
+                         <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <h4 className="text-xs font-bold uppercase text-gray-500 mb-1">What this system does</h4>
-                                <ul className="text-xs text-gray-600 space-y-1 list-disc pl-4">
-                                    {what.map((item, i) => <li key={i}>{item}</li>)}
+                                <h4 className="text-[10px] font-bold uppercase text-gray-400 mb-2 tracking-widest">What this system does</h4>
+                                <ul className="text-xs text-gray-600 space-y-2 list-disc pl-4">
+                                    {sys.what.map((item, i) => <li key={i}>{item}</li>)}
                                 </ul>
                             </div>
                             <div>
-                                <h4 className="text-xs font-bold uppercase text-gray-500 mb-1">Why this matters</h4>
-                                <p className="text-xs text-gray-600">{why}</p>
+                                <h4 className="text-[10px] font-bold uppercase text-gray-400 mb-2 tracking-widest">Why this matters</h4>
+                                <p className="text-xs text-gray-600 leading-relaxed font-medium italic border-l-2 border-brand-200 pl-3">
+                                    {sys.why}
+                                </p>
                             </div>
                         </div>
                         
                         <div className="mt-4 sm:hidden text-xs flex justify-between pt-2 border-t border-gray-100">
-                            <span className="text-gray-500">Setup: ${sys.setup.toLocaleString()}</span>
-                            <span className="font-bold text-gray-900">${sys.monthly.toLocaleString()}/mo</span>
+                            <span className="text-gray-500 font-medium">Setup: ${sys.setup.toLocaleString()}</span>
+                            <span className="font-bold text-brand-600">${sys.monthly.toLocaleString()}/mo</span>
                         </div>
                     </div>
                 </details>
