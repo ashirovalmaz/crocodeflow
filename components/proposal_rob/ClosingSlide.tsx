@@ -3,7 +3,9 @@ import React, { useState } from 'react';
 import { FileSignature, Handshake, ArrowRight, FileText, Loader2 } from 'lucide-react';
 import { CAL_LINK } from '../../constants';
 import { ROB_SYSTEMS } from './TermsSlide';
+// @ts-ignore
 import { jsPDF } from 'jspdf';
+// @ts-ignore
 import html2canvas from 'html2canvas';
 
 interface ClosingSlideProps {
