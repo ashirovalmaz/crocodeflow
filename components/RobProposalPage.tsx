@@ -34,14 +34,14 @@ const PROPOSAL_CONTENT = [
   },
   {
     id: 'problems-1',
-    title: "Infrastructure Gap (1/2)",
-    subtitle: "Current Bottlenecks",
+    title: "THE BOTTLENECKS (1/2)",
+    subtitle: "Why the current setup limits growth",
     content: <BottlenecksOneSlide />
   },
   {
     id: 'problems-2',
-    title: "Infrastructure Gap (2/2)",
-    subtitle: "Current Bottlenecks",
+    title: "THE BOTTLENECKS (2/2)",
+    subtitle: "Why the current setup limits growth",
     content: <BottlenecksTwoSlide />
   },
   {

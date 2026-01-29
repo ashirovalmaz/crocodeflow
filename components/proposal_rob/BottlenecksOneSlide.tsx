@@ -1,41 +1,42 @@
-
 import React from 'react';
-import { AlertTriangle } from 'lucide-react';
+import { AlertTriangle, UserMinus, ZapOff } from 'lucide-react';
 
 export const BottlenecksOneSlide: React.FC = () => (
-  <div className="space-y-12 animate-fade-in">
-    <div className="bg-red-50 dark:bg-red-900/10 border-l-4 border-red-500 p-6 rounded-r-xl">
-        <p className="text-lg text-red-800 dark:text-red-200 font-medium">
-             Current infrastructure limitations are creating a bottleneck that prevents scaling to $100k+/mo.
+  <div className="space-y-8 animate-fade-in">
+    <div className="bg-red-50 border-l-4 border-red-500 p-6 rounded-r-xl mb-8">
+        <p className="text-lg text-red-800 font-medium italic">
+             "Success is hard to scale when the founder is the primary engine of every conversation."
         </p>
     </div>
 
-    <div className="space-y-8">
-        <div className="group">
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                <AlertTriangle className="w-5 h-5 text-red-500" /> 1. The Response Time Gap
-            </h3>
-            <div className="pl-7 border-l-2 border-gray-200 dark:border-dark-700 ml-2">
-                <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4">
-                    Lead attention has a half-life of roughly 5 minutes. If you aren't responding instantly, you are burning your marketing budget. Manual setters can only work so fast.
-                </p>
-                <p className="text-gray-900 dark:text-white font-medium text-sm">
-                    Current Bottleneck: Leads are waiting hours or days for a response, killing conversion rates before the conversation even starts.
-                </p>
+    <div className="grid grid-cols-1 gap-6">
+        {/* Point 1 */}
+        <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm hover:border-brand-300 transition-all group">
+            <div className="flex items-start gap-5">
+                <div className="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center shrink-0 group-hover:bg-red-500 group-hover:text-white transition-colors">
+                    <UserMinus className="w-6 h-6 text-red-500 group-hover:text-white transition-colors" />
+                </div>
+                <div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">1. Founder dependency</h3>
+                    <p className="text-gray-600 leading-relaxed">
+                        Sales and qualification depend on your availability. When you’re busy, <span className="text-gray-900 font-semibold">leads wait</span>. This creates a ceiling on how much revenue can flow through the business at any given time.
+                    </p>
+                </div>
             </div>
         </div>
 
-        <div className="group">
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
-                    <AlertTriangle className="w-5 h-5 text-red-500" /> 2. Inconsistent Setter Output
-            </h3>
-            <div className="pl-7 border-l-2 border-gray-200 dark:border-dark-700 ml-2">
-                <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-2">
-                    Humans get tired, they have 'off' days, and they miss details. This leads to missed follow-ups and lost revenue.
-                </p>
-                <p className="text-gray-900 dark:text-white font-medium text-sm">
-                    Solution Needed: A system that maintains 100% performance 24/7/365.
-                </p>
+        {/* Point 2 */}
+        <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm hover:border-brand-300 transition-all group">
+            <div className="flex items-start gap-5">
+                <div className="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center shrink-0 group-hover:bg-red-500 group-hover:text-white transition-colors">
+                    <ZapOff className="w-6 h-6 text-red-500 group-hover:text-white transition-colors" />
+                </div>
+                <div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">2. Inconsistent speed-to-lead</h3>
+                    <p className="text-gray-600 leading-relaxed">
+                        Even small delays in DMs <span className="text-gray-900 font-semibold">reduce intent and trust</span>. In a world of instant gratification, the business that responds first wins. Right now, response times fluctuate based on human schedules.
+                    </p>
+                </div>
             </div>
         </div>
     </div>
