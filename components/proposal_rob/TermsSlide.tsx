@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Calculator, Check, Zap, TrendingDown } from 'lucide-react';
 
@@ -96,7 +95,7 @@ export const TermsSlide: React.FC<TermsSlideProps> = ({ selected, setSelected })
                     
                     <div className="flex items-baseline gap-2 mb-4">
                         <div className="text-4xl font-display font-bold text-brand-600">
-                            ${finalSetup.toLocaleString()}
+                            ${finalSetup.toLocaleString()} USD
                         </div>
                         <span className="text-lg font-normal text-gray-500">setup</span>
                     </div>
@@ -108,14 +107,14 @@ export const TermsSlide: React.FC<TermsSlideProps> = ({ selected, setSelected })
                                     <Zap className="w-3 h-3 fill-white" /> Bundle Discount Applied
                                 </div>
                                 <div className="text-lg font-bold flex items-center gap-2">
-                                    Save ${discountAmount.toLocaleString()}
+                                    Save ${discountAmount.toLocaleString()} USD
                                     <span className="text-[11px] bg-white/20 px-2 py-0.5 rounded-full font-black">-{Math.round(discountPercent * 100)}%</span>
                                 </div>
                             </div>
                         </div>
                     )}
 
-                    <div className="text-xl text-gray-600 mb-8">+ ${totalMonthly.toLocaleString()} / month</div>
+                    <div className="text-xl text-gray-600 mb-8">+ ${totalMonthly.toLocaleString()} USD / month</div>
 
                     <ul className="space-y-3 mb-8 flex-grow border-t border-gray-50 pt-6">
                         {ROB_SYSTEMS.filter(s => selected.includes(s.id)).map(sys => (
@@ -137,7 +136,7 @@ export const TermsSlide: React.FC<TermsSlideProps> = ({ selected, setSelected })
                     
                     <div className="flex items-baseline gap-2 mb-2">
                         <div className="text-4xl font-display font-bold text-white">
-                            ${annualPrice.toLocaleString()}
+                            ${annualPrice.toLocaleString()} USD
                         </div>
                         <span className="text-lg font-normal text-gray-400">upfront</span>
                     </div>
@@ -148,15 +147,15 @@ export const TermsSlide: React.FC<TermsSlideProps> = ({ selected, setSelected })
                     <div className="space-y-4 mb-8 flex-grow">
                          <div className="flex justify-between items-center text-sm border-b border-white/10 pb-2">
                             <span className="text-gray-400">Standard 12-Mo Cost</span>
-                            <span className="text-gray-500 line-through">${firstYearValue.toLocaleString()}</span>
+                            <span className="text-gray-500 line-through">${firstYearValue.toLocaleString()} USD</span>
                         </div>
                         <div className="flex justify-between items-center text-sm border-b border-white/10 pb-2">
                             <span className="text-gray-400">Annual Plan Cost</span>
-                            <span className="text-white font-bold">${annualPrice.toLocaleString()}</span>
+                            <span className="text-white font-bold">${annualPrice.toLocaleString()} USD</span>
                         </div>
                         <div className="flex justify-between items-center text-sm bg-brand-500/20 p-3 rounded-xl border border-brand-500/30">
                             <span className="text-brand-300 font-bold uppercase text-[10px] tracking-widest">Total Value Saved</span>
-                            <span className="text-white font-bold text-xl">${annualSavings.toLocaleString()}</span>
+                            <span className="text-white font-bold text-xl">${annualSavings.toLocaleString()} USD</span>
                         </div>
                     </div>
                     

@@ -39,9 +39,8 @@ export const ExecutiveSummarySlide: React.FC = () => (
       
       <div className="bg-brand-600 p-8 rounded-2xl shadow-lg shadow-brand-500/20 relative overflow-hidden">
         <Zap className="absolute top-1/2 right-4 -translate-y-1/2 w-32 h-32 text-white/10 rotate-12" />
-        <p className="text-white font-medium italic relative z-10 leading-relaxed">
-          "This proposal outlines how we move you from a founder-dependent setup to a system-driven
-          business — step by step, without breaking what already works."
+        <p className="text-white font-medium italic relative z-10 leading-relaxed text-lg">
+          "This proposal outlines how we move you to a system-driven business capable of supporting $80k–$100k USD/mo — step by step, without breaking what already works."
         </p>
       </div>
     </div>

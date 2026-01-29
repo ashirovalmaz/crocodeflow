@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ChevronDown, MessageSquare, Mail, Zap, Target, Layout, Rocket, Calendar, Bell, Database } from 'lucide-react';
 
@@ -120,9 +119,9 @@ export const SolutionsSlide: React.FC = () => (
             </div>
 
             <div className="pt-4 border-t border-gray-100 flex justify-between items-center text-xs">
-               <span className="text-gray-500 font-medium">Setup: $2,900</span>
+               <span className="text-gray-500 font-medium">Setup: $2,900 USD</span>
                <div className="flex items-center gap-1">
-                   <span className="text-brand-600 font-bold">$790/mo</span>
+                   <span className="text-brand-600 font-bold">$790 USD/mo</span>
                </div>
             </div>
         </div>
@@ -182,8 +181,8 @@ export const SolutionsSlide: React.FC = () => (
                         </div>
                          <div className="flex items-center gap-4">
                              <div className="text-xs text-right hidden sm:block">
-                                <div className="text-gray-400 font-medium">Setup: ${sys.setup.toLocaleString()}</div>
-                                <div className="font-bold text-brand-600">${sys.monthly.toLocaleString()}/mo</div>
+                                <div className="text-gray-400 font-medium">Setup: ${sys.setup.toLocaleString()} USD</div>
+                                <div className="font-bold text-brand-600">${sys.monthly.toLocaleString()} USD/mo</div>
                              </div>
                              <ChevronDown className="w-4 h-4 text-gray-400 group-open:rotate-180 transition-transform" />
                          </div>
