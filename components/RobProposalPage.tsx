@@ -7,6 +7,7 @@ import { GoalsSlide } from './proposal_rob/GoalsSlide';
 import { TimeEconomicsSlide } from './proposal_rob/TimeEconomicsSlide';
 import { BottlenecksOneSlide } from './proposal_rob/BottlenecksOneSlide';
 import { BottlenecksTwoSlide } from './proposal_rob/BottlenecksTwoSlide';
+import { PathForwardSlide } from './proposal_rob/PathForwardSlide';
 import { SolutionsSlide } from './proposal_rob/SolutionsSlide';
 import { PitchSlide } from './proposal_rob/PitchSlide';
 import { TermsSlide } from './proposal_rob/TermsSlide';
@@ -43,6 +44,12 @@ const PROPOSAL_CONTENT = [
     title: "The bottlenecks (2/2)",
     subtitle: "Why the current setup limits growth",
     content: <BottlenecksTwoSlide />
+  },
+  {
+    id: 'path-forward',
+    title: "The path forward",
+    subtitle: "Point A → Point B → Point C",
+    content: <PathForwardSlide />
   },
   {
     id: 'solutions',
