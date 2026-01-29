@@ -6,7 +6,7 @@ export const ClosingSlide: React.FC = () => (
   <div className="space-y-12 animate-fade-in max-w-4xl mx-auto">
     <div className="prose max-w-none text-center">
         <p className="text-xl text-gray-700 leading-relaxed">
-            As mentioned, I believe strongly that your company can be multiple times larger than it is now — especially with your existing reach and the quality of your product.
+            As mentioned, we believe strongly that your company can be multiple times larger than it is now — especially with your existing reach and the quality of your product.
         </p>
     </div>
 
@@ -22,7 +22,7 @@ export const ClosingSlide: React.FC = () => (
             <Handshake className="w-10 h-10 text-brand-500 mb-6" />
             <h4 className="text-lg font-bold text-gray-900 mb-2">The Commitment</h4>
             <p className="text-sm text-gray-600 leading-relaxed">
-                I am ambitious and deeply committed to the craft of building AI systems that generate revenue autonomously. I wrote this in detail because I see the path clearly.
+                We are ambitious and deeply committed to the craft of building AI systems that generate revenue autonomously. We wrote this in detail because we see the path clearly.
             </p>
         </div>
     </div>
@@ -42,7 +42,7 @@ export const ClosingSlide: React.FC = () => (
         </a>
 
         <p className="text-xs text-gray-400 text-center">
-            If not, you’re still welcome to use everything I’ve laid out above; <br/>I genuinely want you and your company to succeed.
+            If not, you’re still welcome to use everything we’ve laid out above; <br/>we genuinely want you and your company to succeed.
         </p>
     </div>
   </div>

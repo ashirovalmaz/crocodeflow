@@ -18,23 +18,27 @@ export const BonusSlide: React.FC = () => (
                 If you decide in the next 24 hours, you’ll receive one additional system of your choice with <strong>no setup fee</strong>.
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left max-w-3xl mx-auto mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left max-w-3xl mx-auto mb-8">
                  <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex items-center gap-3">
                     <CheckCircle2 className="w-5 h-5 text-brand-500" />
-                    <span className="text-sm font-bold">Personalized Reactivations</span>
+                    <span className="text-sm font-bold">Automated Newsletter</span>
                  </div>
                  <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex items-center gap-3">
                     <CheckCircle2 className="w-5 h-5 text-brand-500" />
-                    <span className="text-sm font-bold">Call Analysis & CRM</span>
+                    <span className="text-sm font-bold">Personalized Reactivation</span>
                  </div>
                  <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex items-center gap-3">
                     <CheckCircle2 className="w-5 h-5 text-brand-500" />
-                    <span className="text-sm font-bold">Content Intel Engine</span>
+                    <span className="text-sm font-bold">Content Intelligence</span>
+                 </div>
+                 <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex items-center gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-brand-500" />
+                    <span className="text-sm font-bold">Client App / Dashboard</span>
                  </div>
             </div>
 
             <p className="text-sm text-gray-500 italic">
-                This is a full system, not a “lite” version. It requires me to front-load additional development time, so I only offer it when someone is ready to move quickly.
+                This is a full system, not a “lite” version. It requires us to front-load additional development time, so we only offer it when someone is ready to move quickly.
             </p>
         </div>
     </div>
