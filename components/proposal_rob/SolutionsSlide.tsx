@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChevronDown, MessageSquare, Mail, Zap, Target, Layout, Rocket, Calendar, Bell } from 'lucide-react';
+import { ChevronDown, MessageSquare, Mail, Zap, Target, Layout, Rocket, Calendar, Bell, Database } from 'lucide-react';
 
 export const SolutionsSlide: React.FC = () => (
   <div className="space-y-6 animate-fade-in">
@@ -8,7 +8,7 @@ export const SolutionsSlide: React.FC = () => (
     </p>
     
     <div className="flex flex-col gap-4">
-        {/* System 1 - Full Detailed Content from Justin Howells */}
+        {/* System 1 - Full Detailed Content */}
         <div className="bg-white rounded-xl border-2 border-brand-500 shadow-xl p-6 relative flex flex-col">
             <div className="absolute top-0 right-0 bg-brand-500 text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg uppercase tracking-widest shadow-lg">Core P1</div>
             <h3 className="font-bold text-lg text-gray-900 mb-1">System 1: AI-powered DM foundation + Custom presentations</h3>
@@ -18,7 +18,7 @@ export const SolutionsSlide: React.FC = () => (
                 <div className="bg-brand-50 p-4 rounded-lg border border-brand-100">
                      <h4 className="text-xs font-bold uppercase text-brand-700 mb-1">Goal</h4>
                      <p className="text-sm text-gray-700 leading-relaxed">
-                        Convert CTAs, comments, DMs, new followers, and existing warm leads into booked calls — consistently, instantly, and with personalized pre-call assets. The system begins working from the very first touchpoint and stays with the lead all the way until they actually join the scheduled call.
+                        Convert leads into booked calls — consistently, instantly, and with personalized pre-call assets. The system begins working from the very first touchpoint and stays with the lead all the way until they actually join the scheduled call.
                      </p>
                 </div>
 
@@ -37,7 +37,6 @@ export const SolutionsSlide: React.FC = () => (
                                 <li>incoming DM</li>
                                 <li>comment with a keyword</li>
                                 <li>reply to your CTA</li>
-                                <li>new follower</li>
                                 <li>response to your lead magnet</li>
                             </ul>
                             <p className="text-xs font-medium text-brand-600 mt-1">This ensures zero lost leads and perfect speed-to-lead, even at 2am.</p>
@@ -48,14 +47,8 @@ export const SolutionsSlide: React.FC = () => (
                             <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-gray-200 text-[10px] flex items-center justify-center font-bold text-gray-500">2</div>
                             <h5 className="text-sm font-bold text-gray-900">Qualifies leads with intelligent, conversational questions</h5>
                             <p className="text-xs text-gray-600 mt-1 mb-2">
-                                It asks personalized follow-up questions to understand:
+                                It asks personalized follow-up questions to understand goals, struggles, lifestyle constraints, urgency, and past attempts.
                             </p>
-                            <ul className="text-xs text-gray-600 list-disc pl-4 space-y-0.5">
-                                <li>their goals & struggles</li>
-                                <li>lifestyle constraints</li>
-                                <li>urgency & timeline</li>
-                                <li>past attempts & emotional drivers</li>
-                            </ul>
                             <p className="text-xs text-gray-500 italic mt-1">This creates a natural “brain dump” dynamic — not a scripted chatbot.</p>
                          </div>
 
@@ -73,7 +66,7 @@ export const SolutionsSlide: React.FC = () => (
                             <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-gray-200 text-[10px] flex items-center justify-center font-bold text-gray-500">4</div>
                             <h5 className="text-sm font-bold text-gray-900">Generates a custom mini-presentation or plan</h5>
                             <p className="text-xs text-gray-600 mt-1 mb-2">
-                                For each qualified lead, the system produces a fully customized PDF, mini-deck, or carousel containing their goals (in their words), blockers, and your specific path for them.
+                                For each qualified lead, the system produces a fully customized PDF or mini-deck containing their goals (in their words), blockers, and your specific path for them.
                             </p>
                             <p className="text-xs font-medium text-gray-800 italic mt-1">
                                 This is the first moment where prospects feel: “Damn… these guys actually prepared something for me.”
@@ -100,6 +93,17 @@ export const SolutionsSlide: React.FC = () => (
                                 This dramatically improves show-up rate because it feels human.
                             </p>
                          </div>
+
+                         {/* Step 7 */}
+                         <div className="relative pl-6 border-l-2 border-gray-200">
+                            <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-gray-200 text-[10px] flex items-center justify-center font-bold text-gray-500">7</div>
+                            <h5 className="text-sm font-bold text-gray-900 flex items-center gap-2">
+                                CRM Implementation & Analytics <Database className="w-3.5 h-3.5 text-brand-500" />
+                            </h5>
+                            <p className="text-xs text-gray-600 mt-1">
+                                We digitize your operations by either auditing your existing CRM or implementing a new, high-performance one. This ensures every lead is tracked, making it easy to monitor metrics, run deep analytics, and continuously improve the entire sales engine.
+                            </p>
+                         </div>
                     </div>
                 </div>
 
@@ -109,7 +113,7 @@ export const SolutionsSlide: React.FC = () => (
                         This system solves your biggest bottleneck: <span className="font-bold">DM → booked call → showed-up call</span>.
                     </p>
                     <p className="text-xs text-gray-600 leading-relaxed">
-                        It’s essentially two systems combined: <strong>Acquisition & DM conversion engine</strong> + <strong>Show-up maximization engine</strong>. We intentionally merged them because they rely on the same personalized data, and splitting them would reduce both effectiveness and clarity.
+                        It’s essentially two systems combined: <strong>Acquisition & DM conversion engine</strong> + <strong>Show-up maximization engine</strong>. We intentionally merged them because they rely on the same personalized data.
                     </p>
                 </div>
             </div>
@@ -198,11 +202,6 @@ export const SolutionsSlide: React.FC = () => (
                                     {sys.why}
                                 </p>
                             </div>
-                        </div>
-                        
-                        <div className="mt-4 sm:hidden text-xs flex justify-between pt-2 border-t border-gray-100">
-                            <span className="text-gray-500 font-medium">Setup: ${sys.setup.toLocaleString()}</span>
-                            <span className="font-bold text-brand-600">${sys.monthly.toLocaleString()}/mo</span>
                         </div>
                     </div>
                 </details>
