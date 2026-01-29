@@ -1,136 +1,193 @@
-import React from 'react';
-import { ShieldCheck, TrendingUp, Zap, ArrowRight, Star, Info } from 'lucide-react';
+import React, { useState } from 'react';
+import { ShieldCheck, Zap, Star, Info, Check, Calculator, ArrowRight } from 'lucide-react';
+
+const ROB_SYSTEMS = [
+  { id: 'sys1', title: 'AI DM Foundation + Presentations', desc: 'Core conversion engine', setup: 2900, monthly: 790, priority: 'Core P1' },
+  { id: 'sys2', title: 'Automated Newsletter', desc: 'CRM-driven email marketing', setup: 2400, monthly: 650, priority: 'High P2' },
+  { id: 'sys3', title: 'Personalized Reactivation', desc: 'Automated lead recovery', setup: 1900, monthly: 550, priority: 'High P2' },
+  { id: 'sys4', title: 'Content Intelligence', desc: 'AI content engine', setup: 1500, monthly: 450, priority: 'High P3' },
+  { id: 'sys5', title: 'Client App / Dashboard', desc: 'Retention & LTV tracking', setup: 4500, monthly: 850, priority: 'Premium P4' }
+];
 
 export const PremiumInvestmentSlide: React.FC = () => {
-  return (
-    <div className="space-y-10 animate-fade-in max-w-6xl mx-auto">
-      {/* Value Proposition Header */}
-      <div className="text-center space-y-4">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-50 border border-brand-200 text-brand-700 text-xs font-bold uppercase tracking-widest">
-          <Star className="w-3.5 h-3.5 fill-brand-500" /> Maximum Leverage Package
-        </div>
-        <h3 className="text-3xl md:text-5xl font-display font-bold text-gray-900 leading-tight">
-          The <span className="text-brand-600">ROI-First</span> Investment
-        </h3>
-        <p className="text-gray-500 max-w-2xl mx-auto">
-          We don't view this as a cost. We view it as buying back your time and installing a permanent revenue engine in your business.
-        </p>
-      </div>
+    const [selected, setSelected] = useState<string[]>(['sys1']);
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
-        {/* Option 1: The Accelerator (Standard) */}
-        <div className="bg-white rounded-[2.5rem] p-10 border border-gray-100 shadow-xl flex flex-col relative group overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-gray-50 rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
-          
-          <div className="relative z-10 flex-grow">
-            <h4 className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-2">Flexible Entry</h4>
-            <h5 className="text-2xl font-bold text-gray-900 mb-6">Standard Implementation</h5>
-            
-            <div className="space-y-6 mb-10">
-              <div className="flex items-baseline gap-2">
-                <span className="text-5xl font-display font-extrabold text-gray-900">$2,900</span>
-                <span className="text-gray-400 font-medium">setup fee</span>
-              </div>
-              <div className="flex items-center gap-4 py-4 border-y border-gray-50">
-                 <div className="w-12 h-12 rounded-xl bg-brand-50 flex items-center justify-center text-brand-600">
-                    <Zap className="w-6 h-6" />
-                 </div>
-                 <div>
-                    <p className="text-2xl font-bold text-gray-900">$790<span className="text-sm font-normal text-gray-400">/mo</span></p>
-                    <p className="text-xs text-gray-500 font-medium uppercase tracking-wider">Infrastructure Maintenance</p>
-                 </div>
-              </div>
+    const toggle = (id: string) => {
+        if (selected.includes(id)) {
+            if (selected.length === 1) return; 
+            setSelected(selected.filter(s => s !== id));
+        } else {
+            setSelected([...selected, id]);
+        }
+    };
+
+    const count = selected.length;
+    let discountPercent = 0;
+    if (count === 2) discountPercent = 0.10;
+    else if (count === 3) discountPercent = 0.15;
+    else if (count >= 4) discountPercent = 0.20;
+
+    const baseSetup = ROB_SYSTEMS.reduce((acc, sys) => selected.includes(sys.id) ? acc + sys.setup : acc, 0);
+    const totalMonthly = ROB_SYSTEMS.reduce((acc, sys) => selected.includes(sys.id) ? acc + sys.monthly : acc, 0);
+    const discountAmount = baseSetup * discountPercent;
+    const finalSetup = baseSetup - discountAmount;
+    const firstYearValue = finalSetup + (totalMonthly * 12);
+    const annualPrice = Math.floor((firstYearValue * 0.55) / 100) * 100;
+    const annualSavings = firstYearValue - annualPrice;
+
+    return (
+        <div className="space-y-12 animate-fade-in max-w-6xl mx-auto">
+            {/* Minimalist Header */}
+            <div className="text-center space-y-3">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 border border-gray-200 text-gray-500 text-[10px] font-bold uppercase tracking-[0.2em]">
+                    System Configurator
+                </div>
+                <h3 className="text-3xl font-display font-bold text-gray-900">Choose your implementation scope</h3>
+                <p className="text-gray-500 text-sm max-w-xl mx-auto leading-relaxed">
+                    Select the systems you want to include in the initial roadmap. The investment options below will update automatically based on your selection.
+                </p>
             </div>
 
-            <ul className="space-y-4 mb-8">
-              {[
-                "Full System 1 Build-out",
-                "Unlimited Technical Support",
-                "Monthly Performance Audits",
-                "CRM & Tool Integrations"
-              ].map((item, i) => (
-                <li key={i} className="flex items-center gap-3 text-sm text-gray-600">
-                  <div className="w-1.5 h-1.5 rounded-full bg-brand-500"></div>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        {/* Option 2: The Partner (Annual) - HIGH POWER STYLE */}
-        <div className="bg-gray-900 rounded-[2.5rem] p-10 border-4 border-brand-500 shadow-[0_20px_60px_rgba(34,197,94,0.3)] flex flex-col relative overflow-hidden transform lg:-translate-y-6 lg:scale-105">
-          <div className="absolute top-0 right-0 bg-brand-500 text-white text-[11px] font-black px-8 py-2 rounded-bl-2xl uppercase tracking-[0.2em] shadow-lg">
-            Save Over $5,000
-          </div>
-          
-          <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-brand-500/10 rounded-full blur-[100px]"></div>
-
-          <div className="relative z-10 flex-grow">
-            <h4 className="text-sm font-bold text-brand-400 uppercase tracking-widest mb-2">Full Partnership</h4>
-            <h5 className="text-3xl font-bold text-white mb-8">Annual Engine Plan</h5>
-            
-            <div className="bg-white/5 border border-white/10 rounded-3xl p-8 mb-8">
-                <div className="text-center mb-6">
-                    <p className="text-gray-400 text-xs font-bold uppercase tracking-[0.15em] mb-2">One-Time Investment</p>
-                    <div className="text-6xl font-display font-black text-white">$6,800</div>
-                    <p className="text-brand-400 font-bold text-sm mt-2">Zero Monthly Fees for 12 Months</p>
+            {/* Subtle Customizer */}
+            <div className="bg-white rounded-2xl border border-gray-200 p-8 shadow-sm">
+                <div className="flex items-center gap-3 mb-6">
+                    <Calculator className="w-5 h-5 text-brand-500" />
+                    <h4 className="font-bold text-gray-900">Custom Roadmap</h4>
                 </div>
-                
-                <div className="grid grid-cols-2 gap-4 border-t border-white/10 pt-6">
-                    <div className="text-center">
-                        <p className="text-gray-500 text-[10px] uppercase font-bold mb-1">Standard Cost</p>
-                        <p className="text-gray-400 line-through font-bold">$12,380</p>
-                    </div>
-                    <div className="text-center">
-                        <p className="text-brand-500 text-[10px] uppercase font-bold mb-1">Your Savings</p>
-                        <p className="text-brand-500 font-bold">$5,580</p>
-                    </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                    {ROB_SYSTEMS.map((sys) => {
+                        const isSelected = selected.includes(sys.id);
+                        return (
+                            <div 
+                                key={sys.id}
+                                onClick={() => toggle(sys.id)}
+                                className={`
+                                    cursor-pointer rounded-xl p-4 border transition-all duration-300 flex flex-col gap-2
+                                    ${isSelected 
+                                        ? 'bg-brand-50 border-brand-500 shadow-sm' 
+                                        : 'bg-white border-gray-100 hover:border-gray-200 opacity-70 hover:opacity-100'
+                                    }
+                                `}
+                            >
+                                <div className="flex justify-between items-start">
+                                    <div className={`
+                                        w-5 h-5 rounded-full border flex items-center justify-center transition-colors
+                                        ${isSelected ? 'bg-brand-500 border-brand-500' : 'border-gray-300 bg-white'}
+                                    `}>
+                                        {isSelected && <Check className="w-3 h-3 text-white" />}
+                                    </div>
+                                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-tighter">{sys.priority}</span>
+                                </div>
+                                <div className="mt-2">
+                                    <div className="text-xs font-bold text-gray-900 leading-tight">{sys.title}</div>
+                                    <div className="text-[10px] text-gray-400 mt-1">{sys.desc}</div>
+                                </div>
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
 
-            <ul className="space-y-4 mb-10">
-              {[
-                "Priority Support (1-Hour Response)",
-                "Full System 1 + 1 Bonus System",
-                "Quarterly Strategic Re-mapping",
-                "Advanced AI Customization",
-                "Lifetime Logic Updates"
-              ].map((item, i) => (
-                <li key={i} className="flex items-center gap-3 text-sm text-gray-100 font-medium">
-                  <ShieldCheck className="w-5 h-5 text-brand-500 shrink-0" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
+            {/* Refined Pricing Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch pt-4">
+                {/* Standard Plan - Clean & Corporate */}
+                <div className="bg-white p-10 rounded-[2rem] border border-gray-200 flex flex-col relative group">
+                    <div className="mb-8">
+                        <h4 className="text-xs font-bold text-gray-400 uppercase tracking-[0.2em] mb-2">Option 01</h4>
+                        <h5 className="text-2xl font-bold text-gray-900">Standard Plan</h5>
+                    </div>
+                    
+                    <div className="space-y-6 mb-10 flex-grow">
+                        <div className="flex items-baseline gap-2">
+                            <span className="text-5xl font-display font-bold text-gray-900">${finalSetup.toLocaleString()}</span>
+                            <span className="text-gray-400 font-medium">setup</span>
+                        </div>
+                        
+                        {discountAmount > 0 && (
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-brand-50 text-brand-700 text-[10px] font-bold uppercase tracking-widest border border-brand-100">
+                                <Zap className="w-3 h-3" /> Includes ${discountAmount.toLocaleString()} Bundle Discount
+                            </div>
+                        )}
 
-          <div className="relative z-10 pt-6 border-t border-white/10 text-center">
-             <p className="text-xs text-gray-500 font-bold uppercase tracking-widest">
-                Highest Commitment = Highest Priority
-             </p>
-          </div>
+                        <div className="pt-6 border-t border-gray-50">
+                            <div className="text-2xl font-bold text-gray-900">${totalMonthly.toLocaleString()}<span className="text-sm font-normal text-gray-400">/mo</span></div>
+                            <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">SLA & Infrastructure Maintenance</p>
+                        </div>
+                    </div>
+
+                    <ul className="space-y-3 mb-10 text-sm text-gray-600 border-t border-gray-50 pt-8">
+                        {ROB_SYSTEMS.filter(s => selected.includes(s.id)).map(sys => (
+                            <li key={sys.id} className="flex items-center gap-3">
+                                <div className="w-1 h-1 rounded-full bg-brand-500"></div>
+                                {sys.title}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
+                {/* Annual Plan - Elegant Dark Mode */}
+                <div className="bg-gray-900 p-10 rounded-[2rem] border-2 border-brand-500/30 flex flex-col relative shadow-2xl transform md:-translate-y-4">
+                    <div className="absolute top-0 right-10 bg-brand-600 text-white text-[10px] font-bold px-4 py-2 rounded-b-xl uppercase tracking-widest">
+                        Best Value
+                    </div>
+
+                    <div className="mb-8">
+                        <h4 className="text-xs font-bold text-brand-400 uppercase tracking-[0.2em] mb-2">Option 02</h4>
+                        <h5 className="text-2xl font-bold text-white">Full Partnership</h5>
+                    </div>
+
+                    <div className="space-y-8 flex-grow">
+                        <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center">
+                            <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest mb-2">Annual One-Time Investment</p>
+                            <div className="text-6xl font-display font-bold text-white mb-2">${annualPrice.toLocaleString()}</div>
+                            <p className="text-brand-400 font-bold text-xs uppercase tracking-wider">Zero Monthly Fees for 1 Year</p>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="p-4 rounded-xl border border-white/5 bg-white/[0.02]">
+                                <p className="text-gray-500 text-[10px] uppercase font-bold mb-1">Standard Cost</p>
+                                <p className="text-gray-400 line-through font-bold">${firstYearValue.toLocaleString()}</p>
+                            </div>
+                            <div className="p-4 rounded-xl border border-brand-500/20 bg-brand-500/5">
+                                <p className="text-brand-500 text-[10px] uppercase font-bold mb-1">Total Savings</p>
+                                <p className="text-brand-500 font-bold">${annualSavings.toLocaleString()}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul className="space-y-3 mb-10 text-sm text-gray-300 pt-8 border-t border-white/5 mt-8">
+                         <li className="flex items-center gap-3">
+                            <ShieldCheck className="w-4 h-4 text-brand-500 shrink-0" />
+                            Priority Build-out Queue
+                        </li>
+                        <li className="flex items-center gap-3">
+                            <ShieldCheck className="w-4 h-4 text-brand-500 shrink-0" />
+                            Unlimited Performance Updates
+                        </li>
+                         <li className="flex items-center gap-3">
+                            <ShieldCheck className="w-4 h-4 text-brand-500 shrink-0" />
+                            Bi-Weekly Strategy Sessions
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            {/* Performance Bar */}
+            <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="flex items-center gap-4">
+                    <div className="p-2 bg-white rounded-lg border border-gray-200 shadow-sm"><Info className="w-5 h-5 text-gray-400" /></div>
+                    <p className="text-xs text-gray-500 leading-relaxed font-medium">
+                        All systems include a <span className="text-gray-900 font-bold">14-Day Performance Guarantee</span>. <br/>
+                        If implementation milestones aren't hit, we work for free until they are.
+                    </p>
+                </div>
+                <div className="flex items-center gap-4 border-l border-gray-200 pl-6 hidden md:flex">
+                     <div className="text-right">
+                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Selected Scope</p>
+                        <p className="text-sm font-bold text-gray-900">{count} Systems Active</p>
+                     </div>
+                </div>
+            </div>
         </div>
-      </div>
-
-      {/* Trust Bar */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-6 pt-10 border-t border-gray-100">
-          <div className="flex items-center gap-3">
-              <div className="p-2 bg-gray-50 rounded-lg"><Info className="w-5 h-5 text-gray-400" /></div>
-              <p className="text-sm text-gray-500 leading-tight">
-                All systems include a <span className="text-gray-900 font-bold">14-Day Performance Guarantee</span>. <br/>
-                If we don't hit the implementation milestones, we work for free until we do.
-              </p>
-          </div>
-          <div className="flex -space-x-2">
-              {[1,2,3,4].map(i => (
-                  <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-gray-200"></div>
-              ))}
-              <div className="w-10 h-10 rounded-full border-2 border-white bg-brand-500 flex items-center justify-center text-[10px] font-bold text-white">
-                  +12
-              </div>
-          </div>
-      </div>
-    </div>
-  );
+    );
 };
